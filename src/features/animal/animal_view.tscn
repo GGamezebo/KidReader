@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/features/animal/animal_view.gd" id="1"]
+[ext_resource type="Shader" path="res://src/features/animal/animal_blur.gdshader" id="2"]
+
+[sub_resource type="ShaderMaterial" id="BlurMat"]
+shader = ExtResource("2")
+shader_parameter/blur_strength = 1.0
+shader_parameter/frost_amount = 0.55
+shader_parameter/frost_tint = Color(0.75, 0.88, 0.95, 1)
+
+[node name="AnimalView" type="Control" node_paths=PackedStringArray("photo", "sparkles")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1")
+photo = NodePath("Photo")
+sparkles = NodePath("Sparkles")
+blur_material = SubResource("BlurMat")
+
+[node name="Photo" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+material = SubResource("BlurMat")
+
+[node name="Sparkles" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

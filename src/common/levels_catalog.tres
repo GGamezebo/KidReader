@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LevelsCatalog" load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://src/common/levels_catalog.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_1.tres" id="l1"]
+[ext_resource type="Resource" path="res://src/levels/level_2.tres" id="l2"]
+[ext_resource type="Resource" path="res://src/levels/level_3.tres" id="l3"]
+[ext_resource type="Resource" path="res://src/levels/level_4.tres" id="l4"]
+[ext_resource type="Resource" path="res://src/levels/level_5.tres" id="l5"]
+[ext_resource type="Resource" path="res://src/levels/level_6.tres" id="l6"]
+[ext_resource type="Resource" path="res://src/levels/level_7.tres" id="l7"]
+[ext_resource type="Resource" path="res://src/levels/level_8.tres" id="l8"]
+[ext_resource type="Resource" path="res://src/levels/level_9.tres" id="l9"]
+[ext_resource type="Resource" path="res://src/levels/level_10.tres" id="l10"]
+[ext_resource type="Resource" path="res://src/levels/level_11.tres" id="l11"]
+[ext_resource type="Resource" path="res://src/levels/level_12.tres" id="l12"]
+
+[resource]
+script = ExtResource("1")
+levels = [ExtResource("l1"), ExtResource("l2"), ExtResource("l3"), ExtResource("l4"), ExtResource("l5"), ExtResource("l6"), ExtResource("l7"), ExtResource("l8"), ExtResource("l9"), ExtResource("l10"), ExtResource("l11"), ExtResource("l12")]

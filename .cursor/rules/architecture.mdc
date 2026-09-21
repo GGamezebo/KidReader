@@ -1,0 +1,75 @@
+---
+description: KidReader architecture map — where code lives and how systems connect
+alwaysApply: true
+---
+
+# Architecture (KidReader / Godot 4.7)
+
+Kids reading game (letter drag-and-drop onto slots; realistic animal photo behind blur). Prefer the smallest change that fits existing patterns. Do not invent parallel systems.
+
+Godot 4.x only: `@export`/`@onready`, `signal.connect(cb)`, `instantiate()`, typed GDScript, `Input` actions.
+
+## Stable references (critical)
+
+- Prefer `class_name` + typed use over `preload("res://path/script.gd")`
+- Prefer `@export` / `@export_file` / PackedScene assigned in the editor
+- Do not add new path constants for scripts/resources unless no other option
+
+## Target platforms (critical)
+
+Ship on **Mobile**, **desktop**, **HTML5**. Every control must work with touch and mouse. Large finger-friendly hit targets. Isolate `OS.has_feature(...)` behind helpers.
+
+## #1 Scene isolation (critical)
+
+Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Parents override at runtime via events → `initialize(data)` → `ResourceUtils.update_resource`.
+
+## Entry & folders
+
+| Path | Role |
+|------|------|
+| `main.tscn` → `src/game/main.gd` | HFSM bootstrap host |
+| `src/game/scenes/` | Screens: `app_root`, `menu`, `game` |
+| `src/features/` | Isolated gameplay features |
+| `src/common/` | Shared Resources (`LevelData`, `LevelsCatalog`, settings helpers) |
+| `src/ui/` | Shared UI (parental gate, icon buttons, loading) |
+| `src/levels/` | Campaign `level_N.tres` |
+| `core/` | Project-agnostic only (HFSM, FSM, EventListener, ResourceUtils, shackers, window stack) |
+| `concepts/` | AI style reference only — never loaded by game |
+| `assets/` | Runtime art/audio/fonts |
+
+## Layer contracts
+
+### `src/features/`
+- One folder = one feature (`letter_tile`, `word_slot`, `animal`, `celebration`, `music`, `sfx`, `audio_duck`)
+- Public surface: signals `ev_*`, `initialize`/`setup`, exported PackedScenes
+- Features must not import other features' internals
+- Level SFX + AudioDuck live on `game.tscn`; looping music on AppRoot `MusicPlayer`
+- Animal reveal = blur shader on photo (not ice cage)
+
+### `core/`
+- Must not depend on `src/`
+
+### `src/game/scenes/`
+- Orchestration only; compose features; own screen FSM/UI
+
+## UI — editor-first
+
+Prefer `.tscn` nodes; scripts bind `@export` and update state. Dynamic lists (level cards, letter tiles) instantiate template `.tscn`.
+
+## Context flow
+
+```
+Menu --ev.start_level--> Level
+Level --ev.open_menu--> Menu
+Level --ev.start_level--> Level (next / retry remount)
+```
+
+App phases via HFSM (`src/game/hfsm/app_hfsm.json`). Bridge: `RootEvents` on `app_root` → `hfsm.add_event`. In-level: `GameEvents` + `GameManager` FSM.
+
+## Placement
+
+- New gameplay unit → `src/features/{name}/`
+- New screen → `src/game/scenes/{name}/`
+- Shared Resource → `src/common/`
+- Level data → `src/levels/level_N.tres` + `LevelsCatalog`
+- Progress mutations → `ProgressController`; disk only via `RootEvents.ev_save_progress` → `SaveManager`

@@ -1,0 +1,35 @@
+---
+description: GDScript conventions for KidReader
+globs: "**/*.{gd,tscn}"
+alwaysApply: false
+---
+
+# GDScript conventions
+
+## Naming
+
+- Signals: `ev_*`
+- Files: `snake_case.gd`; scene colocated
+- Types: `PascalCase` + `class_name` when shared
+- FSM state IDs: `static func get_state() -> String`
+
+## Patterns
+
+- Wire with `@export` (editor-first)
+- Dynamic lists: instantiate template `.tscn`
+- Pure logic → `RefCounted`; Nodes stay thin
+- Signal subscriptions → `EventListener`; tear down in `deinit`
+- Apply config copies with `ResourceUtils.update_resource()`
+
+## Must
+
+- Prefix cross-object signals with `ev_`
+- Support touch + mouse
+- Every `.tscn` F6-runs isolated with exported defaults
+
+## Avoid
+
+- Autoloads for game flow (use `RootEvents` / `GameEvents` Resources)
+- Feature A importing Feature B internals
+- Building full menus with `Control.new()` trees
+- Putting project types into `core/`

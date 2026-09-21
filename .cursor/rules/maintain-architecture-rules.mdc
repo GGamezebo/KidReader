@@ -1,0 +1,24 @@
+---
+description: Keep architecture rules accurate when the project structure changes
+alwaysApply: true
+---
+
+# Maintain architecture rules
+
+When a change alters structure, contracts, or placement conventions, update `.cursor/rules/` in the **same** task.
+
+## Update when
+
+- New/renamed folder under `src/`, `core/`
+- New feature, event bus, or FSM state
+- Scene-isolation / Resource-default contract changes
+- HFSM JSON or path map changes
+- Progress/save schema changes
+- Entry point or main-scene wiring changes
+
+## How
+
+1. Edit the smallest relevant rule file
+2. Keep each rule under ~50 lines
+3. Prefer paths + must/never over prose
+4. Fix or delete wrong rules — never leave contradictions

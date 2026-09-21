@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/features/celebration/celebration_overlay.gd" id="1"]
+
+[node name="CelebrationOverlay" type="Control" node_paths=PackedStringArray("stars_row", "confetti_host", "next_button", "home_button", "title_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1")
+stars_row = NodePath("Center/StarsRow")
+confetti_host = NodePath("ConfettiHost")
+next_button = NodePath("Center/NextButton")
+home_button = NodePath("Center/HomeButton")
+title_label = NodePath("Center/TitleLabel")
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.12, 0.08, 0.06, 0.35)
+
+[node name="ConfettiHost" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Center" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -160.0
+offset_right = 180.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Center"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.976, 0.91, 1)
+theme_override_font_sizes/font_size = 40
+text = "Ура!"
+horizontal_alignment = 1
+
+[node name="StarsRow" type="HBoxContainer" parent="Center"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="NextButton" type="Button" parent="Center"]
+custom_minimum_size = Vector2(160, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 56
+text = "➜"
+
+[node name="HomeButton" type="Button" parent="Center"]
+custom_minimum_size = Vector2(96, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "🏠"

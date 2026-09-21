@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/icon_button/icon_button.gd" id="1"]
+
+[node name="IconButton" type="Button"]
+custom_minimum_size = Vector2(88, 88)
+theme_override_font_sizes/font_size = 40
+text = "🏠"
+script = ExtResource("1")

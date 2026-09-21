@@ -1,0 +1,39 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/app_root/root.gd" id="1"]
+[ext_resource type="Resource" path="res://src/game/scenes/app_root/root_events.tres" id="2"]
+[ext_resource type="Resource" path="res://src/game/account/persistent_data.tres" id="3"]
+[ext_resource type="Resource" path="res://src/common/user_settings.tres" id="4"]
+[ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="5"]
+[ext_resource type="Script" path="res://src/game/account/save_manager.gd" id="6"]
+[ext_resource type="Script" path="res://src/game/account/progress_controller.gd" id="7"]
+[ext_resource type="Script" path="res://src/features/music/music_controller.gd" id="8"]
+
+[node name="AppRoot" type="Node" node_paths=PackedStringArray("progress_controller", "save_manager", "music_player")]
+script = ExtResource("1")
+root_events = ExtResource("2")
+progress_controller = NodePath("Account/ProgressController")
+save_manager = NodePath("Account/SaveManager")
+music_player = NodePath("MusicPlayer")
+user_settings = ExtResource("4")
+
+[node name="Account" type="Node" parent="."]
+
+[node name="SaveManager" type="Node" parent="Account"]
+script = ExtResource("6")
+pdata = ExtResource("3")
+root_events = ExtResource("2")
+
+[node name="ProgressController" type="Node" parent="Account"]
+script = ExtResource("7")
+pdata = ExtResource("3")
+root_events = ExtResource("2")
+catalog = ExtResource("5")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+volume_db = -10.0
+
+[node name="MusicController" type="Node" parent="." node_paths=PackedStringArray("music_player")]
+script = ExtResource("8")
+music_player = NodePath("../MusicPlayer")

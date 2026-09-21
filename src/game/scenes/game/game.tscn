@@ -1,0 +1,148 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/game/game.gd" id="1"]
+[ext_resource type="Script" path="res://src/common/level_data.gd" id="2"]
+[ext_resource type="PackedScene" path="res://src/features/letter_tile/letter_tile.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://src/features/word_slot/word_slot.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://src/features/animal/animal_view.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://src/features/celebration/celebration_overlay.tscn" id="7"]
+[ext_resource type="Script" path="res://src/game/scenes/game/game_events.gd" id="8"]
+[ext_resource type="Script" path="res://src/features/sfx/sfx_controller.gd" id="9"]
+[ext_resource type="Script" path="res://src/features/audio_duck/audio_duck.gd" id="10"]
+[ext_resource type="Resource" path="res://src/game/scenes/app_root/root_events.tres" id="11"]
+[ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="12"]
+
+[sub_resource type="Resource" id="LevelData_default"]
+script = ExtResource("2")
+level_id = 1
+animal_id = "bull"
+animal_display_name = "Бык"
+word = "БЫК"
+parts = PackedStringArray("Б", "Ы", "К")
+show_ghost_hints = true
+difficulty = 1
+
+[sub_resource type="Resource" id="GameEvents_local"]
+script = ExtResource("8")
+
+[node name="Game" type="Control" node_paths=PackedStringArray("animal_view", "celebration", "slots_row", "scatter_host", "home_button", "next_button", "fx_host")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+root_events = ExtResource("11")
+catalog = ExtResource("12")
+game_events = SubResource("GameEvents_local")
+level_data = SubResource("LevelData_default")
+letter_tile_scene = ExtResource("3")
+word_slot_scene = ExtResource("4")
+animal_view = NodePath("AnimalView")
+celebration = NodePath("CelebrationOverlay")
+slots_row = NodePath("BottomBar/SlotsRow")
+scatter_host = NodePath("ScatterHost")
+home_button = NodePath("HomeButton")
+next_button = NodePath("NextButton")
+fx_host = NodePath("FxHost")
+
+[node name="AnimalView" parent="." instance=ExtResource("5")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScatterHost" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FxHost" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HomeButton" type="Button" parent="."]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 92.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 36
+text = "🏠"
+
+[node name="NextButton" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -48.0
+offset_right = -24.0
+offset_bottom = 48.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 44
+text = "▶"
+
+[node name="BottomBar" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -140.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="SlotsRow" type="HBoxContainer" parent="BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+theme_override_constants/separation = 16
+
+[node name="CelebrationOverlay" parent="." instance=ExtResource("7")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AudioDuck" type="Node" parent="."]
+script = ExtResource("10")
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Voice"
+
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+
+[node name="SfxController" type="Node" parent="." node_paths=PackedStringArray("audio_duck", "voice_player", "sfx_player")]
+script = ExtResource("9")
+game_events = SubResource("GameEvents_local")
+audio_duck = NodePath("../AudioDuck")
+voice_player = NodePath("../VoicePlayer")
+sfx_player = NodePath("../SfxPlayer")

@@ -1,0 +1,17 @@
+---
+description: concepts/ is AI style reference only — never used by the game
+alwaysApply: true
+---
+
+# `concepts/` — AI style reference only
+
+## Must
+
+- Before changing menu/level UI look, read `concepts/ART_DIRECTION.md`
+- Ship playable art under `assets/` or colocated in `src/`
+- Keep `concepts/.gdignore` so Godot ignores the folder
+
+## Never
+
+- `res://concepts/...` in `.tscn`, `.tres`, `.gd`
+- Put game scenes/scripts/runtime audio in `concepts/`
