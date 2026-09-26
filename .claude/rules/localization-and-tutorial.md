@@ -14,7 +14,7 @@ paths:
 - Russian text lives in: `LevelData` (`word`, `parts`, `animal_display_name`), and a few `.tscn` labels
   (`menu.tscn` title, `parental_gate.tscn`, `celebration_overlay.tscn` "Ура!")
 - Chrome is icon/emoji-only by design — prefer icons over new text labels
-- Phonemes are synthesized tones (`ToneSynth.phoneme_freq(part)`), not per-language audio
+- Voice clips are Russian-only (`VoiceBank`, see game rules); a new language needs its own bank
 - If adding localization: use Godot's built-in TranslationServer + `tr()` keys; keep level words in `LevelData`
   (they are gameplay content, not UI strings). Add a rule file in the same task
 

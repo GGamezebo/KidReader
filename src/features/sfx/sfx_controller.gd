@@ -5,6 +5,8 @@ extends Node
 @export var audio_duck: AudioDuck
 @export var voice_player: AudioStreamPlayer
 @export var sfx_player: AudioStreamPlayer
+## Recorded letter sounds + words; missing entries fall back to ToneSynth.
+@export var voice_bank: VoiceBank
 
 var _listener: EventListener = EventListener.new()
 var _phoneme_cache: Dictionary = {}
@@ -33,9 +35,16 @@ func _on_phoneme(part: String) -> void:
 
 
 func _on_word(word: String) -> void:
-	if audio_duck:
-		audio_duck.duck(1.0)
-	_play_stream(voice_player, ToneSynth.make_word_fanfare(word), true)
+	var stream := voice_bank.get_word(word) if voice_bank else null
+	if stream == null:
+		stream = ToneSynth.make_word_fanfare(word)
+	_play_stream(voice_player, stream, true)
+
+
+## Seconds the voice clip for `part` lasts — lets callers pace letter-by-letter playback.
+func get_phoneme_length(part: String) -> float:
+	var stream := _phoneme_stream(part)
+	return stream.get_length() if stream else 0.0
 
 
 func _on_wrong(_part: String) -> void:
@@ -56,15 +65,22 @@ func _on_free() -> void:
 
 
 func _play_phoneme(part: String, duck: bool) -> void:
+	_play_stream(voice_player, _phoneme_stream(part), duck)
+
+
+func _phoneme_stream(part: String) -> AudioStream:
 	if not _phoneme_cache.has(part):
-		_phoneme_cache[part] = ToneSynth.make_tone(ToneSynth.phoneme_freq(part), 0.16, 0.38)
-	_play_stream(voice_player, _phoneme_cache[part], duck)
+		var stream := voice_bank.get_letter(part) if voice_bank else null
+		if stream == null:
+			stream = ToneSynth.make_tone(ToneSynth.phoneme_freq(part), 0.16, 0.38)
+		_phoneme_cache[part] = stream
+	return _phoneme_cache[part]
 
 
 func _play_stream(player: AudioStreamPlayer, stream: AudioStream, duck: bool) -> void:
 	if player == null or stream == null:
 		return
 	if duck and audio_duck:
-		audio_duck.duck(0.28)
+		audio_duck.duck(maxf(0.28, stream.get_length()))
 	player.stream = stream
 	player.play()

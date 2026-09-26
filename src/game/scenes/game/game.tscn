@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/game/game.gd" id="1"]
 [ext_resource type="Script" path="res://src/common/level_data.gd" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://src/features/audio_duck/audio_duck.gd" id="10"]
 [ext_resource type="Resource" path="res://src/game/scenes/app_root/root_events.tres" id="11"]
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="12"]
+[ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="13"]
 
 [sub_resource type="Resource" id="LevelData_default"]
 script = ExtResource("2")
@@ -25,7 +26,7 @@ difficulty = 1
 [sub_resource type="Resource" id="GameEvents_local"]
 script = ExtResource("8")
 
-[node name="Game" type="Control" node_paths=PackedStringArray("animal_view", "celebration", "slots_row", "scatter_host", "home_button", "next_button", "fx_host")]
+[node name="Game" type="Control" node_paths=PackedStringArray("animal_view", "celebration", "slots_row", "scatter_host", "home_button", "next_button", "fx_host", "sfx_controller")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,6 +47,7 @@ scatter_host = NodePath("ScatterHost")
 home_button = NodePath("HomeButton")
 next_button = NodePath("NextButton")
 fx_host = NodePath("FxHost")
+sfx_controller = NodePath("SfxController")
 
 [node name="AnimalView" parent="." instance=ExtResource("5")]
 layout_mode = 1
@@ -146,3 +148,4 @@ game_events = SubResource("GameEvents_local")
 audio_duck = NodePath("../AudioDuck")
 voice_player = NodePath("../VoicePlayer")
 sfx_player = NodePath("../SfxPlayer")
+voice_bank = ExtResource("13")

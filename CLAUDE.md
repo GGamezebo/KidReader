@@ -34,7 +34,7 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 | `core/` | Project-agnostic only (HFSM, FSM, EventListener, ResourceUtils, shakers, window stack) — must not depend on `src/` |
 | `concepts/` | AI style reference only — never loaded by game |
 | `assets/` | Runtime art/fonts |
-| `tools/` | Python level generators (`_gen_levels.py` is current; `generate_levels.py` is legacy syllable/distractor format) |
+| `tools/` | Python generators: `_gen_levels.py` (levels, current), `generate_voice.py` (TTS voice clips); `generate_levels.py` is legacy syllable/distractor format |
 
 ## Layer contracts
 

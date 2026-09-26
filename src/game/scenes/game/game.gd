@@ -15,6 +15,7 @@ extends IScene
 @export var home_button: BaseButton
 @export var next_button: BaseButton
 @export var fx_host: Control
+@export var sfx_controller: SfxController
 @export var inactivity_sec: float = 6.0
 @export var magnet_radius: float = 40.0
 @export var low_reject_ratio: float = 0.62
@@ -117,7 +118,8 @@ func play_completion_sequence() -> void:
 			slot.flash()
 			if game_events:
 				game_events.ev_play_phoneme.emit(slot.expected)
-			await get_tree().create_timer(0.32).timeout
+			var clip_sec := sfx_controller.get_phoneme_length(slot.expected) if sfx_controller else 0.0
+			await get_tree().create_timer(maxf(0.32, clip_sec + 0.08)).timeout
 	if game_events:
 		game_events.ev_play_word.emit(level_data.word)
 	await get_tree().create_timer(0.4).timeout

@@ -3,6 +3,11 @@
 *.translation
 export_presets.cfg
 
+# Python tooling (TTS venv + model cache)
+tools/.venv/
+tools/.cache/
+__pycache__/
+
 # OS
 .DS_Store
 Thumbs.db
