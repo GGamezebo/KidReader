@@ -1,0 +1,24 @@
+---
+description: Localization and tutorial — current state (neither system exists yet)
+globs: "src/**/*.{gd,tscn,tres}"
+alwaysApply: false
+---
+
+# Localization & tutorial
+
+## Localization — none yet
+
+- Game is Russian-only. No `tr()`, no TranslationServer, no `.po`/`.csv` (`*.translation` is gitignored)
+- Russian text lives in: `LevelData` (`word`, `parts`, `animal_display_name`), and a few `.tscn` labels
+  (`menu.tscn` title, `parental_gate.tscn`, `celebration_overlay.tscn` "Ура!")
+- Chrome is icon/emoji-only by design — prefer icons over new text labels
+- Phonemes are synthesized tones (`ToneSynth.phoneme_freq(part)`), not per-language audio
+- If adding localization: use Godot's built-in TranslationServer + `tr()` keys; keep level words in `LevelData`
+  (they are gameplay content, not UI strings). Add a rule file in the same task
+
+## Tutorial — none yet
+
+- No onboarding/tutorial scene or FSM state
+- Only easing mechanism: `LevelData.revealed_indices` (prefilled slots) + `show_ghost_hints`
+- `GameEvents.ev_hint_needed` is declared but unused
+- A future tutorial = new feature under `src/features/` or a `GameManager` state, driven by `LevelData` flags; never an autoload

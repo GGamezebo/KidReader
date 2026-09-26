@@ -44,7 +44,7 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 - Public surface: signals `ev_*`, `initialize`/`setup`, exported PackedScenes
 - Features must not import other features' internals
 - Level SFX + AudioDuck live on `game.tscn`; looping music on AppRoot `MusicPlayer`
-- Animal reveal = blur shader on photo (not ice cage)
+- Animal reveal = blur shader on photo (not ice cage); `ice_layer` is legacy, unused
 
 ### `core/`
 - Must not depend on `src/`
