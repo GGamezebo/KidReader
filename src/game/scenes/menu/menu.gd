@@ -1,7 +1,8 @@
 extends IScene
 
 ## Zoo menu host: ZooMap ⇄ ZoneView via WindowStackManager; settings behind the parental gate.
-## initialize({"zone_id": ...}) reopens that zone (used when returning from a level).
+## initialize({"zone_id": ..., "arrived_level_id": ...}) reopens that zone (returning from a level)
+## and, after a first win, plays the animal's arrival there.
 
 @export var root_events: RootEvents
 @export var catalog: LevelsCatalog
@@ -47,6 +48,9 @@ func initialize(data: Dictionary = {}) -> void:
 	if zone and progress.is_zone_unlocked(zone):
 		zoo_map.scroll_to_zone(zone)
 		_open_zone(zone)
+		var arrived := int(data.get("arrived_level_id", -1))
+		if arrived > 0:
+			zone_view.play_arrival(arrived)
 	else:
 		zoo_map.scroll_to_zone(progress.current_zone())
 

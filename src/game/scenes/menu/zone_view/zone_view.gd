@@ -26,6 +26,7 @@ signal ev_festival_selected(zone: ZoneData)
 @export var festival_badge: Control
 @export var festival_medal: Control
 @export var voice_player: AudioStreamPlayer
+@export var arrival: ArrivalOverlay
 
 var zone: ZoneData
 var _progress: ZooProgress
@@ -75,6 +76,20 @@ func show_zone(p_zone: ZoneData, progress: ZooProgress) -> void:
 		enc.ev_selected.connect(_on_enclosure_selected)
 	_refresh_festival()
 	_scroll_to.call_deferred(focus if focus else festival_button)
+
+
+## Reward after a first win: the animal is delivered into its (already FILLED) enclosure.
+func play_arrival(level_id: int) -> void:
+	var enc: Enclosure = null
+	for child in row.get_children():
+		if child is Enclosure and (child as Enclosure).level.level_id == level_id:
+			enc = child
+	if enc == null:
+		return
+	await _scroll_to(enc)
+	await get_tree().create_timer(0.4).timeout
+	await arrival.play(enc.level, enc.sticker)
+	enc.wiggle()
 
 
 func _refresh_festival() -> void:

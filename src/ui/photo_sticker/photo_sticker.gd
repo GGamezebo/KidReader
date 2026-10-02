@@ -44,6 +44,15 @@ func setup(p_texture: Texture2D, p_state: State) -> void:
 	state = p_state
 
 
+## 1 = fully frosted, 0 = clear. For reveal animations (tween this method); FROST state sets 1.
+func set_frost(amount: float) -> void:
+	var mat := photo.material as ShaderMaterial if photo else null
+	if mat:
+		mat.set_shader_parameter("blur_strength", amount)
+	if question and state == State.FROST:
+		question.modulate.a = clampf(amount * 2.0 - 1.0, 0.0, 1.0)
+
+
 func _layout() -> void:
 	if mask == null:
 		return
@@ -76,6 +85,7 @@ func _refresh() -> void:
 		mask.self_modulate.a = 0.0 if empty else 1.0
 	if question:
 		question.visible = state != State.FILLED
+		question.modulate.a = 1.0
 	if glyph:
 		glyph.visible = state == State.FILLED and texture == null
 		glyph.text = placeholder_glyph

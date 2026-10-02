@@ -30,7 +30,8 @@ var _filled_count: int = 0
 var _idle_timer: float = 0.0
 var _hinting: bool = false
 var _active: bool = false
-var _next_level_id: int = -1
+## Set on a first win: the zone screen plays the arrival of this animal.
+var _arrived_level_id: int = -1
 var _rng := RandomNumberGenerator.new()
 var _cell_size: float = 100.0
 
@@ -141,11 +142,11 @@ func on_fsm_victory(stars: int) -> void:
 	var progress := _find_progress()
 	if progress:
 		result = progress.record_win(level_data.level_id, stars)
-	_next_level_id = int(result.get("next_level_id", -1))
+	if bool(result.get("first_clear", false)):
+		_arrived_level_id = level_data.level_id
 	if next_button:
-		next_button.visible = _next_level_id > 0
-		if next_button.visible:
-			_pulse_next()
+		next_button.visible = true
+		_pulse_next()
 	if celebration:
 		# Light overlay optional — primary CTA is side next button like reference.
 		celebration.visible = false
@@ -381,19 +382,21 @@ func _on_home() -> void:
 		root_events.ev_return_to_menu.emit(_menu_payload())
 
 
+## After a win the level always returns to its zone: the animal arrives there and the next enclosure pulses.
 func _on_next() -> void:
-	if root_events == null:
-		return
-	if _next_level_id > 0:
-		root_events.ev_start_level.emit({"level_id": _next_level_id})
-	else:
+	if root_events:
 		root_events.ev_return_to_menu.emit(_menu_payload())
 
 
-## Back to the zone this level belongs to (menu reopens it).
+## Back to the zone this level belongs to (menu reopens it; plays the arrival after a first win).
 func _menu_payload() -> Dictionary:
+	var payload := {}
 	var zone: ZoneData = catalog.get_zone_of_level(level_data.level_id) if catalog and level_data else null
-	return {"zone_id": zone.zone_id} if zone else {}
+	if zone:
+		payload["zone_id"] = zone.zone_id
+	if _arrived_level_id > 0:
+		payload["arrived_level_id"] = _arrived_level_id
+	return payload
 
 
 func _find_progress() -> ProgressController:

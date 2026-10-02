@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/zone_view/zone_view.gd" id="1"]
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="2"]
@@ -10,6 +10,9 @@
 [ext_resource type="StyleBox" path="res://src/ui/styles/badge_play.tres" id="8"]
 [ext_resource type="StyleBox" path="res://src/ui/styles/flat_empty.tres" id="9"]
 [ext_resource type="Script" path="res://src/ui/drag_scroll/drag_scroll.gd" id="10"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/zone_view/arrival_overlay.gd" id="11"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/zone_view/arrival_letter.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://src/ui/photo_sticker/photo_sticker.tscn" id="13"]
 
 [sub_resource type="LabelSettings" id="PillText"]
 font_size = 30
@@ -19,7 +22,7 @@ font_color = Color(0.239, 0.173, 0.161, 1)
 font_size = 34
 font_color = Color(1, 1, 1, 1)
 
-[node name="ZoneView" type="Control" node_paths=PackedStringArray("title_label", "paws_label", "scroll", "row", "sky", "ground", "decor", "festival_button", "festival_tent", "festival_ribbon", "festival_badge", "festival_medal", "voice_player")]
+[node name="ZoneView" type="Control" node_paths=PackedStringArray("title_label", "paws_label", "scroll", "row", "sky", "ground", "decor", "festival_button", "festival_tent", "festival_ribbon", "festival_badge", "festival_medal", "voice_player", "arrival")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,6 +47,7 @@ festival_ribbon = NodePath("Scroll/Margin/Row/Festival/Ribbon")
 festival_badge = NodePath("Scroll/Margin/Row/Festival/Badge")
 festival_medal = NodePath("Scroll/Margin/Row/Festival/Medal")
 voice_player = NodePath("VoicePlayer")
+arrival = NodePath("Arrival")
 
 [node name="Sky" type="ColorRect" parent="."]
 layout_mode = 1
@@ -232,6 +236,84 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.36, 0.62, 0.33, 1)
 theme_override_font_sizes/font_size = 30
 text = "🐾 0/7"
+
+[node name="Arrival" type="Control" parent="." node_paths=PackedStringArray("voice_player", "dim", "carrier", "sticker", "letters_row", "fx_host")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11")
+letter_scene = ExtResource("12")
+voice_bank = ExtResource("4")
+voice_player = NodePath("../VoicePlayer")
+dim = NodePath("Dim")
+carrier = NodePath("Carrier")
+sticker = NodePath("Carrier/Sticker")
+letters_row = NodePath("Letters")
+fx_host = NodePath("Fx")
+
+[node name="Dim" type="ColorRect" parent="Arrival"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.97, 0.88, 0.75)
+
+[node name="Fx" type="Control" parent="Arrival"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Carrier" type="Control" parent="Arrival"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 450.0
+mouse_filter = 2
+
+[node name="Balloon" type="Label" parent="Arrival/Carrier"]
+layout_mode = 0
+offset_left = 60.0
+offset_right = 240.0
+offset_bottom = 170.0
+theme_override_font_sizes/font_size = 130
+text = "🎈"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sticker" parent="Arrival/Carrier" instance=ExtResource("13")]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 190.0
+offset_right = 280.0
+offset_bottom = 450.0
+pivot_offset = Vector2(130, 130)
+
+[node name="Letters" type="HBoxContainer" parent="Arrival"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -150.0
+offset_right = 400.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
 
 [node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
 bus = &"Voice"

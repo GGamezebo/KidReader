@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="StyleBox" path="res://src/game/scenes/menu/zone_view/arrival_letter.tres" id="1"]
+
+[sub_resource type="LabelSettings" id="Glyph"]
+font_size = 58
+font_color = Color(0.898, 0.224, 0.208, 1)
+
+[node name="ArrivalLetter" type="Panel"]
+custom_minimum_size = Vector2(76, 88)
+offset_right = 76.0
+offset_bottom = 88.0
+pivot_offset = Vector2(38, 44)
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("1")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "А"
+label_settings = SubResource("Glyph")
+horizontal_alignment = 1
+vertical_alignment = 1

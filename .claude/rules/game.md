@@ -10,11 +10,11 @@ paths:
 - States: `GameManager` FSM (`Playing` / `Completing` / `Victory`)
 - Features: `letter_tile`, `word_slot`, `animal` (photo+blur), `celebration`
 - Words up to 12 letters: `game.gd` fits one row via `_fit_cell_size` → `set_cell_size()` on slots/tiles (64–100 px)
-- Next button → next level of the same zone; zone's last level → no next (back to zone / festival)
+- After a win the ▶ button (and 🏠) return to the level's zone: `ev_return_to_menu({zone_id, arrived_level_id})`; `arrived_level_id` only on a first win → the zone screen plays the arrival
 - **Letters only** of the target word; scatter randomly (no distractors)
 - Grab → straighten + phoneme; magnet snap; miss → fly-up repel
 - Tap filled slot → phoneme; complete → speak word + unblur photo
-- Exit: `root_events.ev_return_to_menu` or `ev_start_level` (next)
+- Exit: `root_events.ev_return_to_menu` (always back to the zone)
 
 ## Voice (letter sounds + words)
 
