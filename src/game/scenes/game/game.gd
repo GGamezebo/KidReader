@@ -300,6 +300,7 @@ func _on_tile_dropped(tile: LetterTile, global_pos: Vector2) -> void:
 		if game_events:
 			game_events.ev_tile_correct.emit(tile.part, best.slot_index)
 			game_events.ev_play_phoneme.emit(tile.part)
+		_record_letter(tile.part, true)
 		if _filled_count >= level_data.parts.size():
 			if game_events:
 				game_events.ev_word_complete.emit(level_data.word)
@@ -307,9 +308,25 @@ func _on_tile_dropped(tile: LetterTile, global_pos: Vector2) -> void:
 	else:
 		if _manager:
 			_manager.wrong_drops += 1
+		if _near_any_slot(global_pos):
+			_record_letter(tile.part, false)
 		if game_events:
 			game_events.ev_tile_wrong.emit(tile.part)
 		_repel_tile(tile)
+
+
+## A miss counts for the parent stats only when the tile was dropped onto a slot (not just anywhere).
+func _near_any_slot(global_pos: Vector2) -> bool:
+	for slot in _slots:
+		if not slot.filled and (slot.global_position + slot.size * 0.5).distance_to(global_pos) < magnet_radius:
+			return true
+	return false
+
+
+func _record_letter(part: String, correct: bool) -> void:
+	var progress := _find_progress()
+	if progress:
+		progress.record_letter(part, correct)
 
 
 func _repel_tile(tile: LetterTile) -> void:

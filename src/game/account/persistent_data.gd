@@ -4,7 +4,7 @@ extends Resource
 ## Live progress resource (active profile slot). Mutated by ProgressController.
 ## Unlocks are derived (see ZooProgress), not stored.
 
-const CURRENT_SAVE_VERSION := 2
+const CURRENT_SAVE_VERSION := 3
 
 ## v1 had 12 flat levels (ids 1..12); v2 ids are zone_number * 100 + index.
 const V1_TO_V2_LEVEL_ID := {
@@ -18,6 +18,15 @@ const V1_TO_V2_LEVEL_ID := {
 ## zone_id -> festival stars 1..3. A key present = festival passed, next zone open.
 @export var festival_stars: Dictionary = {}
 @export var total_animals_saved: int = 0
+## v3 — parent corner + review: letter -> times placed right / dropped on a wrong slot.
+@export var letter_right: Dictionary = {}
+@export var letter_wrong: Dictionary = {}
+## Total play time and per-day seconds ("YYYY-MM-DD" -> seconds, last days only).
+@export var play_seconds: int = 0
+@export var play_days: Dictionary = {}
+## level_id (string) -> local day number of the last play / how many reviews were done.
+@export var level_last_day: Dictionary = {}
+@export var level_reviews: Dictionary = {}
 
 
 func reset_to_defaults() -> void:
@@ -25,6 +34,12 @@ func reset_to_defaults() -> void:
 	level_stars = {}
 	festival_stars = {}
 	total_animals_saved = 0
+	letter_right = {}
+	letter_wrong = {}
+	play_seconds = 0
+	play_days = {}
+	level_last_day = {}
+	level_reviews = {}
 	emit_changed()
 
 
@@ -34,6 +49,12 @@ func to_dict() -> Dictionary:
 		"level_stars": level_stars.duplicate(true),
 		"festival_stars": festival_stars.duplicate(true),
 		"total_animals_saved": total_animals_saved,
+		"letter_right": letter_right.duplicate(),
+		"letter_wrong": letter_wrong.duplicate(),
+		"play_seconds": play_seconds,
+		"play_days": play_days.duplicate(),
+		"level_last_day": level_last_day.duplicate(),
+		"level_reviews": level_reviews.duplicate(),
 	}
 
 
@@ -44,6 +65,13 @@ func apply_dict(data: Dictionary) -> void:
 	level_stars = _int_values(data.get("level_stars", {}))
 	festival_stars = _int_values(data.get("festival_stars", {}))
 	total_animals_saved = int(data.get("total_animals_saved", 0))
+	# v3 fields: absent in older saves → empty (nothing to migrate).
+	letter_right = _int_values(data.get("letter_right", {}))
+	letter_wrong = _int_values(data.get("letter_wrong", {}))
+	play_seconds = int(data.get("play_seconds", 0))
+	play_days = _int_values(data.get("play_days", {}))
+	level_last_day = _int_values(data.get("level_last_day", {}))
+	level_reviews = _int_values(data.get("level_reviews", {}))
 	if version < 2:
 		_migrate_v1()
 	save_version = CURRENT_SAVE_VERSION

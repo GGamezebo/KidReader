@@ -1,6 +1,6 @@
 extends IScene
 
-## Zoo menu host: ZooMap ⇄ ZoneView (+ Album) via WindowStackManager; settings behind the parental gate.
+## Zoo menu host: ZooMap ⇄ ZoneView (+ Album) via WindowStackManager; ParentCorner behind the parental gate.
 ## initialize({"zone_id": ..., "arrived_level_id": ...}) reopens that zone (returning from a level)
 ## and, after a first win, plays the animal's arrival there.
 ## initialize({"unlocked_zone_id": ...}) — after a first festival: the map glides to the new zone and unlocks it.
@@ -17,24 +17,21 @@ extends IScene
 @export var settings_button: BaseButton
 @export var music_button: BaseButton
 @export var parental_gate: ParentalGate
-@export var settings_panel: Control
-@export var music_toggle: BaseButton
-@export var sfx_toggle: BaseButton
-@export var settings_close: BaseButton
+@export var parent_corner: ParentCorner
 @export var voice_bank: VoiceBank
 @export var voice_player: AudioStreamPlayer
 
 var _listener: EventListener = EventListener.new()
+var _progress_controller: ProgressController
 
 
 func _ready() -> void:
 	settings_button.pressed.connect(_on_settings_pressed)
 	music_button.pressed.connect(_toggle_music)
-	parental_gate.ev_passed.connect(_open_settings)
-	settings_panel.visible = false
-	settings_close.pressed.connect(func(): settings_panel.visible = false)
-	music_toggle.pressed.connect(_toggle_music)
-	sfx_toggle.pressed.connect(_toggle_sfx)
+	parental_gate.ev_passed.connect(_open_parent_corner)
+	parent_corner.ev_toggle_music.connect(_toggle_music)
+	parent_corner.ev_toggle_sfx.connect(_toggle_sfx)
+	parent_corner.ev_reset_confirmed.connect(_reset_progress)
 	zoo_map.ev_zone_selected.connect(_open_zone)
 	zone_view.ev_level_selected.connect(_on_level_selected)
 	zone_view.ev_festival_selected.connect(_on_festival_selected)
@@ -124,6 +121,7 @@ func _resolve_shared() -> void:
 				root_events = re as RootEvents
 		var pc := n.get_node_or_null("Account/ProgressController") as ProgressController
 		if pc:
+			_progress_controller = pc
 			if pc.pdata:
 				pdata = pc.pdata
 			if pc.catalog:
@@ -138,9 +136,28 @@ func _on_settings_pressed() -> void:
 	parental_gate.open()
 
 
-func _open_settings() -> void:
-	settings_panel.visible = true
+func _open_parent_corner() -> void:
 	_refresh_audio_glyphs()
+	parent_corner.open(_parent_stats())
+
+
+## Full stats from ProgressController; standalone (F6) falls back to what ZooProgress knows.
+func _parent_stats() -> Dictionary:
+	if _progress_controller:
+		return _progress_controller.get_parent_stats()
+	var progress := _progress()
+	return {"animals": progress.total_cleared(), "animals_total": catalog.count(),
+		"zones_total": catalog.get_zones().size()}
+
+
+func _reset_progress() -> void:
+	if _progress_controller:
+		_progress_controller.reset_progress()
+	elif pdata:
+		pdata.reset_to_defaults()
+	while window_stack.window_stack.size() > 1:
+		window_stack.close_stacked_window()
+	zoo_map.scroll_to_zone(_progress().current_zone())
 
 
 func _toggle_music() -> void:
@@ -162,5 +179,4 @@ func _refresh_audio_glyphs() -> void:
 		return
 	var music := "🔇" if user_settings.is_music_mute else "🎵"
 	music_button.text = music
-	music_toggle.text = music
-	sfx_toggle.text = "🔕" if user_settings.is_sound_mute else "🔊"
+	parent_corner.set_audio(user_settings.is_music_mute, user_settings.is_sound_mute)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/menu.gd" id="1"]
 [ext_resource type="PackedScene" path="res://src/ui/parental_gate/parental_gate.tscn" id="3"]
@@ -13,8 +13,9 @@
 [ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="12"]
 [ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="13"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/album/album.tscn" id="14"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/parent_corner/parent_corner.tscn" id="15"]
 
-[node name="Menu" type="Control" node_paths=PackedStringArray("zoo_map", "zone_view", "album", "album_button", "window_stack", "settings_button", "music_button", "parental_gate", "settings_panel", "music_toggle", "sfx_toggle", "settings_close", "voice_player")]
+[node name="Menu" type="Control" node_paths=PackedStringArray("zoo_map", "zone_view", "album", "album_button", "window_stack", "settings_button", "music_button", "parental_gate", "parent_corner", "voice_player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,10 +35,7 @@ window_stack = NodePath("WindowStack")
 settings_button = NodePath("TopRight/SettingsButton")
 music_button = NodePath("TopRight/MusicButton")
 parental_gate = NodePath("ParentalGate")
-settings_panel = NodePath("SettingsPanel")
-music_toggle = NodePath("SettingsPanel/Panel/VBox/MusicToggle")
-sfx_toggle = NodePath("SettingsPanel/Panel/VBox/SfxToggle")
-settings_close = NodePath("SettingsPanel/Panel/VBox/CloseButton")
+parent_corner = NodePath("ParentCorner")
 voice_bank = ExtResource("13")
 voice_player = NodePath("ZoneView/VoicePlayer")
 
@@ -98,56 +96,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SettingsPanel" type="Control" parent="."]
+[node name="ParentCorner" parent="." instance=ExtResource("15")]
 visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Dim" type="ColorRect" parent="SettingsPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.12, 0.08, 0.06, 0.4)
-
-[node name="Panel" type="PanelContainer" parent="SettingsPanel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -140.0
-offset_right = 180.0
-offset_bottom = 140.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBox" type="VBoxContainer" parent="SettingsPanel/Panel"]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="MusicToggle" type="Button" parent="SettingsPanel/Panel/VBox"]
-custom_minimum_size = Vector2(0, 72)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "🎵"
-
-[node name="SfxToggle" type="Button" parent="SettingsPanel/Panel/VBox"]
-custom_minimum_size = Vector2(0, 72)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "🔊"
-
-[node name="CloseButton" type="Button" parent="SettingsPanel/Panel/VBox"]
-custom_minimum_size = Vector2(0, 72)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "✕"

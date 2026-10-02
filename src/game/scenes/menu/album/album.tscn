@@ -9,7 +9,7 @@
 [ext_resource type="StyleBox" path="res://src/ui/styles/pill.tres" id="7"]
 [ext_resource type="PackedScene" path="res://src/ui/photo_sticker/photo_sticker.tscn" id="8"]
 [ext_resource type="PackedScene" path="res://src/ui/sign_plate/sign_plate.tscn" id="9"]
-[ext_resource type="StyleBox" path="res://src/game/scenes/menu/album/card_panel.tres" id="10"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/card.tres" id="10"]
 [ext_resource type="StyleBox" path="res://src/ui/styles/flat_empty.tres" id="11"]
 [ext_resource type="Script" path="res://src/ui/drag_scroll/drag_scroll.gd" id="12"]
 
