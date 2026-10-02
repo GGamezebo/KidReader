@@ -8,6 +8,8 @@ extends Node
 @export var scroll: ScrollContainer
 @export var threshold: float = 14.0
 @export var vertical: bool = false
+## Set by the host while something else is being dragged (e.g. a map decoration).
+var suspended: bool = false
 
 var _pressed: bool = false
 var _dragging: bool = false
@@ -28,7 +30,7 @@ func _input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 			_pressed = false
 			_dragging = false
-	elif event is InputEventMouseMotion and _pressed:
+	elif event is InputEventMouseMotion and _pressed and not suspended:
 		var rel := (event as InputEventMouseMotion).relative
 		var d := rel.y if vertical else rel.x
 		_travel += absf(d)

@@ -1,0 +1,104 @@
+[gd_resource type="Resource" script_class="DecorCatalog" load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://src/common/decor_catalog.gd" id="1"]
+[ext_resource type="Script" path="res://src/common/decor_item.gd" id="2"]
+
+[sub_resource type="Resource" id="d0"]
+script = ExtResource("2")
+decor_id = "tulips"
+glyph = "🌷"
+stars = 3
+
+[sub_resource type="Resource" id="d1"]
+script = ExtResource("2")
+decor_id = "tree"
+glyph = "🌳"
+stars = 8
+
+[sub_resource type="Resource" id="d2"]
+script = ExtResource("2")
+decor_id = "balloons"
+glyph = "🎈"
+stars = 15
+
+[sub_resource type="Resource" id="d3"]
+script = ExtResource("2")
+decor_id = "sunflower"
+glyph = "🌻"
+stars = 25
+
+[sub_resource type="Resource" id="d4"]
+script = ExtResource("2")
+decor_id = "bench"
+glyph = "🪑"
+stars = 35
+
+[sub_resource type="Resource" id="d5"]
+script = ExtResource("2")
+decor_id = "fountain"
+glyph = "⛲"
+stars = 50
+
+[sub_resource type="Resource" id="d6"]
+script = ExtResource("2")
+decor_id = "lantern"
+glyph = "🏮"
+stars = 65
+
+[sub_resource type="Resource" id="d7"]
+script = ExtResource("2")
+decor_id = "ice_cream"
+glyph = "🍦"
+stars = 80
+
+[sub_resource type="Resource" id="d8"]
+script = ExtResource("2")
+decor_id = "palm"
+glyph = "🌴"
+stars = 100
+
+[sub_resource type="Resource" id="d9"]
+script = ExtResource("2")
+decor_id = "carousel"
+glyph = "🎠"
+stars = 120
+
+[sub_resource type="Resource" id="d10"]
+script = ExtResource("2")
+decor_id = "kite"
+glyph = "🪁"
+stars = 145
+
+[sub_resource type="Resource" id="d11"]
+script = ExtResource("2")
+decor_id = "rainbow"
+glyph = "🌈"
+stars = 170
+
+[sub_resource type="Resource" id="d12"]
+script = ExtResource("2")
+decor_id = "ferris_wheel"
+glyph = "🎡"
+stars = 200
+
+[sub_resource type="Resource" id="d13"]
+script = ExtResource("2")
+decor_id = "train"
+glyph = "🚂"
+stars = 240
+
+[sub_resource type="Resource" id="d14"]
+script = ExtResource("2")
+decor_id = "castle"
+glyph = "🏰"
+stars = 290
+
+[sub_resource type="Resource" id="d15"]
+script = ExtResource("2")
+decor_id = "unicorn"
+glyph = "🦄"
+stars = 350
+
+[resource]
+script = ExtResource("1")
+items = Array[ExtResource("2")]([SubResource("d0"), SubResource("d1"), SubResource("d2"), SubResource("d3"), SubResource("d4"), SubResource("d5"), SubResource("d6"), SubResource("d7"), SubResource("d8"), SubResource("d9"), SubResource("d10"), SubResource("d11"), SubResource("d12"), SubResource("d13"), SubResource("d14"), SubResource("d15")])

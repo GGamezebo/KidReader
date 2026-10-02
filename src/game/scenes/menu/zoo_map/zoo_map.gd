@@ -5,11 +5,18 @@ extends Control
 ## Fully procedural from LevelsCatalog: islands sit on a sine wave, the road is a smooth curve through them.
 
 signal ev_zone_selected(zone: ZoneData)
+## Decoration put / moved on the map: pos.x in map px, pos.y as a share of the map height.
+signal ev_decor_placed(decor_id: String, pos: Vector2)
+signal ev_decor_removed(decor_id: String)
 
 @export var catalog: LevelsCatalog
 @export var pdata: PData
 @export var island_scene: PackedScene
 @export var band_scene: PackedScene
+@export var decor_catalog: DecorCatalog
+@export var decor_piece_scene: PackedScene
+@export var decor_slot_scene: PackedScene
+@export var voice_bank: VoiceBank
 
 @export_group("Layout")
 @export var zone_spacing: float = 280.0
@@ -29,13 +36,28 @@ signal ev_zone_selected(zone: ZoneData)
 @export var islands: Control
 @export var total_label: Label
 @export var egg: DinoEgg
+@export var stars_label: Label
+@export var decor_layer: Control
+@export var drag_layer: Control
+@export var tray: Control
+@export var tray_grid: Container
+@export var decor_button: BaseButton
+@export var decor_badge: Control
+@export var decor_badge_label: Label
+@export var drag_scroll: DragScroll
+@export var voice_player: AudioStreamPlayer
 
 enum EggMoment { NONE, FOUND, CRACK, HATCH }
 
 var _islands_by_zone: Dictionary = {}
+var _map_h: float = 600.0
+var _ghost: DecorPiece
+var _tray_hinted: bool = false
 
 
 func _ready() -> void:
+	tray.visible = false
+	decor_button.pressed.connect(_toggle_tray)
 	_build_default.call_deferred()
 
 
@@ -72,6 +94,7 @@ func build(progress: ZooProgress) -> void:
 	_build_road(centers)
 	total_label.text = "🐾 %d / %d" % [progress.total_cleared(), catalog.count()]
 	egg.setup(progress.egg_cracks(), progress.egg_max_cracks(), progress.is_egg_hatched())
+	_build_decor(progress, h)
 
 
 func scroll_to_zone(zone: ZoneData, animated: bool = false) -> void:
@@ -132,6 +155,114 @@ func _egg_moment(zone: ZoneData) -> EggMoment:
 	if idx - 1 > found and idx < hatch:
 		return EggMoment.CRACK
 	return EggMoment.NONE
+
+
+## Park decorations: pieces on the map + the box (tray) of slots; badge = how many wait in the box.
+func _build_decor(progress: ZooProgress, h: float) -> void:
+	_map_h = h
+	stars_label.text = "⭐ %d" % progress.total_stars()
+	for child in decor_layer.get_children() + tray_grid.get_children():
+		child.get_parent().remove_child(child)
+		child.queue_free()
+	if decor_catalog == null:
+		return
+	var placed := progress.placed_decor()
+	var waiting := 0
+	for item in decor_catalog.items:
+		var state := DecorSlot.State.LOCKED
+		if placed.has(item.decor_id):
+			state = DecorSlot.State.PLACED
+			var at: Vector2 = placed[item.decor_id]
+			_add_piece(item, Vector2(at.x, at.y * h))
+		elif progress.is_decor_open(item):
+			state = DecorSlot.State.READY
+			waiting += 1
+		var slot := decor_slot_scene.instantiate() as DecorSlot
+		tray_grid.add_child(slot)
+		slot.setup_slot(item, state)
+		slot.ev_drag_started.connect(_on_slot_drag_started)
+		slot.ev_dragged.connect(_on_drag_moved)
+		slot.ev_dropped.connect(_on_slot_dropped)
+	decor_badge.visible = waiting > 0
+	decor_badge_label.text = str(waiting)
+
+
+func _add_piece(item: DecorItem, center: Vector2) -> DecorPiece:
+	var piece := decor_piece_scene.instantiate() as DecorPiece
+	decor_layer.add_child(piece)
+	piece.setup(item)
+	piece.position = center - piece.custom_minimum_size * 0.5
+	piece.ev_drag_started.connect(_on_piece_drag_started)
+	piece.ev_dragged.connect(_on_drag_moved)
+	piece.ev_dropped.connect(_on_piece_dropped)
+	return piece
+
+
+func _toggle_tray() -> void:
+	tray.visible = not tray.visible
+	if tray.visible and not _tray_hinted and voice_bank and voice_player:
+		_tray_hinted = true
+		var stream := voice_bank.get_phrase("decor_hint")
+		if stream:
+			voice_player.stream = stream
+			voice_player.play()
+
+
+## Drag out of the box: a ghost piece follows the finger; dropped outside the box → placed.
+func _on_slot_drag_started(slot: DecorPiece) -> void:
+	drag_scroll.suspended = true
+	_ghost = decor_piece_scene.instantiate() as DecorPiece
+	drag_layer.add_child(_ghost)
+	_ghost.setup(slot.item)
+	_ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_ghost.global_position = slot.global_position
+	_ghost.scale = Vector2(1.2, 1.2)
+
+
+func _on_drag_moved(piece: DecorPiece, global_pos: Vector2) -> void:
+	var moving: Control = _ghost if _ghost else piece
+	moving.global_position = global_pos - moving.size * 0.5
+
+
+func _on_slot_dropped(slot: DecorPiece, global_pos: Vector2) -> void:
+	drag_scroll.suspended = false
+	if _ghost:
+		_ghost.queue_free()
+		_ghost = null
+	if _over_tray(global_pos):
+		return
+	var center := _to_map(global_pos)
+	_add_piece(slot.item, center).bounce()
+	(slot as DecorSlot).setup_slot(slot.item, DecorSlot.State.PLACED)
+	ev_decor_placed.emit(slot.item.decor_id, Vector2(center.x, center.y / _map_h))
+
+
+func _on_piece_drag_started(piece: DecorPiece) -> void:
+	drag_scroll.suspended = true
+	piece.move_to_front()
+
+
+## A piece on the map: dropped into the open box → back to the box, else it stays where dropped.
+func _on_piece_dropped(piece: DecorPiece, global_pos: Vector2) -> void:
+	drag_scroll.suspended = false
+	if _over_tray(global_pos):
+		piece.queue_free()
+		ev_decor_removed.emit(piece.item.decor_id)
+		return
+	var center := _to_map(global_pos)
+	piece.position = center - piece.size * 0.5
+	piece.bounce()
+	ev_decor_placed.emit(piece.item.decor_id, Vector2(center.x, center.y / _map_h))
+
+
+func _over_tray(global_pos: Vector2) -> bool:
+	return tray.visible and tray.get_global_rect().has_point(global_pos)
+
+
+## Pointer → map content coordinates, kept inside the map.
+func _to_map(global_pos: Vector2) -> Vector2:
+	var p := global_pos - content.global_position
+	return Vector2(clampf(p.x, 40.0, content.size.x - 40.0), clampf(p.y, _map_h * 0.12, _map_h * 0.95))
 
 
 func _add_island(zone: ZoneData, center: Vector2, progress: ZooProgress) -> void:

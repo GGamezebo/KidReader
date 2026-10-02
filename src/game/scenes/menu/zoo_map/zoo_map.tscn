@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/zoo_map/zoo_map.gd" id="1"]
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="2"]
@@ -8,6 +8,13 @@
 [ext_resource type="StyleBox" path="res://src/ui/styles/pill.tres" id="6"]
 [ext_resource type="Script" path="res://src/ui/drag_scroll/drag_scroll.gd" id="7"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/zoo_map/dino_egg.tscn" id="8"]
+[ext_resource type="Resource" path="res://src/common/decor_catalog.tres" id="9"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/zoo_map/decor_piece.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/zoo_map/decor_slot.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="12"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/card.tres" id="13"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/badge_dot.tres" id="14"]
+[ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="15"]
 
 [sub_resource type="Curve" id="RoadWidth"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -17,7 +24,7 @@ point_count = 2
 font_size = 30
 font_color = Color(0.239, 0.173, 0.161, 1)
 
-[node name="ZooMap" type="Control" node_paths=PackedStringArray("scroll", "content", "bands", "road", "road_stripe", "islands", "total_label", "egg")]
+[node name="ZooMap" type="Control" node_paths=PackedStringArray("scroll", "content", "bands", "road", "road_stripe", "islands", "total_label", "egg", "stars_label", "decor_layer", "drag_layer", "tray", "tray_grid", "decor_button", "decor_badge", "decor_badge_label", "drag_scroll", "voice_player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,14 +36,28 @@ catalog = ExtResource("2")
 pdata = ExtResource("3")
 island_scene = ExtResource("4")
 band_scene = ExtResource("5")
+decor_catalog = ExtResource("9")
+decor_piece_scene = ExtResource("10")
+decor_slot_scene = ExtResource("11")
+voice_bank = ExtResource("15")
 scroll = NodePath("Scroll")
 content = NodePath("Scroll/Content")
 bands = NodePath("Scroll/Content/Bands")
 road = NodePath("Scroll/Content/Road")
 road_stripe = NodePath("Scroll/Content/RoadStripe")
 islands = NodePath("Scroll/Content/Islands")
-total_label = NodePath("Total/Label")
+total_label = NodePath("Total/HBox/Label")
 egg = NodePath("Egg")
+stars_label = NodePath("Total/HBox/Stars")
+decor_layer = NodePath("Scroll/Content/Decor")
+drag_layer = NodePath("DragLayer")
+tray = NodePath("Tray")
+tray_grid = NodePath("Tray/VBox/Grid")
+decor_button = NodePath("DecorButton")
+decor_badge = NodePath("DecorButton/Badge")
+decor_badge_label = NodePath("DecorButton/Badge/Label")
+drag_scroll = NodePath("DragScroll")
+voice_player = NodePath("VoicePlayer")
 
 [node name="Scroll" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -74,6 +95,10 @@ begin_cap_mode = 2
 end_cap_mode = 2
 antialiased = true
 
+[node name="Decor" type="Control" parent="Scroll/Content"]
+anchors_preset = 0
+mouse_filter = 2
+
 [node name="Islands" type="Control" parent="Scroll/Content"]
 anchors_preset = 0
 mouse_filter = 2
@@ -82,14 +107,23 @@ mouse_filter = 2
 layout_mode = 0
 offset_left = 24.0
 offset_top = 24.0
-offset_right = 200.0
+offset_right = 340.0
 offset_bottom = 74.0
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("6")
 
-[node name="Label" type="Label" parent="Total"]
+[node name="HBox" type="HBoxContainer" parent="Total"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Label" type="Label" parent="Total/HBox"]
 layout_mode = 2
 text = "🐾 0 / 128"
+label_settings = SubResource("Total")
+
+[node name="Stars" type="Label" parent="Total/HBox"]
+layout_mode = 2
+text = "⭐ 0"
 label_settings = SubResource("Total")
 
 [node name="Egg" parent="." instance=ExtResource("8")]
@@ -102,6 +136,85 @@ offset_top = -176.0
 offset_right = 160.0
 offset_bottom = -16.0
 grow_vertical = 0
+
+[node name="DecorButton" parent="." instance=ExtResource("12")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -112.0
+offset_top = -112.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+glyph = "🎁"
+
+[node name="Badge" type="Panel" parent="DecorButton"]
+visible = false
+layout_mode = 0
+offset_left = 58.0
+offset_top = -10.0
+offset_right = 98.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("14")
+
+[node name="Label" type="Label" parent="DecorButton/Badge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tray" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -480.0
+offset_top = -320.0
+offset_right = 480.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("13")
+
+[node name="VBox" type="VBoxContainer" parent="Tray"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Grid" type="HFlowContainer" parent="Tray/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+alignment = 1
+
+[node name="DragLayer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Voice"
 
 [node name="DragScroll" type="Node" parent="." node_paths=PackedStringArray("scroll")]
 script = ExtResource("7")

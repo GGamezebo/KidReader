@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/zoo_map/decor_piece.gd" id="1"]
+
+[sub_resource type="LabelSettings" id="Glyph"]
+font_size = 64
+shadow_size = 6
+shadow_color = Color(0.24, 0.17, 0.16, 0.25)
+shadow_offset = Vector2(0, 5)
+
+[node name="DecorPiece" type="Control" node_paths=PackedStringArray("glyph_label")]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 96.0
+offset_bottom = 96.0
+pivot_offset = Vector2(48, 96)
+script = ExtResource("1")
+glyph_label = NodePath("Glyph")
+
+[node name="Glyph" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "🌷"
+label_settings = SubResource("Glyph")
+horizontal_alignment = 1
+vertical_alignment = 1

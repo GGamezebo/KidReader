@@ -33,6 +33,8 @@ func _ready() -> void:
 	parent_corner.ev_toggle_sfx.connect(_toggle_sfx)
 	parent_corner.ev_reset_confirmed.connect(_reset_progress)
 	zoo_map.ev_zone_selected.connect(_open_zone)
+	zoo_map.ev_decor_placed.connect(_on_decor_placed)
+	zoo_map.ev_decor_removed.connect(_on_decor_removed)
 	zone_view.ev_level_selected.connect(_on_level_selected)
 	zone_view.ev_festival_selected.connect(_on_festival_selected)
 	album_button.pressed.connect(_open_album)
@@ -85,6 +87,16 @@ func _refresh(_a = null) -> void:
 func _open_zone(zone: ZoneData) -> void:
 	zone_view.show_zone(zone, _progress())
 	window_stack.open_stacked_window(zone_view)
+
+
+func _on_decor_placed(decor_id: String, pos: Vector2) -> void:
+	if _progress_controller:
+		_progress_controller.place_decor(decor_id, pos)
+
+
+func _on_decor_removed(decor_id: String) -> void:
+	if _progress_controller:
+		_progress_controller.remove_decor(decor_id)
 
 
 func _open_album() -> void:

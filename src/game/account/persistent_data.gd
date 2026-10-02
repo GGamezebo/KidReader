@@ -27,6 +27,8 @@ const V1_TO_V2_LEVEL_ID := {
 ## level_id (string) -> local day number of the last play / how many reviews were done.
 @export var level_last_day: Dictionary = {}
 @export var level_reviews: Dictionary = {}
+## Park decorations on the map: decor_id -> [x px along the map, y as share of map height].
+@export var decor_placed: Dictionary = {}
 
 
 func reset_to_defaults() -> void:
@@ -40,6 +42,7 @@ func reset_to_defaults() -> void:
 	play_days = {}
 	level_last_day = {}
 	level_reviews = {}
+	decor_placed = {}
 	emit_changed()
 
 
@@ -55,6 +58,7 @@ func to_dict() -> Dictionary:
 		"play_days": play_days.duplicate(),
 		"level_last_day": level_last_day.duplicate(),
 		"level_reviews": level_reviews.duplicate(),
+		"decor_placed": decor_placed.duplicate(true),
 	}
 
 
@@ -72,6 +76,7 @@ func apply_dict(data: Dictionary) -> void:
 	play_days = _int_values(data.get("play_days", {}))
 	level_last_day = _int_values(data.get("level_last_day", {}))
 	level_reviews = _int_values(data.get("level_reviews", {}))
+	decor_placed = _points(data.get("decor_placed", {}))
 	if version < 2:
 		_migrate_v1()
 	save_version = CURRENT_SAVE_VERSION
@@ -94,6 +99,16 @@ func _migrate_v1() -> void:
 			migrated[str(new_id)] = level_stars[key]
 	level_stars = migrated
 	festival_stars = {}
+
+
+static func _points(raw: Variant) -> Dictionary:
+	var out := {}
+	if raw is Dictionary:
+		for key in raw:
+			var v: Variant = raw[key]
+			if v is Array and (v as Array).size() == 2:
+				out[str(key)] = [float(v[0]), float(v[1])]
+	return out
 
 
 static func _int_values(raw: Variant) -> Dictionary:

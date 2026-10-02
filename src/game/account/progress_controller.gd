@@ -130,6 +130,19 @@ func get_parent_stats() -> Dictionary:
 	}
 
 
+## Park decoration put on / moved on the map: x in map px, y as a share of the map height.
+func place_decor(decor_id: String, pos: Vector2) -> void:
+	if pdata:
+		pdata.decor_placed[decor_id] = [pos.x, pos.y]
+		_commit()
+
+
+## Decoration dropped back into the box.
+func remove_decor(decor_id: String) -> void:
+	if pdata and pdata.decor_placed.erase(decor_id):
+		_commit()
+
+
 ## Parent corner: wipe the zoo (behind the parental gate + confirm).
 func reset_progress() -> void:
 	if pdata:

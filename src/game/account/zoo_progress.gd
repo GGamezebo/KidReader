@@ -116,6 +116,31 @@ func review_in_zone(zone: ZoneData) -> LevelData:
 	return best
 
 
+## Stars of all levels + festivals (park decorations open by this total).
+func total_stars() -> int:
+	var n := 0
+	if pdata:
+		for v in pdata.level_stars.values():
+			n += int(v)
+		for v in pdata.festival_stars.values():
+			n += int(v)
+	return n
+
+
+func is_decor_open(item: DecorItem) -> bool:
+	return item != null and total_stars() >= item.stars
+
+
+## decor_id -> Vector2(x px, y share of map height) for decorations on the map.
+func placed_decor() -> Dictionary:
+	var out := {}
+	if pdata:
+		for id in pdata.decor_placed:
+			var v: Array = pdata.decor_placed[id]
+			out[id] = Vector2(float(v[0]), float(v[1]))
+	return out
+
+
 func total_cleared() -> int:
 	var n := 0
 	if catalog:

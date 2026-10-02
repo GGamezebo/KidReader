@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/zoo_map/decor_slot.gd" id="1"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/pill.tres" id="2"]
+
+[sub_resource type="LabelSettings" id="Glyph"]
+font_size = 54
+
+[sub_resource type="LabelSettings" id="Stars"]
+font_size = 20
+font_color = Color(0.239, 0.173, 0.161, 1)
+
+[node name="DecorSlot" type="Control" node_paths=PackedStringArray("stars_label", "placed_mark", "glyph_label")]
+custom_minimum_size = Vector2(100, 112)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 112.0
+script = ExtResource("1")
+stars_label = NodePath("Stars")
+placed_mark = NodePath("Placed")
+glyph_label = NodePath("Glyph")
+
+[node name="Bg" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2")
+
+[node name="Glyph" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "🌷"
+label_settings = SubResource("Glyph")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stars" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -30.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "⭐ 3"
+label_settings = SubResource("Stars")
+horizontal_alignment = 1
+
+[node name="Placed" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.36, 0.62, 0.33, 1)
+theme_override_font_sizes/font_size = 22
+text = "✔"
+horizontal_alignment = 1

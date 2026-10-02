@@ -27,7 +27,7 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 | `main.tscn` → `src/game/main.gd` | HFSM bootstrap host |
 | `src/game/scenes/` | Screens: `app_root`, `menu` (zoo map ⇄ zone, album), `game` (level), `festival` (zone reading exam) |
 | `src/features/` | Isolated gameplay features |
-| `src/common/` | Shared Resources (`LevelData`, `ZoneData`, `RegionData`, `LevelsCatalog`, `UserSettings`) |
+| `src/common/` | Shared Resources (`LevelData`, `ZoneData`, `RegionData`, `LevelsCatalog`, `DecorCatalog`, `UserSettings`) |
 | `src/ui/` | Shared UI: parental gate, icon button, loading screen, `PhotoSticker`, `SignPlate`, `DragScroll`, `styles/` |
 | `src/levels/` | Generated campaign: `level_<id>.tres`, `zones/`, `regions/` |
 | `src/game/account/` | `PData`, `ZooProgress` (unlock queries), `ProgressController`, `SaveManager` |
