@@ -8,6 +8,7 @@ level_id = 1802
 animal_id = "shark"
 animal_display_name = "Акула"
 word = "АКУЛА"
+emoji = "🦈"
 parts = PackedStringArray("А", "К", "У", "Л", "А")
 show_ghost_hints = false
 difficulty = 3

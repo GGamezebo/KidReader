@@ -8,6 +8,7 @@ level_id = 301
 animal_id = "crayfish"
 animal_display_name = "Рак"
 word = "РАК"
+emoji = "🦞"
 parts = PackedStringArray("Р", "А", "К")
 show_ghost_hints = true
 difficulty = 1

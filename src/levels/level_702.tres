@@ -8,6 +8,7 @@ level_id = 702
 animal_id = "eagle"
 animal_display_name = "Орёл"
 word = "ОРЁЛ"
+emoji = "🦅"
 parts = PackedStringArray("О", "Р", "Ё", "Л")
 show_ghost_hints = true
 difficulty = 1

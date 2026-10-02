@@ -8,6 +8,7 @@ level_id = 1105
 animal_id = "macaque"
 animal_display_name = "Макака"
 word = "МАКАКА"
+emoji = "🐵"
 parts = PackedStringArray("М", "А", "К", "А", "К", "А")
 show_ghost_hints = false
 difficulty = 2

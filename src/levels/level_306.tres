@@ -8,6 +8,7 @@ level_id = 306
 animal_id = "swan"
 animal_display_name = "Лебедь"
 word = "ЛЕБЕДЬ"
+emoji = "🦢"
 parts = PackedStringArray("Л", "Е", "Б", "Е", "Д", "Ь")
 show_ghost_hints = true
 difficulty = 1

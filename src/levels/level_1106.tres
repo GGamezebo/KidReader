@@ -8,6 +8,7 @@ level_id = 1106
 animal_id = "orangutan"
 animal_display_name = "Орангутан"
 word = "ОРАНГУТАН"
+emoji = "🦧"
 parts = PackedStringArray("О", "Р", "А", "Н", "Г", "У", "Т", "А", "Н")
 show_ghost_hints = false
 difficulty = 2

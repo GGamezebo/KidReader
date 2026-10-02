@@ -8,6 +8,7 @@ level_id = 604
 animal_id = "badger"
 animal_display_name = "Барсук"
 word = "БАРСУК"
+emoji = "🦡"
 parts = PackedStringArray("Б", "А", "Р", "С", "У", "К")
 show_ghost_hints = true
 difficulty = 1

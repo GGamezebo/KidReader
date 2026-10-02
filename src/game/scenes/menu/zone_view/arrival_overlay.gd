@@ -34,7 +34,7 @@ func play(level: LevelData, target: PhotoSticker) -> void:
 	for child in fx_host.get_children():
 		child.queue_free()
 	target.modulate.a = 0.0
-	sticker.setup(level.animal_texture, PhotoSticker.State.FROST)
+	sticker.setup(level.animal_texture, PhotoSticker.State.FROST, level.emoji)
 	sticker.scale = Vector2.ONE
 	var land := Vector2((size.x - carrier.size.x) * 0.5, size.y * 0.06)
 	carrier.position = Vector2(land.x, -carrier.size.y)

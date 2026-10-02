@@ -8,6 +8,7 @@ level_id = 1305
 animal_id = "echidna"
 animal_display_name = "Ехидна"
 word = "ЕХИДНА"
+emoji = "🦔"
 parts = PackedStringArray("Е", "Х", "И", "Д", "Н", "А")
 show_ghost_hints = false
 difficulty = 2

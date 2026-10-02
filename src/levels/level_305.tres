@@ -8,6 +8,7 @@ level_id = 305
 animal_id = "heron"
 animal_display_name = "Цапля"
 word = "ЦАПЛЯ"
+emoji = "🪶"
 parts = PackedStringArray("Ц", "А", "П", "Л", "Я")
 show_ghost_hints = true
 difficulty = 1

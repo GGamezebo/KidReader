@@ -8,6 +8,7 @@ level_id = 1201
 animal_id = "toucan"
 animal_display_name = "Тукан"
 word = "ТУКАН"
+emoji = "🐦"
 parts = PackedStringArray("Т", "У", "К", "А", "Н")
 show_ghost_hints = true
 difficulty = 2

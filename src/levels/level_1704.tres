@@ -8,6 +8,7 @@ level_id = 1704
 animal_id = "moray"
 animal_display_name = "Мурена"
 word = "МУРЕНА"
+emoji = "🐍"
 parts = PackedStringArray("М", "У", "Р", "Е", "Н", "А")
 show_ghost_hints = false
 difficulty = 3

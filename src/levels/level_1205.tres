@@ -8,6 +8,7 @@ level_id = 1205
 animal_id = "parrot"
 animal_display_name = "Попугай"
 word = "ПОПУГАЙ"
+emoji = "🦜"
 parts = PackedStringArray("П", "О", "П", "У", "Г", "А", "Й")
 show_ghost_hints = false
 difficulty = 2

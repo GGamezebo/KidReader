@@ -9,6 +9,7 @@ level_id = 1102
 animal_id = "panda"
 animal_display_name = "Панда"
 word = "ПАНДА"
+emoji = "🐼"
 parts = PackedStringArray("П", "А", "Н", "Д", "А")
 animal_texture = ExtResource("2")
 show_ghost_hints = false

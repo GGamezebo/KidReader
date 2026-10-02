@@ -8,6 +8,7 @@ level_id = 1603
 animal_id = "saiga"
 animal_display_name = "Сайга"
 word = "САЙГА"
+emoji = "🐐"
 parts = PackedStringArray("С", "А", "Й", "Г", "А")
 show_ghost_hints = false
 difficulty = 3

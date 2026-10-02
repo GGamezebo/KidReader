@@ -8,6 +8,7 @@ level_id = 601
 animal_id = "lynx"
 animal_display_name = "Рысь"
 word = "РЫСЬ"
+emoji = "🐈"
 parts = PackedStringArray("Р", "Ы", "С", "Ь")
 show_ghost_hints = true
 difficulty = 1

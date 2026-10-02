@@ -8,6 +8,7 @@ level_id = 1206
 animal_id = "anaconda"
 animal_display_name = "Анаконда"
 word = "АНАКОНДА"
+emoji = "🐍"
 parts = PackedStringArray("А", "Н", "А", "К", "О", "Н", "Д", "А")
 show_ghost_hints = false
 difficulty = 2

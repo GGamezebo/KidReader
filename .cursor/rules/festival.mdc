@@ -1,0 +1,17 @@
+---
+description: Zone festival (reading exam), joy and next-zone unlock
+globs: "src/game/scenes/festival/**/*"
+alwaysApply: false
+---
+
+# Zone festival (reading exam)
+
+- Screen: `src/game/scenes/festival/` (HFSM state `Festival`, `RootEvents.ev_start_festival({zone_id})`)
+- Mechanic «Прочитай и найди»: word on `SignPlate` is **not spoken**; child taps the matching `FestivalCard` (photo or emoji)
+- Rounds: `FestivalRounds` (RefCounted) — one per animal of the zone, shuffled; cards = `ZoneData.festival_cards` (3/4/6);
+  distractors from this + earlier zones; with 4+ cards same-first-letter animals are preferred; look-alike cards (same emoji, no photo) never share a round
+- Mistake: card wiggles + fades; 2 misses in a round → mascot phrase + word sounded out letter by letter. No timer, no failing
+- Stars: `FestivalRounds.stars_for(mistakes)`; saved via `ProgressController.record_festival` → next zone unlocks
+- Joy: `JoyOverlay` (procedural fireworks, medal, stars, dancing stickers, next zone 🔓) → ▶ returns
+  `ev_return_to_menu({unlocked_zone_id})` on first pass (map glides + `ZoneIsland.play_unlock`), else `{zone_id}`
+- Voice lines: `VoiceBank.get_phrase(key)`, keys in `PHRASES` of `tools/generate_voice.py`

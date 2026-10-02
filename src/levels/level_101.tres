@@ -9,6 +9,7 @@ level_id = 101
 animal_id = "cat"
 animal_display_name = "Кот"
 word = "КОТ"
+emoji = "🐱"
 parts = PackedStringArray("К", "О", "Т")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

@@ -3,6 +3,7 @@ extends IScene
 ## Zoo menu host: ZooMap ⇄ ZoneView via WindowStackManager; settings behind the parental gate.
 ## initialize({"zone_id": ..., "arrived_level_id": ...}) reopens that zone (returning from a level)
 ## and, after a first win, plays the animal's arrival there.
+## initialize({"unlocked_zone_id": ...}) — after a first festival: the map glides to the new zone and unlocks it.
 
 @export var root_events: RootEvents
 @export var catalog: LevelsCatalog
@@ -18,6 +19,8 @@ extends IScene
 @export var music_toggle: BaseButton
 @export var sfx_toggle: BaseButton
 @export var settings_close: BaseButton
+@export var voice_bank: VoiceBank
+@export var voice_player: AudioStreamPlayer
 
 var _listener: EventListener = EventListener.new()
 
@@ -32,6 +35,8 @@ func _ready() -> void:
 	sfx_toggle.pressed.connect(_toggle_sfx)
 	zoo_map.ev_zone_selected.connect(_open_zone)
 	zone_view.ev_level_selected.connect(_on_level_selected)
+	zone_view.ev_festival_selected.connect(_on_festival_selected)
+	super._ready()
 
 
 func initialize(data: Dictionary = {}) -> void:
@@ -44,6 +49,10 @@ func initialize(data: Dictionary = {}) -> void:
 	_refresh_audio_glyphs()
 	_listener.add(pdata.changed, _refresh)
 	var progress := _progress()
+	var unlocked := catalog.get_zone(str(data.get("unlocked_zone_id", "")))
+	if unlocked:
+		_play_unlock(unlocked)
+		return
 	var zone := catalog.get_zone(str(data.get("zone_id", "")))
 	if zone and progress.is_zone_unlocked(zone):
 		zoo_map.scroll_to_zone(zone)
@@ -74,6 +83,19 @@ func _refresh(_a = null) -> void:
 func _open_zone(zone: ZoneData) -> void:
 	zone_view.show_zone(zone, _progress())
 	window_stack.open_stacked_window(zone_view)
+
+
+func _play_unlock(zone: ZoneData) -> void:
+	await zoo_map.play_unlock(zone)
+	var phrase := voice_bank.get_phrase("zone_unlocked") if voice_bank else null
+	if phrase and voice_player:
+		voice_player.stream = phrase
+		voice_player.play()
+
+
+func _on_festival_selected(zone: ZoneData) -> void:
+	if root_events:
+		root_events.ev_start_festival.emit({"zone_id": zone.zone_id})
 
 
 func _on_level_selected(level_id: int) -> void:

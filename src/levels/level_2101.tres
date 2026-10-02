@@ -8,6 +8,7 @@ level_id = 2101
 animal_id = "mosasaurus"
 animal_display_name = "Мозазавр"
 word = "МОЗАЗАВР"
+emoji = "🐊"
 parts = PackedStringArray("М", "О", "З", "А", "З", "А", "В", "Р")
 show_ghost_hints = false
 difficulty = 3

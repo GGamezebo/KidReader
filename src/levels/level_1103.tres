@@ -8,6 +8,7 @@ level_id = 1103
 animal_id = "python"
 animal_display_name = "Питон"
 word = "ПИТОН"
+emoji = "🐍"
 parts = PackedStringArray("П", "И", "Т", "О", "Н")
 show_ghost_hints = false
 difficulty = 2

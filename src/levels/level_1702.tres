@@ -8,6 +8,7 @@ level_id = 1702
 animal_id = "stingray"
 animal_display_name = "Скат"
 word = "СКАТ"
+emoji = "🐟"
 parts = PackedStringArray("С", "К", "А", "Т")
 show_ghost_hints = false
 difficulty = 3

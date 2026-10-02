@@ -8,6 +8,7 @@ level_id = 1501
 animal_id = "walrus"
 animal_display_name = "Морж"
 word = "МОРЖ"
+emoji = "🦭"
 parts = PackedStringArray("М", "О", "Р", "Ж")
 show_ghost_hints = false
 difficulty = 3

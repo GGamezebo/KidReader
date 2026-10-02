@@ -8,6 +8,7 @@ level_id = 1801
 animal_id = "whale"
 animal_display_name = "Кит"
 word = "КИТ"
+emoji = "🐋"
 parts = PackedStringArray("К", "И", "Т")
 show_ghost_hints = false
 difficulty = 3

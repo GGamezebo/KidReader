@@ -8,6 +8,7 @@ level_id = 2004
 animal_id = "ankylosaurus"
 animal_display_name = "Анкилозавр"
 word = "АНКИЛОЗАВР"
+emoji = "🦕"
 parts = PackedStringArray("А", "Н", "К", "И", "Л", "О", "З", "А", "В", "Р")
 show_ghost_hints = false
 difficulty = 3

@@ -8,6 +8,7 @@ level_id = 106
 animal_id = "sheep"
 animal_display_name = "Овца"
 word = "ОВЦА"
+emoji = "🐑"
 parts = PackedStringArray("О", "В", "Ц", "А")
 show_ghost_hints = true
 difficulty = 1

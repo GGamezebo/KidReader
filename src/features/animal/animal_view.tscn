@@ -19,7 +19,7 @@ width = 256
 height = 256
 fill_to = Vector2(0, 1)
 
-[node name="AnimalView" type="Control" node_paths=PackedStringArray("photo", "sparkles")]
+[node name="AnimalView" type="Control" node_paths=PackedStringArray("photo", "sparkles", "placeholder_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,6 +30,7 @@ mouse_filter = 2
 script = ExtResource("1")
 photo = NodePath("Photo")
 sparkles = NodePath("Sparkles")
+placeholder_label = NodePath("PlaceholderGlyph")
 blur_material = SubResource("BlurMat")
 placeholder_texture = SubResource("PlaceholderTexture")
 
@@ -44,6 +45,22 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 6
 material = SubResource("BlurMat")
+
+[node name="PlaceholderGlyph" type="Label" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 260
+text = "🐾"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Sparkles" type="Control" parent="."]
 layout_mode = 1

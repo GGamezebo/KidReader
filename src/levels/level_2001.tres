@@ -8,6 +8,7 @@ level_id = 2001
 animal_id = "raptor"
 animal_display_name = "Раптор"
 word = "РАПТОР"
+emoji = "🦖"
 parts = PackedStringArray("Р", "А", "П", "Т", "О", "Р")
 show_ghost_hints = false
 difficulty = 3

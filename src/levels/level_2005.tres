@@ -8,6 +8,7 @@ level_id = 2005
 animal_id = "triceratops"
 animal_display_name = "Трицератопс"
 word = "ТРИЦЕРАТОПС"
+emoji = "🦕"
 parts = PackedStringArray("Т", "Р", "И", "Ц", "Е", "Р", "А", "Т", "О", "П", "С")
 show_ghost_hints = false
 difficulty = 3

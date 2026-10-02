@@ -8,6 +8,7 @@ level_id = 1204
 animal_id = "sloth"
 animal_display_name = "Ленивец"
 word = "ЛЕНИВЕЦ"
+emoji = "🦥"
 parts = PackedStringArray("Л", "Е", "Н", "И", "В", "Е", "Ц")
 show_ghost_hints = false
 difficulty = 2

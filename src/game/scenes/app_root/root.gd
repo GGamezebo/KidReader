@@ -14,6 +14,7 @@ var _listener: EventListener = EventListener.new()
 func initialize(_data: Dictionary) -> void:
 	_listener.add(root_events.ev_start_level, _on_ev_start_level)
 	_listener.add(root_events.ev_return_to_menu, _on_ev_return_to_menu)
+	_listener.add(root_events.ev_start_festival, _on_ev_start_festival)
 	if user_settings:
 		user_settings.load_from_disk()
 		_apply_audio_buses()
@@ -33,6 +34,10 @@ func _on_ev_start_level(data: Dictionary) -> void:
 
 func _on_ev_return_to_menu(data: Dictionary = {}) -> void:
 	add_event("ev.open_menu", data)
+
+
+func _on_ev_start_festival(data: Dictionary) -> void:
+	add_event("ev.start_festival", data)
 
 
 func _apply_audio_buses(_a = null) -> void:

@@ -10,6 +10,8 @@ extends Resource
 ## Letters in correct order (no syllables, no distractors).
 @export var parts: PackedStringArray = PackedStringArray(["Б", "Ы", "К"])
 @export var animal_texture: Texture2D
+## Placeholder picture while there is no photo (generated from the content table).
+@export var emoji: String = "🐾"
 ## Optional prefilled slot indices (rare / tutorial).
 @export var revealed_indices: PackedInt32Array = PackedInt32Array()
 @export var show_ghost_hints: bool = true

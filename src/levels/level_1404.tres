@@ -8,6 +8,7 @@ level_id = 1404
 animal_id = "iguana"
 animal_display_name = "Игуана"
 word = "ИГУАНА"
+emoji = "🦎"
 parts = PackedStringArray("И", "Г", "У", "А", "Н", "А")
 show_ghost_hints = false
 difficulty = 2

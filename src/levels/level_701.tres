@@ -8,6 +8,7 @@ level_id = 701
 animal_id = "yak"
 animal_display_name = "Як"
 word = "ЯК"
+emoji = "🐃"
 parts = PackedStringArray("Я", "К")
 show_ghost_hints = true
 difficulty = 1

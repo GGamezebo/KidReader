@@ -8,6 +8,7 @@ level_id = 602
 animal_id = "hare"
 animal_display_name = "Заяц"
 word = "ЗАЯЦ"
+emoji = "🐇"
 parts = PackedStringArray("З", "А", "Я", "Ц")
 show_ghost_hints = true
 difficulty = 1

@@ -8,6 +8,7 @@ level_id = 1805
 animal_id = "orca"
 animal_display_name = "Касатка"
 word = "КАСАТКА"
+emoji = "🐋"
 parts = PackedStringArray("К", "А", "С", "А", "Т", "К", "А")
 show_ghost_hints = false
 difficulty = 3

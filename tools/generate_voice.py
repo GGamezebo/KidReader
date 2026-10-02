@@ -36,6 +36,7 @@ import soundfile as sf
 ROOT = Path(__file__).resolve().parent.parent
 LETTERS_DIR = ROOT / "assets" / "audio" / "voice" / "letters"
 WORDS_DIR = ROOT / "assets" / "audio" / "voice" / "words"
+PHRASES_DIR = ROOT / "assets" / "audio" / "voice" / "phrases"
 LEVELS_DIR = ROOT / "src" / "levels"
 BANK_PATH = ROOT / "src" / "features" / "sfx" / "voice_bank.tres"
 
@@ -70,6 +71,15 @@ LETTER_TEXT: dict[str, tuple[str, str]] = {
     # signs have no sound — say their names
     "Ъ": ("твёрдый знак", "-15%"), "Ь": ("мягкий знак", "-15%"),
 }
+
+# Mascot lines: key (used by code via VoiceBank.get_phrase) -> text.
+PHRASES = {
+    "festival_intro": "Праздник! Прочитай слово и найди зверя!",
+    "festival_try_again": "Почти! Прочитай ещё раз.",
+    "festival_win": "Ура! Ты прочитал все слова!",
+    "zone_unlocked": "Новая зона открыта! Пойдём знакомиться!",
+}
+PHRASE_RATE = "-15%"
 
 # Whole words: slow, cheerful ("!" gives a lively, praising intonation).
 WORD_RATE = "-30%"
@@ -125,9 +135,9 @@ def res_path(p: Path) -> str:
     return "res://" + p.relative_to(ROOT).as_posix()
 
 
-def write_bank(letters: dict[str, Path], words: dict[str, Path]) -> None:
+def write_bank(letters: dict[str, Path], words: dict[str, Path], phrases: dict[str, Path]) -> None:
     ext, ids = [], {}
-    for p in list(letters.values()) + list(words.values()):
+    for p in list(letters.values()) + list(words.values()) + list(phrases.values()):
         ids[p] = f"{len(ids) + 2}"
         ext.append(f'[ext_resource type="AudioStream" path="{res_path(p)}" id="{ids[p]}"]')
 
@@ -144,6 +154,7 @@ def write_bank(letters: dict[str, Path], words: dict[str, Path]) -> None:
         'script = ExtResource("1")',
         f"letters = Dictionary[String, AudioStream]({{{dict_body(letters)}}})",
         f"words = Dictionary[String, AudioStream]({{{dict_body(words)}}})",
+        f"phrases = Dictionary[String, AudioStream]({{{dict_body(phrases)}}})",
         "",
     ])
     BANK_PATH.write_text(text, encoding="utf-8")
@@ -173,8 +184,20 @@ async def run(voice: str, only: set[str] | None) -> None:
         write(path, a, sr)
         print(f"word {w} <- '{text}' {WORD_RATE}  {a.size * 1000 // sr} ms")
 
+    phrases: dict[str, Path] = {}
+    for key, text in PHRASES.items():
+        path = PHRASES_DIR / f"{key}.ogg"
+        phrases[key] = path
+        if only is not None and key.upper() not in only:
+            continue
+        a, sr = await tts(text, voice, PHRASE_RATE)
+        a = soften(a, sr)
+        write(path, a, sr)
+        print(f"phrase {key} <- '{text}'  {a.size * 1000 // sr} ms")
+
     write_bank({k: v for k, v in letters.items() if v.exists()},
-               {k: v for k, v in words.items() if v.exists()})
+               {k: v for k, v in words.items() if v.exists()},
+               {k: v for k, v in phrases.items() if v.exists()})
     print(f"Wrote {BANK_PATH.relative_to(ROOT)}")
 
 

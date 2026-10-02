@@ -8,6 +8,7 @@ level_id = 2105
 animal_id = "pterodactyl"
 animal_display_name = "Птеродактиль"
 word = "ПТЕРОДАКТИЛЬ"
+emoji = "🦅"
 parts = PackedStringArray("П", "Т", "Е", "Р", "О", "Д", "А", "К", "Т", "И", "Л", "Ь")
 show_ghost_hints = false
 difficulty = 3

@@ -8,6 +8,7 @@ level_id = 2103
 animal_id = "plesiosaurus"
 animal_display_name = "Плезиозавр"
 word = "ПЛЕЗИОЗАВР"
+emoji = "🦕"
 parts = PackedStringArray("П", "Л", "Е", "З", "И", "О", "З", "А", "В", "Р")
 show_ghost_hints = false
 difficulty = 3

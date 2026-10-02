@@ -8,6 +8,7 @@ level_id = 1803
 animal_id = "tuna"
 animal_display_name = "Тунец"
 word = "ТУНЕЦ"
+emoji = "🐟"
 parts = PackedStringArray("Т", "У", "Н", "Е", "Ц")
 show_ghost_hints = false
 difficulty = 3

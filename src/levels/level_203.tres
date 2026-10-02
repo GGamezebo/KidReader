@@ -9,6 +9,7 @@ level_id = 203
 animal_id = "owl"
 animal_display_name = "Сова"
 word = "СОВА"
+emoji = "🦉"
 parts = PackedStringArray("С", "О", "В", "А")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

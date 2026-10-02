@@ -8,6 +8,7 @@ level_id = 805
 animal_id = "giraffe"
 animal_display_name = "Жираф"
 word = "ЖИРАФ"
+emoji = "🦒"
 parts = PackedStringArray("Ж", "И", "Р", "А", "Ф")
 show_ghost_hints = false
 difficulty = 2

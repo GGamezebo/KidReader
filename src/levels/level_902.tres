@@ -8,6 +8,7 @@ level_id = 902
 animal_id = "fennec"
 animal_display_name = "Фенек"
 word = "ФЕНЕК"
+emoji = "🦊"
 parts = PackedStringArray("Ф", "Е", "Н", "Е", "К")
 show_ghost_hints = false
 difficulty = 2

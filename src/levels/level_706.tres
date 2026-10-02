@@ -8,6 +8,7 @@ level_id = 706
 animal_id = "ram"
 animal_display_name = "Баран"
 word = "БАРАН"
+emoji = "🐏"
 parts = PackedStringArray("Б", "А", "Р", "А", "Н")
 show_ghost_hints = true
 difficulty = 1

@@ -8,6 +8,7 @@ level_id = 401
 animal_id = "goose"
 animal_display_name = "Гусь"
 word = "ГУСЬ"
+emoji = "🪿"
 parts = PackedStringArray("Г", "У", "С", "Ь")
 show_ghost_hints = true
 difficulty = 1

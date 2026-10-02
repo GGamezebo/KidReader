@@ -8,6 +8,7 @@ level_id = 1902
 animal_id = "starfish"
 animal_display_name = "Звезда"
 word = "ЗВЕЗДА"
+emoji = "⭐"
 parts = PackedStringArray("З", "В", "Е", "З", "Д", "А")
 show_ghost_hints = false
 difficulty = 3

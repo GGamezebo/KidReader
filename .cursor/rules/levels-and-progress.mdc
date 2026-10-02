@@ -11,7 +11,7 @@ alwaysApply: false
 - Files: `src/levels/level_<id>.tres`, `src/levels/zones/zone_<zone_id>.tres`, `src/levels/regions/region_<id>.tres`, `src/common/levels_catalog.tres`
 - **All of it is generated** by `tools/gen_zoo_content.py` from one table — edit the table, rerun, then rerun `tools/generate_voice.py`. Never hand-edit generated `.tres`
 - `level_id = zone_number * 100 + index` (101…2105); `zone_id` is a string ("farm"). Both are save keys
-- Photo: `assets/animals/animal_<animal_id>.jpg` is linked automatically if present; no photo → `AnimalView.placeholder_texture`
+- Photo: `assets/animals/animal_<animal_id>.jpg` is linked automatically if present; until then `LevelData.emoji` (from `EMOJI` in the generator) is the placeholder everywhere
 - Progress: `PData` (`level_stars`, `festival_stars`, `total_animals_saved`). Unlocks are **derived**, never stored
 - Unlock rules: `ZooProgress` (RefCounted): zone 1 open; zone N opens after zone N-1 festival; levels inside a zone open in order; festival needs a full zone
 - Mutations: `ProgressController` only (`record_win`, `record_festival`)

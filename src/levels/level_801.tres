@@ -9,6 +9,7 @@ level_id = 801
 animal_id = "lion"
 animal_display_name = "Лев"
 word = "ЛЕВ"
+emoji = "🦁"
 parts = PackedStringArray("Л", "Е", "В")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

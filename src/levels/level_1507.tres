@@ -8,6 +8,7 @@ level_id = 1507
 animal_id = "albatross"
 animal_display_name = "Альбатрос"
 word = "АЛЬБАТРОС"
+emoji = "🕊️"
 parts = PackedStringArray("А", "Л", "Ь", "Б", "А", "Т", "Р", "О", "С")
 show_ghost_hints = false
 difficulty = 3

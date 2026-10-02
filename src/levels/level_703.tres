@@ -8,6 +8,7 @@ level_id = 703
 animal_id = "snow_leopard"
 animal_display_name = "Барс"
 word = "БАРС"
+emoji = "🐆"
 parts = PackedStringArray("Б", "А", "Р", "С")
 show_ghost_hints = true
 difficulty = 1

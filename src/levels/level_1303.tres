@@ -8,6 +8,7 @@ level_id = 1303
 animal_id = "dingo"
 animal_display_name = "Динго"
 word = "ДИНГО"
+emoji = "🐕"
 parts = PackedStringArray("Д", "И", "Н", "Г", "О")
 show_ghost_hints = false
 difficulty = 2

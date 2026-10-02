@@ -39,7 +39,9 @@ func _ready() -> void:
 	_refresh()
 
 
-func setup(p_texture: Texture2D, p_state: State) -> void:
+## `glyph` is shown instead of the photo while there is none (e.g. the animal's emoji).
+func setup(p_texture: Texture2D, p_state: State, glyph_text: String = "🐾") -> void:
+	placeholder_glyph = glyph_text
 	texture = p_texture
 	state = p_state
 
@@ -49,8 +51,11 @@ func set_frost(amount: float) -> void:
 	var mat := photo.material as ShaderMaterial if photo else null
 	if mat:
 		mat.set_shader_parameter("blur_strength", amount)
-	if question and state == State.FROST:
-		question.modulate.a = clampf(amount * 2.0 - 1.0, 0.0, 1.0)
+	if state == State.FROST:
+		if question:
+			question.modulate.a = clampf(amount * 2.0 - 1.0, 0.0, 1.0)
+		if glyph:
+			glyph.modulate.a = 1.0 - amount
 
 
 func _layout() -> void:
@@ -87,5 +92,7 @@ func _refresh() -> void:
 		question.visible = state != State.FILLED
 		question.modulate.a = 1.0
 	if glyph:
-		glyph.visible = state == State.FILLED and texture == null
+		# FROST keeps the glyph hidden until set_frost() clears it (reveal animations).
+		glyph.visible = state != State.EMPTY and texture == null
+		glyph.modulate.a = 1.0 if state == State.FILLED else 0.0
 		glyph.text = placeholder_glyph

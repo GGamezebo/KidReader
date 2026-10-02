@@ -8,6 +8,7 @@ level_id = 1502
 animal_id = "nerpa"
 animal_display_name = "Нерпа"
 word = "НЕРПА"
+emoji = "🦭"
 parts = PackedStringArray("Н", "Е", "Р", "П", "А")
 show_ghost_hints = false
 difficulty = 3

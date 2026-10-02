@@ -8,6 +8,7 @@ level_id = 903
 animal_id = "camel"
 animal_display_name = "Верблюд"
 word = "ВЕРБЛЮД"
+emoji = "🐫"
 parts = PackedStringArray("В", "Е", "Р", "Б", "Л", "Ю", "Д")
 show_ghost_hints = false
 difficulty = 2

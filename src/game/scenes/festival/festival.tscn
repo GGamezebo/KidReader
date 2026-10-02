@@ -1,0 +1,278 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/festival/festival.gd" id="1"]
+[ext_resource type="Resource" path="res://src/game/scenes/app_root/root_events.tres" id="2"]
+[ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="3"]
+[ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="4"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/festival/festival_card.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/festival/round_dot.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://src/ui/sign_plate/sign_plate.tscn" id="8"]
+[ext_resource type="Script" path="res://src/game/scenes/festival/joy_overlay.gd" id="9"]
+[ext_resource type="PackedScene" path="res://src/ui/photo_sticker/photo_sticker.tscn" id="10"]
+[ext_resource type="StyleBox" path="res://src/game/scenes/festival/medal.tres" id="11"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/pill.tres" id="12"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/badge_play.tres" id="13"]
+
+[sub_resource type="Gradient" id="BgGrad"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 0.957, 0.91, 1, 1, 0.824, 0.604, 1)
+
+[sub_resource type="GradientTexture2D" id="BgTex"]
+gradient = SubResource("BgGrad")
+width = 16
+height = 256
+fill_to = Vector2(0, 1)
+
+[sub_resource type="LabelSettings" id="Star"]
+font_size = 76
+font_color = Color(1, 1, 1, 1)
+outline_size = 8
+outline_color = Color(0.79, 0.54, 0.11, 1)
+
+[sub_resource type="LabelSettings" id="Pill"]
+font_size = 28
+font_color = Color(0.239, 0.173, 0.161, 1)
+
+[sub_resource type="LabelSettings" id="MedalIcon"]
+font_size = 110
+
+[node name="Festival" type="Control" node_paths=PackedStringArray("home_button", "bunting", "dots_row", "sign_plate", "cards_row", "joy", "voice_player")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+root_events = ExtResource("2")
+catalog = ExtResource("3")
+voice_bank = ExtResource("4")
+card_scene = ExtResource("5")
+dot_scene = ExtResource("6")
+home_button = NodePath("HomeButton")
+bunting = NodePath("Bunting")
+dots_row = NodePath("Dots")
+sign_plate = NodePath("SignBox/Sign")
+cards_row = NodePath("Cards")
+joy = NodePath("Joy")
+voice_player = NodePath("VoicePlayer")
+
+[node name="Bg" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("BgTex")
+expand_mode = 1
+
+[node name="Bunting" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 80.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Dots" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 86.0
+offset_right = 300.0
+offset_bottom = 136.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="SignBox" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 150.0
+offset_bottom = 300.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Sign" parent="SignBox" instance=ExtResource("8")]
+layout_mode = 2
+font_size = 92
+fit_letters = 8
+
+[node name="Cards" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 320.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 34
+alignment = 1
+
+[node name="HomeButton" parent="." instance=ExtResource("7")]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 112.0
+offset_bottom = 108.0
+
+[node name="Joy" type="Control" parent="." node_paths=PackedStringArray("fireworks", "medal", "medal_icon", "stars", "dancers", "next_zone", "next_zone_label", "continue_button")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9")
+sticker_scene = ExtResource("10")
+fireworks = NodePath("Fireworks")
+medal = NodePath("Medal")
+medal_icon = NodePath("Medal/Icon")
+stars = [NodePath("Stars/S1"), NodePath("Stars/S2"), NodePath("Stars/S3")]
+dancers = NodePath("Dancers")
+next_zone = NodePath("NextZone")
+next_zone_label = NodePath("NextZone/Label")
+continue_button = NodePath("Continue")
+
+[node name="Dim" type="ColorRect" parent="Joy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.95, 0.84, 0.94)
+
+[node name="Fireworks" type="Control" parent="Joy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Medal" type="Panel" parent="Joy"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -105.0
+offset_top = 40.0
+offset_right = 105.0
+offset_bottom = 250.0
+grow_horizontal = 2
+pivot_offset = Vector2(105, 105)
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("11")
+
+[node name="Icon" type="Label" parent="Joy/Medal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "🌲"
+label_settings = SubResource("MedalIcon")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stars" type="HBoxContainer" parent="Joy"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 250.0
+offset_right = 160.0
+offset_bottom = 350.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="S1" type="Label" parent="Joy/Stars"]
+layout_mode = 2
+text = "★"
+label_settings = SubResource("Star")
+
+[node name="S2" type="Label" parent="Joy/Stars"]
+layout_mode = 2
+text = "★"
+label_settings = SubResource("Star")
+
+[node name="S3" type="Label" parent="Joy/Stars"]
+layout_mode = 2
+text = "★"
+label_settings = SubResource("Star")
+
+[node name="Dancers" type="HBoxContainer" parent="Joy"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 390.0
+offset_bottom = 520.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="NextZone" type="PanelContainer" parent="Joy"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("12")
+
+[node name="Label" type="Label" parent="Joy/NextZone"]
+layout_mode = 2
+text = "🦆 Пруд и речка  🔓"
+label_settings = SubResource("Pill")
+horizontal_alignment = 1
+
+[node name="Continue" type="Button" parent="Joy"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -164.0
+offset_top = -164.0
+offset_right = -36.0
+offset_bottom = -36.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(64, 64)
+focus_mode = 0
+theme_override_styles/normal = ExtResource("13")
+theme_override_styles/hover = ExtResource("13")
+theme_override_styles/pressed = ExtResource("13")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 54
+theme_override_styles/focus = ExtResource("13")
+text = "▶"
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Voice"

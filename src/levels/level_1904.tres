@@ -8,6 +8,7 @@ level_id = 1904
 animal_id = "shrimp"
 animal_display_name = "Креветка"
 word = "КРЕВЕТКА"
+emoji = "🦐"
 parts = PackedStringArray("К", "Р", "Е", "В", "Е", "Т", "К", "А")
 show_ghost_hints = false
 difficulty = 3

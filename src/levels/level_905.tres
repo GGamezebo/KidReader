@@ -8,6 +8,7 @@ level_id = 905
 animal_id = "scorpion"
 animal_display_name = "Скорпион"
 word = "СКОРПИОН"
+emoji = "🦂"
 parts = PackedStringArray("С", "К", "О", "Р", "П", "И", "О", "Н")
 show_ghost_hints = false
 difficulty = 2

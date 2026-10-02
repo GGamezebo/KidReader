@@ -8,6 +8,7 @@ level_id = 804
 animal_id = "zebra"
 animal_display_name = "Зебра"
 word = "ЗЕБРА"
+emoji = "🦓"
 parts = PackedStringArray("З", "Е", "Б", "Р", "А")
 show_ghost_hints = false
 difficulty = 2

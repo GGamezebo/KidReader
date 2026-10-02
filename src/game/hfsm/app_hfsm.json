@@ -5,12 +5,17 @@
 			"Menu": {
 				"scene": { "id": "menu", "async_loading": false },
 				"enter": ["ev.open_menu"],
-				"leave": ["ev.start_level"]
+				"leave": ["ev.start_level", "ev.start_festival"]
 			},
 			"Level": {
 				"scene": { "id": "game", "async_loading": false },
 				"enter": ["ev.start_level"],
 				"leave": ["ev.open_menu", "ev.start_level"]
+			},
+			"Festival": {
+				"scene": { "id": "festival", "async_loading": false },
+				"enter": ["ev.start_festival"],
+				"leave": ["ev.open_menu"]
 			}
 		}
 	}

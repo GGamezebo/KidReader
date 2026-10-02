@@ -8,6 +8,7 @@ level_id = 1004
 animal_id = "chimpanzee"
 animal_display_name = "Шимпанзе"
 word = "ШИМПАНЗЕ"
+emoji = "🐒"
 parts = PackedStringArray("Ш", "И", "М", "П", "А", "Н", "З", "Е")
 show_ghost_hints = false
 difficulty = 2

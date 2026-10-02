@@ -8,6 +8,7 @@ level_id = 503
 animal_id = "fly"
 animal_display_name = "Муха"
 word = "МУХА"
+emoji = "🪰"
 parts = PackedStringArray("М", "У", "Х", "А")
 show_ghost_hints = true
 difficulty = 1

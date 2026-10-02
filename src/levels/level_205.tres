@@ -8,6 +8,7 @@ level_id = 205
 animal_id = "moose"
 animal_display_name = "Лось"
 word = "ЛОСЬ"
+emoji = "🫎"
 parts = PackedStringArray("Л", "О", "С", "Ь")
 show_ghost_hints = true
 difficulty = 1

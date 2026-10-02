@@ -8,6 +8,7 @@ level_id = 1403
 animal_id = "gecko"
 animal_display_name = "Геккон"
 word = "ГЕККОН"
+emoji = "🦎"
 parts = PackedStringArray("Г", "Е", "К", "К", "О", "Н")
 show_ghost_hints = false
 difficulty = 2

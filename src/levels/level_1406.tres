@@ -8,6 +8,7 @@ level_id = 1406
 animal_id = "flamingo"
 animal_display_name = "Фламинго"
 word = "ФЛАМИНГО"
+emoji = "🦩"
 parts = PackedStringArray("Ф", "Л", "А", "М", "И", "Н", "Г", "О")
 show_ghost_hints = false
 difficulty = 2

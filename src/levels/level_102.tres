@@ -9,6 +9,7 @@ level_id = 102
 animal_id = "dog"
 animal_display_name = "Пёс"
 word = "ПЁС"
+emoji = "🐶"
 parts = PackedStringArray("П", "Ё", "С")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

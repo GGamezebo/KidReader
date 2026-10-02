@@ -164,7 +164,7 @@ func _build_level() -> void:
 		celebration.visible = false
 
 	if animal_view:
-		animal_view.setup(level_data.animal_id, level_data.animal_display_name, level_data.animal_texture)
+		animal_view.setup(level_data.animal_id, level_data.animal_display_name, level_data.animal_texture, level_data.emoji)
 
 	_cell_size = _fit_cell_size(level_data.parts.size())
 	var revealed := {}

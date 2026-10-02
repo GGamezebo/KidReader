@@ -9,6 +9,7 @@ level_id = 202
 animal_id = "fox"
 animal_display_name = "Лиса"
 word = "ЛИСА"
+emoji = "🦊"
 parts = PackedStringArray("Л", "И", "С", "А")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

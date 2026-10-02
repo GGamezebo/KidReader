@@ -8,6 +8,7 @@ level_id = 1202
 animal_id = "jaguar"
 animal_display_name = "Ягуар"
 word = "ЯГУАР"
+emoji = "🐆"
 parts = PackedStringArray("Я", "Г", "У", "А", "Р")
 show_ghost_hints = false
 difficulty = 2

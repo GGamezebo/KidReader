@@ -8,6 +8,7 @@ level_id = 1002
 animal_id = "gorilla"
 animal_display_name = "Горилла"
 word = "ГОРИЛЛА"
+emoji = "🦍"
 parts = PackedStringArray("Г", "О", "Р", "И", "Л", "Л", "А")
 show_ghost_hints = false
 difficulty = 2

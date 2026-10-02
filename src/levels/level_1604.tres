@@ -8,6 +8,7 @@ level_id = 1604
 animal_id = "mammoth"
 animal_display_name = "Мамонт"
 word = "МАМОНТ"
+emoji = "🦣"
 parts = PackedStringArray("М", "А", "М", "О", "Н", "Т")
 show_ghost_hints = false
 difficulty = 3

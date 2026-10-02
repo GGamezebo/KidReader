@@ -8,6 +8,7 @@ level_id = 605
 animal_id = "sable"
 animal_display_name = "Соболь"
 word = "СОБОЛЬ"
+emoji = "🦦"
 parts = PackedStringArray("С", "О", "Б", "О", "Л", "Ь")
 show_ghost_hints = true
 difficulty = 1

@@ -8,6 +8,7 @@ level_id = 802
 animal_id = "elephant"
 animal_display_name = "Слон"
 word = "СЛОН"
+emoji = "🐘"
 parts = PackedStringArray("С", "Л", "О", "Н")
 show_ghost_hints = false
 difficulty = 2

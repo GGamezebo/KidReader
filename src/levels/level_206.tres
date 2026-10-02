@@ -9,6 +9,7 @@ level_id = 206
 animal_id = "deer"
 animal_display_name = "Олень"
 word = "ОЛЕНЬ"
+emoji = "🦌"
 parts = PackedStringArray("О", "Л", "Е", "Н", "Ь")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

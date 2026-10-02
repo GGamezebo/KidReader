@@ -8,6 +8,7 @@ level_id = 1506
 animal_id = "penguin"
 animal_display_name = "Пингвин"
 word = "ПИНГВИН"
+emoji = "🐧"
 parts = PackedStringArray("П", "И", "Н", "Г", "В", "И", "Н")
 show_ghost_hints = false
 difficulty = 3

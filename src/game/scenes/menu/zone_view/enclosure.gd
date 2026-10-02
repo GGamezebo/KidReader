@@ -32,7 +32,7 @@ func setup(p_level: LevelData, p_state: State, enclosure_style: String) -> void:
 		sticker_state = PhotoSticker.State.FROST
 	elif state == State.LOCKED:
 		sticker_state = PhotoSticker.State.EMPTY
-	sticker.setup(level.animal_texture if state != State.LOCKED else null, sticker_state)
+	sticker.setup(level.animal_texture if state != State.LOCKED else null, sticker_state, level.emoji)
 	sticker.rotation_degrees = [-3.0, 2.0, -2.0, 3.0][absi(level.level_id) % 4]
 	fence.style = enclosure_style
 	sign_plate.setup(level.word, state != State.FILLED)

@@ -8,6 +8,7 @@ level_id = 1602
 animal_id = "bison"
 animal_display_name = "Бизон"
 word = "БИЗОН"
+emoji = "🦬"
 parts = PackedStringArray("Б", "И", "З", "О", "Н")
 show_ghost_hints = false
 difficulty = 3

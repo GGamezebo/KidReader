@@ -185,10 +185,10 @@ vertical_alignment = 1
 [node name="Medal" type="Label" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 176.0
-offset_top = 14.0
-offset_right = 246.0
-offset_bottom = 84.0
+offset_left = 186.0
+offset_top = 50.0
+offset_right = 256.0
+offset_bottom = 120.0
 theme_override_font_sizes/font_size = 54
 text = "🏅"
 horizontal_alignment = 1

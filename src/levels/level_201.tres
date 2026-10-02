@@ -9,6 +9,7 @@ level_id = 201
 animal_id = "hedgehog"
 animal_display_name = "Ёж"
 word = "ЁЖ"
+emoji = "🦔"
 parts = PackedStringArray("Ё", "Ж")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

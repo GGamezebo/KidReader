@@ -8,6 +8,7 @@ level_id = 1003
 animal_id = "leopard"
 animal_display_name = "Леопард"
 word = "ЛЕОПАРД"
+emoji = "🐆"
 parts = PackedStringArray("Л", "Е", "О", "П", "А", "Р", "Д")
 show_ghost_hints = false
 difficulty = 2

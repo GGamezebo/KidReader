@@ -8,6 +8,7 @@ level_id = 1504
 animal_id = "seal"
 animal_display_name = "Тюлень"
 word = "ТЮЛЕНЬ"
+emoji = "🦭"
 parts = PackedStringArray("Т", "Ю", "Л", "Е", "Н", "Ь")
 show_ghost_hints = false
 difficulty = 3

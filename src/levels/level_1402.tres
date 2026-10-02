@@ -8,6 +8,7 @@ level_id = 1402
 animal_id = "monitor_lizard"
 animal_display_name = "Варан"
 word = "ВАРАН"
+emoji = "🦎"
 parts = PackedStringArray("В", "А", "Р", "А", "Н")
 show_ghost_hints = false
 difficulty = 2

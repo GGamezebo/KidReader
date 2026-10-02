@@ -8,6 +8,7 @@ level_id = 904
 animal_id = "lizard"
 animal_display_name = "Ящерица"
 word = "ЯЩЕРИЦА"
+emoji = "🦎"
 parts = PackedStringArray("Я", "Щ", "Е", "Р", "И", "Ц", "А")
 show_ghost_hints = false
 difficulty = 2

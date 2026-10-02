@@ -8,6 +8,7 @@ level_id = 1302
 animal_id = "koala"
 animal_display_name = "Коала"
 word = "КОАЛА"
+emoji = "🐨"
 parts = PackedStringArray("К", "О", "А", "Л", "А")
 show_ghost_hints = false
 difficulty = 2

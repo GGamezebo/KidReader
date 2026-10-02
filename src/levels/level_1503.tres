@@ -8,6 +8,7 @@ level_id = 1503
 animal_id = "arctic_fox"
 animal_display_name = "Песец"
 word = "ПЕСЕЦ"
+emoji = "🦊"
 parts = PackedStringArray("П", "Е", "С", "Е", "Ц")
 show_ghost_hints = false
 difficulty = 3

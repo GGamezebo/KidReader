@@ -11,6 +11,6 @@ paths:
 - Entry: `main.tscn` → `main.gd` boots HFSM
 - Config: `src/game/hfsm/app_hfsm.json`
 - Paths: `HfsmScenePaths`
-- Root mounts `app_root`; phases: `menu` / `game`
+- Root mounts `app_root`; phases: `menu` / `game` / `festival` (paths in `HfsmScenePaths` + `main.tscn`)
 - Bridge: `RootEvents.ev_*` → `hfsm.add_event` on **app_root**
 - In-level `GameManager` FSM stays separate from HFSM

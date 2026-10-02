@@ -8,6 +8,7 @@ level_id = 1703
 animal_id = "seahorse"
 animal_display_name = "Конёк"
 word = "КОНЁК"
+emoji = "🐠"
 parts = PackedStringArray("К", "О", "Н", "Ё", "К")
 show_ghost_hints = false
 difficulty = 3

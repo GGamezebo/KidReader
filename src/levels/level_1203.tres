@@ -8,6 +8,7 @@ level_id = 1203
 animal_id = "tapir"
 animal_display_name = "Тапир"
 word = "ТАПИР"
+emoji = "🐖"
 parts = PackedStringArray("Т", "А", "П", "И", "Р")
 show_ghost_hints = false
 difficulty = 2

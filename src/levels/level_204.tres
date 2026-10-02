@@ -8,6 +8,7 @@ level_id = 204
 animal_id = "wolf"
 animal_display_name = "Волк"
 word = "ВОЛК"
+emoji = "🐺"
 parts = PackedStringArray("В", "О", "Л", "К")
 show_ghost_hints = true
 difficulty = 1

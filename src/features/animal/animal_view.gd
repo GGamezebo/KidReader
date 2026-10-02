@@ -8,6 +8,8 @@ extends Control
 @export var blur_material: ShaderMaterial
 ## Shown (under the frost) when a level has no photo yet.
 @export var placeholder_texture: Texture2D
+## Big emoji over the placeholder (revealed with the blur) while the level has no photo.
+@export var placeholder_label: Label
 
 var animal_id: String = "bull"
 var _blur: float = 1.0
@@ -24,11 +26,14 @@ func _ready() -> void:
 	_spawn_ambient_sparkles()
 
 
-func setup(p_animal_id: String, _display_name: String, texture: Texture2D = null) -> void:
+func setup(p_animal_id: String, _display_name: String, texture: Texture2D = null, glyph: String = "") -> void:
 	animal_id = p_animal_id
 	_blur = 1.0
 	if photo:
 		photo.texture = texture if texture else placeholder_texture
+	if placeholder_label:
+		placeholder_label.text = glyph
+		placeholder_label.visible = texture == null and not glyph.is_empty()
 	_apply_blur()
 
 
@@ -57,6 +62,9 @@ func _apply_blur() -> void:
 		return
 	blur_material.set_shader_parameter("blur_strength", _blur)
 	blur_material.set_shader_parameter("frost_amount", lerpf(0.0, 0.55, _blur))
+	if placeholder_label:
+		# Appears only during the final reveal (letters alone bring blur down to 0.35).
+		placeholder_label.modulate.a = clampf(1.0 - _blur / 0.35, 0.0, 1.0)
 
 
 func _spawn_ambient_sparkles() -> void:

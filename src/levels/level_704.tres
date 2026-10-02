@@ -8,6 +8,7 @@ level_id = 704
 animal_id = "llama"
 animal_display_name = "Лама"
 word = "ЛАМА"
+emoji = "🦙"
 parts = PackedStringArray("Л", "А", "М", "А")
 show_ghost_hints = true
 difficulty = 1

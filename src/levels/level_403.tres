@@ -8,6 +8,7 @@ level_id = 403
 animal_id = "turkey"
 animal_display_name = "Индюк"
 word = "ИНДЮК"
+emoji = "🦃"
 parts = PackedStringArray("И", "Н", "Д", "Ю", "К")
 show_ghost_hints = true
 difficulty = 1

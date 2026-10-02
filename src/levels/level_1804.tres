@@ -8,6 +8,7 @@ level_id = 1804
 animal_id = "dolphin"
 animal_display_name = "Дельфин"
 word = "ДЕЛЬФИН"
+emoji = "🐬"
 parts = PackedStringArray("Д", "Е", "Л", "Ь", "Ф", "И", "Н")
 show_ghost_hints = false
 difficulty = 3

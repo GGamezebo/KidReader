@@ -25,7 +25,7 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 | Path | Role |
 |------|------|
 | `main.tscn` → `src/game/main.gd` | HFSM bootstrap host |
-| `src/game/scenes/` | Screens: `app_root`, `menu` (zoo map ⇄ zone), `game` |
+| `src/game/scenes/` | Screens: `app_root`, `menu` (zoo map ⇄ zone), `game` (level), `festival` (zone reading exam) |
 | `src/features/` | Isolated gameplay features |
 | `src/common/` | Shared Resources (`LevelData`, `ZoneData`, `RegionData`, `LevelsCatalog`, `UserSettings`) |
 | `src/ui/` | Shared UI: parental gate, icon button, loading screen, `PhotoSticker`, `SignPlate`, `DragScroll`, `styles/` |
@@ -48,8 +48,8 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 
 ```
 Menu --ev.start_level--> Level
-Level --ev.open_menu {zone_id}--> Menu (reopens that zone)
-Level --ev.start_level--> Level (next / retry remount)
+Level --ev.open_menu {zone_id, arrived_level_id?}--> Menu (zone + arrival)
+Menu --ev.start_festival {zone_id}--> Festival --ev.open_menu {unlocked_zone_id | zone_id}--> Menu
 ```
 
 App phases via HFSM (`src/game/hfsm/app_hfsm.json`). Bridge: `RootEvents` on `app_root` → `hfsm.add_event`. In-level: `GameEvents` + `GameManager` FSM.

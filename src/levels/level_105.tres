@@ -8,6 +8,7 @@ level_id = 105
 animal_id = "horse"
 animal_display_name = "Конь"
 word = "КОНЬ"
+emoji = "🐴"
 parts = PackedStringArray("К", "О", "Н", "Ь")
 show_ghost_hints = true
 difficulty = 1

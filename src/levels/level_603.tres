@@ -8,6 +8,7 @@ level_id = 603
 animal_id = "boar"
 animal_display_name = "Кабан"
 word = "КАБАН"
+emoji = "🐗"
 parts = PackedStringArray("К", "А", "Б", "А", "Н")
 show_ghost_hints = true
 difficulty = 1

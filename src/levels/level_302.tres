@@ -9,6 +9,7 @@ level_id = 302
 animal_id = "frog"
 animal_display_name = "Жаба"
 word = "ЖАБА"
+emoji = "🐸"
 parts = PackedStringArray("Ж", "А", "Б", "А")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

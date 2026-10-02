@@ -10,7 +10,7 @@ paths:
 
 1. Scenes (Menu/Level) — only via `RootEvents`
 2. Full-screen windows — `WindowStackManager` in `menu.tscn`: `ZooMap` (default) ⇄ `ZoneView`; back = `ButtonWindowBack`
-3. Dialogs/overlays (parental gate, settings, `ArrivalOverlay`, later festival joy) — NOT on the window stack
+3. Dialogs/overlays (parental gate, settings, `ArrivalOverlay`) — NOT on the window stack
 
 ## Screens (`src/game/scenes/menu/`)
 
@@ -21,6 +21,8 @@ paths:
 - States come from `ZooProgress` only; components never read PData
 
 ## Game start / return
+
+- Festival: tent tap (full zone) → `ev_start_festival({zone_id})`; return `{unlocked_zone_id}` → map unlock animation + phrase
 
 - Start: `ev_start_level({ "level_id": int })` (or `{ "level_data": LevelData }`)
 - Return: `ev_return_to_menu({ "zone_id": String, "arrived_level_id"?: int })` — level sends its own zone; arrival only after a first win

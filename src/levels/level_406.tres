@@ -8,6 +8,7 @@ level_id = 406
 animal_id = "pigeon"
 animal_display_name = "Голубь"
 word = "ГОЛУБЬ"
+emoji = "🕊️"
 parts = PackedStringArray("Г", "О", "Л", "У", "Б", "Ь")
 show_ghost_hints = true
 difficulty = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/menu.gd" id="1"]
 [ext_resource type="PackedScene" path="res://src/ui/parental_gate/parental_gate.tscn" id="3"]
@@ -11,8 +11,9 @@
 [ext_resource type="Script" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="10"]
 [ext_resource type="Script" path="res://core/lib/window_stack_manager/button_window_back.gd" id="11"]
 [ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="12"]
+[ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="13"]
 
-[node name="Menu" type="Control" node_paths=PackedStringArray("zoo_map", "zone_view", "window_stack", "settings_button", "music_button", "parental_gate", "settings_panel", "music_toggle", "sfx_toggle", "settings_close")]
+[node name="Menu" type="Control" node_paths=PackedStringArray("zoo_map", "zone_view", "window_stack", "settings_button", "music_button", "parental_gate", "settings_panel", "music_toggle", "sfx_toggle", "settings_close", "voice_player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,6 +35,8 @@ settings_panel = NodePath("SettingsPanel")
 music_toggle = NodePath("SettingsPanel/Panel/VBox/MusicToggle")
 sfx_toggle = NodePath("SettingsPanel/Panel/VBox/SfxToggle")
 settings_close = NodePath("SettingsPanel/Panel/VBox/CloseButton")
+voice_bank = ExtResource("13")
+voice_player = NodePath("ZoneView/VoicePlayer")
 
 [node name="ZooMap" parent="." instance=ExtResource("8")]
 layout_mode = 1

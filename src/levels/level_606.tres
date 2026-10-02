@@ -8,6 +8,7 @@ level_id = 606
 animal_id = "bear"
 animal_display_name = "Медведь"
 word = "МЕДВЕДЬ"
+emoji = "🐻"
 parts = PackedStringArray("М", "Е", "Д", "В", "Е", "Д", "Ь")
 show_ghost_hints = true
 difficulty = 1

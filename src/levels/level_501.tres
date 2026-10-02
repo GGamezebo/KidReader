@@ -8,6 +8,7 @@ level_id = 501
 animal_id = "beetle"
 animal_display_name = "Жук"
 word = "ЖУК"
+emoji = "🪲"
 parts = PackedStringArray("Ж", "У", "К")
 show_ghost_hints = true
 difficulty = 1

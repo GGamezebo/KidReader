@@ -8,6 +8,7 @@ level_id = 1005
 animal_id = "chameleon"
 animal_display_name = "Хамелеон"
 word = "ХАМЕЛЕОН"
+emoji = "🦎"
 parts = PackedStringArray("Х", "А", "М", "Е", "Л", "Е", "О", "Н")
 show_ghost_hints = false
 difficulty = 2

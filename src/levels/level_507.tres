@@ -8,6 +8,7 @@ level_id = 507
 animal_id = "butterfly"
 animal_display_name = "Бабочка"
 word = "БАБОЧКА"
+emoji = "🦋"
 parts = PackedStringArray("Б", "А", "Б", "О", "Ч", "К", "А")
 show_ghost_hints = true
 difficulty = 1

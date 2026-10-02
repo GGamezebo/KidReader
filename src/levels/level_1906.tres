@@ -8,6 +8,7 @@ level_id = 1906
 animal_id = "anglerfish"
 animal_display_name = "Удильщик"
 word = "УДИЛЬЩИК"
+emoji = "🐡"
 parts = PackedStringArray("У", "Д", "И", "Л", "Ь", "Щ", "И", "К")
 show_ghost_hints = false
 difficulty = 3

@@ -27,8 +27,8 @@ func _ready() -> void:
 	pressed.connect(_on_pressed)
 
 
-## `photos`: textures of animals already living in the zone (first 3 are shown).
-func setup(p_zone: ZoneData, p_state: State, cleared: int, photos: Array[Texture2D]) -> void:
+## `animals`: animals already living in the zone (first 3 are shown as stickers).
+func setup(p_zone: ZoneData, p_state: State, cleared: int, animals: Array[LevelData]) -> void:
 	zone = p_zone
 	state = p_state
 	body.self_modulate = zone.color
@@ -36,9 +36,12 @@ func setup(p_zone: ZoneData, p_state: State, cleared: int, photos: Array[Texture
 	paws_label.text = "🐾 %d/%d" % [cleared, zone.levels.size()]
 	paws_label.get_parent().visible = state != State.LOCKED
 	for i in stickers.size():
-		var has := i < photos.size()
+		var has := i < animals.size()
 		stickers[i].visible = has or state == State.OPEN
-		stickers[i].setup(photos[i] if has else null, PhotoSticker.State.FILLED if has else PhotoSticker.State.EMPTY)
+		if has:
+			stickers[i].setup(animals[i].animal_texture, PhotoSticker.State.FILLED, animals[i].emoji)
+		else:
+			stickers[i].setup(null, PhotoSticker.State.EMPTY)
 	fog.visible = state == State.LOCKED
 	medal.visible = state == State.DONE
 	badge.visible = state == State.OPEN or state == State.READY
@@ -51,6 +54,26 @@ func wiggle() -> void:
 	var tw := create_tween()
 	for a in [5.0, -4.0, 2.0, 0.0]:
 		tw.tween_property(self, "rotation_degrees", a, 0.07)
+
+
+## Zone just opened by a festival: fog + lock shown, then the lock pops and the fog melts away.
+func play_unlock() -> void:
+	fog.visible = true
+	fog.modulate.a = 1.0
+	var lock := fog.get_child(0) as Control
+	lock.pivot_offset = lock.size * 0.5
+	pivot_offset = size * 0.5
+	var tw := create_tween()
+	tw.tween_interval(0.5)
+	tw.tween_property(lock, "scale", Vector2(1.6, 1.6), 0.25).set_trans(Tween.TRANS_BACK)
+	tw.parallel().tween_property(lock, "rotation_degrees", 25.0, 0.25)
+	tw.tween_property(fog, "modulate:a", 0.0, 0.6)
+	tw.tween_property(self, "scale", Vector2(1.12, 1.12), 0.15)
+	tw.tween_property(self, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BOUNCE)
+	await tw.finished
+	fog.visible = false
+	lock.scale = Vector2.ONE
+	lock.rotation_degrees = 0.0
 
 
 func _on_pressed() -> void:

@@ -8,6 +8,7 @@ level_id = 1905
 animal_id = "octopus"
 animal_display_name = "Осьминог"
 word = "ОСЬМИНОГ"
+emoji = "🐙"
 parts = PackedStringArray("О", "С", "Ь", "М", "И", "Н", "О", "Г")
 show_ghost_hints = false
 difficulty = 3

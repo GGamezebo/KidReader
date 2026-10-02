@@ -8,6 +8,7 @@ level_id = 806
 animal_id = "rhino"
 animal_display_name = "Носорог"
 word = "НОСОРОГ"
+emoji = "🦏"
 parts = PackedStringArray("Н", "О", "С", "О", "Р", "О", "Г")
 show_ghost_hints = false
 difficulty = 2

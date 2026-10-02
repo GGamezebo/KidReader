@@ -8,6 +8,7 @@ level_id = 1505
 animal_id = "narwhal"
 animal_display_name = "Нарвал"
 word = "НАРВАЛ"
+emoji = "🐋"
 parts = PackedStringArray("Н", "А", "Р", "В", "А", "Л")
 show_ghost_hints = false
 difficulty = 3

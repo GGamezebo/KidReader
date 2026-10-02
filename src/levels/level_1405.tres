@@ -8,6 +8,7 @@ level_id = 1405
 animal_id = "pelican"
 animal_display_name = "Пеликан"
 word = "ПЕЛИКАН"
+emoji = "🐦"
 parts = PackedStringArray("П", "Е", "Л", "И", "К", "А", "Н")
 show_ghost_hints = false
 difficulty = 2

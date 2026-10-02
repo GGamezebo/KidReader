@@ -77,9 +77,24 @@ func scroll_to_zone(zone: ZoneData, animated: bool = false) -> void:
 		return
 	var target := int(maxf(0.0, island.position.x + island.size.x * 0.5 - scroll.size.x * 0.5))
 	if animated:
-		create_tween().tween_property(scroll, "scroll_horizontal", target, 0.5).set_trans(Tween.TRANS_SINE)
+		var tw := create_tween()
+		tw.tween_property(scroll, "scroll_horizontal", target, 0.9).set_trans(Tween.TRANS_SINE)
+		await tw.finished
 	else:
 		scroll.scroll_horizontal = target
+
+
+## Camera glides from the previous zone to `zone`, then its island plays the unlock.
+func play_unlock(zone: ZoneData) -> void:
+	var prev_idx := catalog.zone_index(zone.zone_id) - 1
+	if prev_idx >= 0:
+		await scroll_to_zone(catalog.get_zones()[prev_idx])
+	await get_tree().create_timer(0.4).timeout
+	await scroll_to_zone(zone, true)
+	await get_tree().create_timer(0.5).timeout
+	var island: ZoneIsland = _islands_by_zone.get(zone.zone_id)
+	if island:
+		await island.play_unlock()
 
 
 func _add_island(zone: ZoneData, center: Vector2, progress: ZooProgress) -> void:
@@ -94,14 +109,11 @@ func _add_island(zone: ZoneData, center: Vector2, progress: ZooProgress) -> void
 	elif progress.is_zone_unlocked(zone):
 		state = ZoneIsland.State.OPEN
 	# Animals with real photos first, so the island shows faces rather than placeholders.
-	var with_photo: Array[Texture2D] = []
-	var without: Array[Texture2D] = []
+	var with_photo: Array[LevelData] = []
+	var without: Array[LevelData] = []
 	for level in zone.levels:
 		if progress.is_level_cleared(level.level_id):
-			if level.animal_texture:
-				with_photo.append(level.animal_texture)
-			else:
-				without.append(null)
+			(with_photo if level.animal_texture else without).append(level)
 	with_photo.append_array(without)
 	island.setup(zone, state, with_photo.size(), with_photo.slice(0, 3))
 	island.ev_selected.connect(func(i: ZoneIsland): ev_zone_selected.emit(i.zone))

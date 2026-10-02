@@ -8,6 +8,7 @@ level_id = 1903
 animal_id = "jellyfish"
 animal_display_name = "Медуза"
 word = "МЕДУЗА"
+emoji = "🪼"
 parts = PackedStringArray("М", "Е", "Д", "У", "З", "А")
 show_ghost_hints = false
 difficulty = 3
