@@ -85,3 +85,28 @@ func total_cleared() -> int:
 			if is_level_cleared(level.level_id):
 				n += 1
 	return n
+
+
+## Dino egg cracks: -1 = not found yet (mystery), else festivals passed after the find (capped).
+func egg_cracks() -> int:
+	if catalog == null:
+		return -1
+	var found := catalog.zone_index(catalog.egg_found_after)
+	if found < 0 or not is_festival_passed(catalog.get_zones()[found]):
+		return -1
+	var n := 0
+	var zones := catalog.get_zones()
+	for i in range(found + 1, found + 1 + egg_max_cracks()):
+		if is_festival_passed(zones[i]):
+			n += 1
+	return n
+
+
+func egg_max_cracks() -> int:
+	if catalog == null:
+		return 0
+	return maxi(0, catalog.zone_index(catalog.egg_hatch_zone) - catalog.zone_index(catalog.egg_found_after) - 1)
+
+
+func is_egg_hatched() -> bool:
+	return catalog != null and is_zone_unlocked(catalog.get_zone(catalog.egg_hatch_zone))

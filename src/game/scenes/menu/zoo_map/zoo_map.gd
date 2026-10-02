@@ -28,6 +28,9 @@ signal ev_zone_selected(zone: ZoneData)
 @export var road_stripe: Line2D
 @export var islands: Control
 @export var total_label: Label
+@export var egg: DinoEgg
+
+enum EggMoment { NONE, FOUND, CRACK, HATCH }
 
 var _islands_by_zone: Dictionary = {}
 
@@ -68,6 +71,7 @@ func build(progress: ZooProgress) -> void:
 	content.custom_minimum_size = Vector2(x - region_gap - zone_spacing + side_margin, h)
 	_build_road(centers)
 	total_label.text = "🐾 %d / %d" % [progress.total_cleared(), catalog.count()]
+	egg.setup(progress.egg_cracks(), progress.egg_max_cracks(), progress.is_egg_hatched())
 
 
 func scroll_to_zone(zone: ZoneData, animated: bool = false) -> void:
@@ -85,7 +89,14 @@ func scroll_to_zone(zone: ZoneData, animated: bool = false) -> void:
 
 
 ## Camera glides from the previous zone to `zone`, then its island plays the unlock.
+## The egg is rolled back to its state before this festival; play_egg_moment() then animates it.
 func play_unlock(zone: ZoneData) -> void:
+	var progress := ZooProgress.new(catalog, pdata)
+	match _egg_moment(zone):
+		EggMoment.FOUND:
+			egg.setup(-1, progress.egg_max_cracks(), false)
+		EggMoment.CRACK, EggMoment.HATCH:
+			egg.setup(progress.egg_cracks() - 1, progress.egg_max_cracks(), false)
 	var prev_idx := catalog.zone_index(zone.zone_id) - 1
 	if prev_idx >= 0:
 		await scroll_to_zone(catalog.get_zones()[prev_idx])
@@ -95,6 +106,32 @@ func play_unlock(zone: ZoneData) -> void:
 	var island: ZoneIsland = _islands_by_zone.get(zone.zone_id)
 	if island:
 		await island.play_unlock()
+
+
+## The egg reacts to the festival that opened `zone`: found / new crack / hatched.
+func play_egg_moment(zone: ZoneData) -> void:
+	match _egg_moment(zone):
+		EggMoment.FOUND:
+			await egg.play_found()
+		EggMoment.CRACK:
+			await egg.play_crack()
+		EggMoment.HATCH:
+			await egg.play_hatch()
+
+
+func _egg_moment(zone: ZoneData) -> EggMoment:
+	var idx := catalog.zone_index(zone.zone_id)
+	var found := catalog.zone_index(catalog.egg_found_after)
+	var hatch := catalog.zone_index(catalog.egg_hatch_zone)
+	if idx <= 0 or found < 0 or hatch < 0:
+		return EggMoment.NONE
+	if idx == hatch:
+		return EggMoment.HATCH
+	if idx - 1 == found:
+		return EggMoment.FOUND
+	if idx - 1 > found and idx < hatch:
+		return EggMoment.CRACK
+	return EggMoment.NONE
 
 
 func _add_island(zone: ZoneData, center: Vector2, progress: ZooProgress) -> void:

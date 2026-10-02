@@ -105,6 +105,10 @@ REGIONS = [
     ]),
 ]
 
+# Dino egg on the map (derived from progress, nothing saved): found after this zone's festival,
+# one crack per later festival, hatches when the second zone opens.
+EGG = ("mountains", "dino_valley")
+
 # Placeholder picture until a real photo exists (stickers, festival cards, level reveal).
 EMOJI = {
     "cat": "🐱",
@@ -338,8 +342,10 @@ def main() -> None:
         ], "zones", zone_paths)
         region_paths.append(rpath)
 
-    write_list_resource(CATALOG, "res://src/common/levels_catalog.gd", "LevelsCatalog", [], "regions",
+    write_list_resource(CATALOG, "res://src/common/levels_catalog.gd", "LevelsCatalog", [
+        f"egg_found_after = {q(EGG[0])}", f"egg_hatch_zone = {q(EGG[1])}"], "regions",
                         region_paths)
+    assert all(any(z[0] == e for r in REGIONS for z in r[-1]) for e in EGG), "EGG zones must exist"
     print(f"{len(region_paths)} regions, {zone_number} zones, {total} levels ({with_photo} with photo)")
 
 

@@ -16,6 +16,7 @@ alwaysApply: false
 - `zoo_map/` — `ZooMap` builds region bands, road (Curve2D → Line2D) and `ZoneIsland`s procedurally from `LevelsCatalog`
 - `zone_view/` — `ZoneView` row of `Enclosure`s (+ static festival tent); fence drawn by `EnclosureFence` per `RegionData.enclosure_style`
 - `ArrivalOverlay` (in `zone_view.tscn`): balloon brings the frosted card → letters pop with sounds → word + unfrost + confetti → card flies into its enclosure; tap hurries
+- `zoo_map/dino_egg` — `DinoEgg` HUD corner: mystery → cracks → hatched (`ZooProgress.egg_*`); after a festival unlock `menu` plays the zone phrase, then `ZooMap.play_egg_moment` (found / crack / hatch)
 - States come from `ZooProgress` only; components never read PData
 
 ## Game start / return

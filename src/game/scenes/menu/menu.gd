@@ -91,6 +91,8 @@ func _play_unlock(zone: ZoneData) -> void:
 	if phrase and voice_player:
 		voice_player.stream = phrase
 		voice_player.play()
+		await get_tree().create_timer(phrase.get_length() + 0.3).timeout
+	await zoo_map.play_egg_moment(zone)
 
 
 func _on_festival_selected(zone: ZoneData) -> void:

@@ -1,0 +1,91 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/zoo_map/dino_egg.gd" id="1"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/flat_empty.tres" id="2"]
+[ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="3"]
+
+[sub_resource type="LabelSettings" id="Mystery"]
+font_size = 58
+font_color = Color(1, 1, 1, 1)
+outline_size = 10
+outline_color = Color(0.36, 0.3, 0.28, 1)
+
+[sub_resource type="LabelSettings" id="Baby"]
+font_size = 72
+
+[node name="DinoEgg" type="Button" node_paths=PackedStringArray("voice_player", "nest_back", "shell", "nest_front", "mystery", "baby")]
+custom_minimum_size = Vector2(140, 160)
+offset_right = 140.0
+offset_bottom = 160.0
+pivot_offset = Vector2(70, 144)
+focus_mode = 0
+theme_override_styles/normal = ExtResource("2")
+theme_override_styles/hover = ExtResource("2")
+theme_override_styles/pressed = ExtResource("2")
+theme_override_styles/disabled = ExtResource("2")
+theme_override_styles/focus = ExtResource("2")
+flat = true
+script = ExtResource("1")
+voice_bank = ExtResource("3")
+voice_player = NodePath("VoicePlayer")
+nest_back = NodePath("NestBack")
+shell = NodePath("Shell")
+nest_front = NodePath("NestFront")
+mystery = NodePath("Mystery")
+baby = NodePath("Baby")
+
+[node name="NestBack" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Baby" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 6.0
+offset_right = 120.0
+offset_bottom = 100.0
+pivot_offset = Vector2(50, 94)
+text = "🦕"
+label_settings = SubResource("Baby")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Shell" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="NestFront" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Mystery" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "?"
+label_settings = SubResource("Mystery")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Voice"

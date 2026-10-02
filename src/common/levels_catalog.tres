@@ -9,4 +9,6 @@
 
 [resource]
 script = ExtResource("1")
+egg_found_after = "mountains"
+egg_hatch_zone = "dino_valley"
 regions = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/zoo_map/zoo_map.gd" id="1"]
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/zoo_map/region_band.tscn" id="5"]
 [ext_resource type="StyleBox" path="res://src/ui/styles/pill.tres" id="6"]
 [ext_resource type="Script" path="res://src/ui/drag_scroll/drag_scroll.gd" id="7"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/zoo_map/dino_egg.tscn" id="8"]
 
 [sub_resource type="Curve" id="RoadWidth"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -16,7 +17,7 @@ point_count = 2
 font_size = 30
 font_color = Color(0.239, 0.173, 0.161, 1)
 
-[node name="ZooMap" type="Control" node_paths=PackedStringArray("scroll", "content", "bands", "road", "road_stripe", "islands", "total_label")]
+[node name="ZooMap" type="Control" node_paths=PackedStringArray("scroll", "content", "bands", "road", "road_stripe", "islands", "total_label", "egg")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,6 +36,7 @@ road = NodePath("Scroll/Content/Road")
 road_stripe = NodePath("Scroll/Content/RoadStripe")
 islands = NodePath("Scroll/Content/Islands")
 total_label = NodePath("Total/Label")
+egg = NodePath("Egg")
 
 [node name="Scroll" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -89,6 +91,17 @@ theme_override_styles/panel = ExtResource("6")
 layout_mode = 2
 text = "🐾 0 / 128"
 label_settings = SubResource("Total")
+
+[node name="Egg" parent="." instance=ExtResource("8")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -176.0
+offset_right = 160.0
+offset_bottom = -16.0
+grow_vertical = 0
 
 [node name="DragScroll" type="Node" parent="." node_paths=PackedStringArray("scroll")]
 script = ExtResource("7")
