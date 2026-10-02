@@ -12,6 +12,8 @@ extends Resource
 @export var animal_texture: Texture2D
 ## Placeholder picture while there is no photo (generated from the content table).
 @export var emoji: String = "🐾"
+## One short true fact for the album (voiced: VoiceBank.facts[animal_id]).
+@export_multiline var fact: String = ""
 ## Optional prefilled slot indices (rare / tutorial).
 @export var revealed_indices: PackedInt32Array = PackedInt32Array()
 @export var show_ghost_hints: bool = true

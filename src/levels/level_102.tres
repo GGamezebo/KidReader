@@ -10,6 +10,7 @@ animal_id = "dog"
 animal_display_name = "Пёс"
 word = "ПЁС"
 emoji = "🐶"
+fact = "Нюх у собаки в тысячи раз лучше, чем у человека."
 parts = PackedStringArray("П", "Ё", "С")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

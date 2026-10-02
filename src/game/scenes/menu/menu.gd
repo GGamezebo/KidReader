@@ -1,6 +1,6 @@
 extends IScene
 
-## Zoo menu host: ZooMap ⇄ ZoneView via WindowStackManager; settings behind the parental gate.
+## Zoo menu host: ZooMap ⇄ ZoneView (+ Album) via WindowStackManager; settings behind the parental gate.
 ## initialize({"zone_id": ..., "arrived_level_id": ...}) reopens that zone (returning from a level)
 ## and, after a first win, plays the animal's arrival there.
 ## initialize({"unlocked_zone_id": ...}) — after a first festival: the map glides to the new zone and unlocks it.
@@ -11,6 +11,8 @@ extends IScene
 @export var user_settings: UserSettings
 @export var zoo_map: ZooMap
 @export var zone_view: ZoneView
+@export var album: AlbumView
+@export var album_button: BaseButton
 @export var window_stack: WindowStackManager
 @export var settings_button: BaseButton
 @export var music_button: BaseButton
@@ -36,6 +38,7 @@ func _ready() -> void:
 	zoo_map.ev_zone_selected.connect(_open_zone)
 	zone_view.ev_level_selected.connect(_on_level_selected)
 	zone_view.ev_festival_selected.connect(_on_festival_selected)
+	album_button.pressed.connect(_open_album)
 	super._ready()
 
 
@@ -45,6 +48,8 @@ func initialize(data: Dictionary = {}) -> void:
 	zoo_map.pdata = pdata
 	zone_view.catalog = catalog
 	zone_view.pdata = pdata
+	album.catalog = catalog
+	album.pdata = pdata
 	_refresh()
 	_refresh_audio_glyphs()
 	_listener.add(pdata.changed, _refresh)
@@ -83,6 +88,11 @@ func _refresh(_a = null) -> void:
 func _open_zone(zone: ZoneData) -> void:
 	zone_view.show_zone(zone, _progress())
 	window_stack.open_stacked_window(zone_view)
+
+
+func _open_album() -> void:
+	album.show_album(_progress())
+	window_stack.open_stacked_window(album)
 
 
 func _play_unlock(zone: ZoneData) -> void:

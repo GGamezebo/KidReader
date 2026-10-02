@@ -10,6 +10,7 @@ animal_id = "panda"
 animal_display_name = "Панда"
 word = "ПАНДА"
 emoji = "🐼"
+fact = "Панда почти весь день ест бамбук."
 parts = PackedStringArray("П", "А", "Н", "Д", "А")
 animal_texture = ExtResource("2")
 show_ghost_hints = false

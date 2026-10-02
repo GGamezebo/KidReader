@@ -9,7 +9,7 @@ paths:
 # Menu & navigation (zoo)
 
 1. Scenes (Menu/Level) — only via `RootEvents`
-2. Full-screen windows — `WindowStackManager` in `menu.tscn`: `ZooMap` (default) ⇄ `ZoneView`; back = `ButtonWindowBack`
+2. Full-screen windows — `WindowStackManager` in `menu.tscn`: `ZooMap` (default) ⇄ `ZoneView`, `Album` (📖 in TopRight); back = `ButtonWindowBack`
 3. Dialogs/overlays (parental gate, settings, `ArrivalOverlay`) — NOT on the window stack
 
 ## Screens (`src/game/scenes/menu/`)
@@ -19,6 +19,7 @@ paths:
 - `zone_view/` — `ZoneView` row of `Enclosure`s (+ static festival tent); fence drawn by `EnclosureFence` per `RegionData.enclosure_style`
 - `ArrivalOverlay` (in `zone_view.tscn`): balloon brings the frosted card → letters pop with sounds → word + unfrost + confetti → card flies into its enclosure; tap hurries
 - `zoo_map/dino_egg` — `DinoEgg` HUD corner: mystery → cracks → hatched (`ZooProgress.egg_*`); after a festival unlock `menu` plays the zone phrase, then `ZooMap.play_egg_moment` (found / crack / hatch)
+- `album/` — `AlbumView` (window): one `AlbumZone` section per zone of `AlbumEntry` slots; collected → card (word, then `VoiceBank.get_fact(animal_id)`), not collected → wiggle + `album_empty` phrase
 - States come from `ZooProgress` only; components never read PData
 
 ## Game start / return

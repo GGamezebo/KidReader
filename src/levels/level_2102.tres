@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/common/level_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/animals/animal_ichthyosaurus.jpg" id="2"]
 
 [resource]
 script = ExtResource("1")
@@ -9,6 +10,8 @@ animal_id = "ichthyosaurus"
 animal_display_name = "Ихтиозавр"
 word = "ИХТИОЗАВР"
 emoji = "🐬"
+fact = "Ихтиозавр был похож на дельфина."
 parts = PackedStringArray("И", "Х", "Т", "И", "О", "З", "А", "В", "Р")
+animal_texture = ExtResource("2")
 show_ghost_hints = false
 difficulty = 3

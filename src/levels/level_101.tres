@@ -10,6 +10,7 @@ animal_id = "cat"
 animal_display_name = "Кот"
 word = "КОТ"
 emoji = "🐱"
+fact = "Кошка мурлычет, когда ей хорошо и спокойно."
 parts = PackedStringArray("К", "О", "Т")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

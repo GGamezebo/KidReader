@@ -8,6 +8,8 @@ extends Resource
 @export var words: Dictionary[String, AudioStream] = {}
 ## Mascot lines by key (see PHRASES in tools/generate_voice.py).
 @export var phrases: Dictionary[String, AudioStream] = {}
+## Album fact per animal_id (LevelData.fact read aloud).
+@export var facts: Dictionary[String, AudioStream] = {}
 
 
 func get_letter(part: String) -> AudioStream:
@@ -20,3 +22,7 @@ func get_word(word: String) -> AudioStream:
 
 func get_phrase(key: String) -> AudioStream:
 	return phrases.get(key) as AudioStream
+
+
+func get_fact(animal_id: String) -> AudioStream:
+	return facts.get(animal_id) as AudioStream

@@ -10,6 +10,7 @@ animal_id = "hedgehog"
 animal_display_name = "Ёж"
 word = "ЁЖ"
 emoji = "🦔"
+fact = "На спинке у ежа тысячи колючих иголок."
 parts = PackedStringArray("Ё", "Ж")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

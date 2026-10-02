@@ -10,6 +10,7 @@ animal_id = "bull"
 animal_display_name = "Бык"
 word = "БЫК"
 emoji = "🐂"
+fact = "Бык — папа телёнка, а мама — корова."
 parts = PackedStringArray("Б", "Ы", "К")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

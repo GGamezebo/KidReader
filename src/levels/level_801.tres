@@ -10,6 +10,7 @@ animal_id = "lion"
 animal_display_name = "Лев"
 word = "ЛЕВ"
 emoji = "🦁"
+fact = "Рык льва слышно за несколько километров."
 parts = PackedStringArray("Л", "Е", "В")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

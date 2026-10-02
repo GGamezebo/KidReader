@@ -1,0 +1,224 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/album/album.gd" id="1"]
+[ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="2"]
+[ext_resource type="Resource" path="res://src/game/account/persistent_data.tres" id="3"]
+[ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="4"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/album/album_zone.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="6"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/pill.tres" id="7"]
+[ext_resource type="PackedScene" path="res://src/ui/photo_sticker/photo_sticker.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://src/ui/sign_plate/sign_plate.tscn" id="9"]
+[ext_resource type="StyleBox" path="res://src/game/scenes/menu/album/card_panel.tres" id="10"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/flat_empty.tres" id="11"]
+[ext_resource type="Script" path="res://src/ui/drag_scroll/drag_scroll.gd" id="12"]
+
+[sub_resource type="Gradient" id="BgGrad"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 0.973, 0.925, 1, 0.988, 0.894, 0.769, 1)
+
+[sub_resource type="GradientTexture2D" id="BgTex"]
+gradient = SubResource("BgGrad")
+width = 16
+height = 256
+fill_to = Vector2(0, 1)
+
+[sub_resource type="LabelSettings" id="PillText"]
+font_size = 30
+font_color = Color(0.239, 0.173, 0.161, 1)
+
+[sub_resource type="LabelSettings" id="Fact"]
+font_size = 28
+font_color = Color(0.239, 0.173, 0.161, 1)
+
+[node name="Album" type="Control" node_paths=PackedStringArray("count_label", "scroll", "sections", "card", "card_panel", "card_dim", "card_sticker", "card_sign", "card_fact", "card_speak", "card_close", "voice_player")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+catalog = ExtResource("2")
+pdata = ExtResource("3")
+voice_bank = ExtResource("4")
+zone_scene = ExtResource("5")
+count_label = NodePath("Header/Pill/HBox/Count")
+scroll = NodePath("Scroll")
+sections = NodePath("Scroll/Margin/Sections")
+card = NodePath("Card")
+card_panel = NodePath("Card/Panel")
+card_dim = NodePath("Card/Dim")
+card_sticker = NodePath("Card/Panel/HBox/Sticker")
+card_sign = NodePath("Card/Panel/HBox/Info/Sign")
+card_fact = NodePath("Card/Panel/HBox/Info/Fact")
+card_speak = NodePath("Card/Panel/HBox/Info/Buttons/Speak")
+card_close = NodePath("Card/Panel/HBox/Info/Buttons/Close")
+voice_player = NodePath("VoicePlayer")
+
+[node name="Bg" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("BgTex")
+expand_mode = 1
+
+[node name="Scroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="Margin" type="MarginContainer" parent="Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 48
+
+[node name="Sections" type="VBoxContainer" parent="Scroll/Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 30
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 900.0
+offset_bottom = 108.0
+theme_override_constants/separation = 18
+
+[node name="BackButton" parent="Header" instance=ExtResource("6")]
+layout_mode = 2
+glyph = "🗺️"
+
+[node name="Pill" type="PanelContainer" parent="Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = ExtResource("7")
+
+[node name="HBox" type="HBoxContainer" parent="Header/Pill"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="Header/Pill/HBox"]
+layout_mode = 2
+text = "📖  Альбом"
+label_settings = SubResource("PillText")
+
+[node name="Count" type="Label" parent="Header/Pill/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.62, 0.33, 1)
+theme_override_font_sizes/font_size = 30
+text = "🐾 0 / 128"
+
+[node name="Card" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="Button" parent="Card"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("11")
+theme_override_styles/hover = ExtResource("11")
+theme_override_styles/pressed = ExtResource("11")
+theme_override_styles/focus = ExtResource("11")
+flat = true
+
+[node name="Shade" type="ColorRect" parent="Card/Dim"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.24, 0.17, 0.16, 0.55)
+
+[node name="Panel" type="PanelContainer" parent="Card"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -220.0
+offset_right = 400.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 220)
+theme_override_styles/panel = ExtResource("10")
+
+[node name="HBox" type="HBoxContainer" parent="Card/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Sticker" parent="Card/Panel/HBox" instance=ExtResource("8")]
+custom_minimum_size = Vector2(360, 360)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Info" type="VBoxContainer" parent="Card/Panel/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Sign" parent="Card/Panel/HBox/Info" instance=ExtResource("9")]
+layout_mode = 2
+size_flags_horizontal = 4
+font_size = 56
+fit_letters = 7
+
+[node name="Fact" type="Label" parent="Card/Panel/HBox/Info"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+text = "Лиса слышит, как мышка шуршит под снегом."
+label_settings = SubResource("Fact")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Card/Panel/HBox/Info"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Speak" parent="Card/Panel/HBox/Info/Buttons" instance=ExtResource("6")]
+layout_mode = 2
+glyph = "🔊"
+
+[node name="Close" parent="Card/Panel/HBox/Info/Buttons" instance=ExtResource("6")]
+layout_mode = 2
+glyph = "✖️"
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Voice"
+
+[node name="DragScroll" type="Node" parent="." node_paths=PackedStringArray("scroll")]
+script = ExtResource("12")
+scroll = NodePath("../Scroll")
+vertical = true

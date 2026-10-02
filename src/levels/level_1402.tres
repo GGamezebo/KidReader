@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/common/level_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/animals/animal_monitor_lizard.jpg" id="2"]
 
 [resource]
 script = ExtResource("1")
@@ -9,6 +10,8 @@ animal_id = "monitor_lizard"
 animal_display_name = "Варан"
 word = "ВАРАН"
 emoji = "🦎"
+fact = "Комодский варан — самая большая ящерица на свете."
 parts = PackedStringArray("В", "А", "Р", "А", "Н")
+animal_texture = ExtResource("2")
 show_ghost_hints = false
 difficulty = 2

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/common/level_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/animals/animal_sable.jpg" id="2"]
 
 [resource]
 script = ExtResource("1")
@@ -9,6 +10,8 @@ animal_id = "sable"
 animal_display_name = "Соболь"
 word = "СОБОЛЬ"
 emoji = "🦦"
+fact = "У соболя очень мягкий и тёплый мех."
 parts = PackedStringArray("С", "О", "Б", "О", "Л", "Ь")
+animal_texture = ExtResource("2")
 show_ghost_hints = true
 difficulty = 1

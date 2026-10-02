@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/menu.gd" id="1"]
 [ext_resource type="PackedScene" path="res://src/ui/parental_gate/parental_gate.tscn" id="3"]
@@ -12,8 +12,9 @@
 [ext_resource type="Script" path="res://core/lib/window_stack_manager/button_window_back.gd" id="11"]
 [ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="12"]
 [ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="13"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/album/album.tscn" id="14"]
 
-[node name="Menu" type="Control" node_paths=PackedStringArray("zoo_map", "zone_view", "window_stack", "settings_button", "music_button", "parental_gate", "settings_panel", "music_toggle", "sfx_toggle", "settings_close", "voice_player")]
+[node name="Menu" type="Control" node_paths=PackedStringArray("zoo_map", "zone_view", "album", "album_button", "window_stack", "settings_button", "music_button", "parental_gate", "settings_panel", "music_toggle", "sfx_toggle", "settings_close", "voice_player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,6 +28,8 @@ pdata = ExtResource("6")
 user_settings = ExtResource("7")
 zoo_map = NodePath("ZooMap")
 zone_view = NodePath("ZoneView")
+album = NodePath("Album")
+album_button = NodePath("TopRight/AlbumButton")
 window_stack = NodePath("WindowStack")
 settings_button = NodePath("TopRight/SettingsButton")
 music_button = NodePath("TopRight/MusicButton")
@@ -45,6 +48,10 @@ layout_mode = 1
 visible = false
 layout_mode = 1
 
+[node name="Album" parent="." instance=ExtResource("14")]
+visible = false
+layout_mode = 1
+
 [node name="WindowStack" type="Node" parent="." node_paths=PackedStringArray("default_window")]
 script = ExtResource("10")
 default_window = NodePath("../ZooMap")
@@ -53,18 +60,26 @@ default_window = NodePath("../ZooMap")
 script = ExtResource("11")
 button = NodePath("../../ZoneView/Header/BackButton")
 
+[node name="BackFromAlbum" type="Node" parent="WindowStack" node_paths=PackedStringArray("button")]
+script = ExtResource("11")
+button = NodePath("../../Album/Header/BackButton")
+
 [node name="TopRight" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -220.0
+offset_left = -324.0
 offset_top = 20.0
 offset_right = -24.0
 offset_bottom = 108.0
 grow_horizontal = 0
 theme_override_constants/separation = 16
 alignment = 2
+
+[node name="AlbumButton" parent="TopRight" instance=ExtResource("12")]
+layout_mode = 2
+glyph = "📖"
 
 [node name="MusicButton" parent="TopRight" instance=ExtResource("12")]
 layout_mode = 2

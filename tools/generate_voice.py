@@ -10,15 +10,18 @@ Setup (once):
 
 Run from project root:
     tools/.venv/Scripts/python tools/generate_voice.py             # everything
-    tools/.venv/Scripts/python tools/generate_voice.py --only Б СОВА # regenerate some
+    tools/.venv/Scripts/python tools/generate_voice.py --only Б СОВА # regenerate some (letters, WORDS, phrase keys, animal ids)
+    tools/.venv/Scripts/python tools/generate_voice.py --missing     # only clips that do not exist yet
     tools/.venv/Scripts/python tools/generate_voice.py --voice ru-RU-DmitryNeural
 
 Writes:
     assets/audio/voice/letters/<translit>.ogg
     assets/audio/voice/words/<translit>.ogg
-    src/features/sfx/voice_bank.tres   (VoiceBank: letter -> stream, word -> stream)
+    assets/audio/voice/phrases/<key>.ogg
+    assets/audio/voice/facts/<animal_id>.ogg  (album fact per animal, from LevelData.fact)
+    src/features/sfx/voice_bank.tres   (VoiceBank: letters, words, phrases, facts)
 
-Words are read from src/levels/*.tres, so rerun after adding a level.
+Words and facts are read from src/levels/*.tres, so rerun after adding a level.
 """
 from __future__ import annotations
 
@@ -37,6 +40,7 @@ ROOT = Path(__file__).resolve().parent.parent
 LETTERS_DIR = ROOT / "assets" / "audio" / "voice" / "letters"
 WORDS_DIR = ROOT / "assets" / "audio" / "voice" / "words"
 PHRASES_DIR = ROOT / "assets" / "audio" / "voice" / "phrases"
+FACTS_DIR = ROOT / "assets" / "audio" / "voice" / "facts"
 LEVELS_DIR = ROOT / "src" / "levels"
 BANK_PATH = ROOT / "src" / "features" / "sfx" / "voice_bank.tres"
 
@@ -83,8 +87,10 @@ PHRASES = {
     "egg_crack": "Яйцо треснуло! Скоро кто-то вылупится!",
     "egg_wait": "Яйцо растёт. После каждого праздника — новая трещинка!",
     "egg_hatched": "Ура! Вылупился малыш-динозаврик!",
+    "album_empty": "Этот зверь ещё не приехал в зоопарк. Собери его слово!",
 }
 PHRASE_RATE = "-15%"
+FACT_RATE = "-15%"
 
 # Whole words: slow, cheerful ("!" gives a lively, praising intonation).
 WORD_RATE = "-30%"
@@ -136,13 +142,25 @@ def level_words() -> list[str]:
     return sorted(words)
 
 
+def level_facts() -> dict[str, str]:
+    facts = {}
+    for p in sorted(LEVELS_DIR.glob("*.tres")):
+        text = p.read_text(encoding="utf-8")
+        aid = re.search(r'^animal_id = "(.+)"$', text, re.M)
+        fact = re.search(r'^fact = "(.+)"$', text, re.M)
+        if aid and fact:
+            facts[aid.group(1)] = fact.group(1)
+    return facts
+
+
 def res_path(p: Path) -> str:
     return "res://" + p.relative_to(ROOT).as_posix()
 
 
-def write_bank(letters: dict[str, Path], words: dict[str, Path], phrases: dict[str, Path]) -> None:
+def write_bank(letters: dict[str, Path], words: dict[str, Path], phrases: dict[str, Path],
+               facts: dict[str, Path]) -> None:
     ext, ids = [], {}
-    for p in list(letters.values()) + list(words.values()) + list(phrases.values()):
+    for p in list(letters.values()) + list(words.values()) + list(phrases.values()) + list(facts.values()):
         ids[p] = f"{len(ids) + 2}"
         ext.append(f'[ext_resource type="AudioStream" path="{res_path(p)}" id="{ids[p]}"]')
 
@@ -160,17 +178,21 @@ def write_bank(letters: dict[str, Path], words: dict[str, Path], phrases: dict[s
         f"letters = Dictionary[String, AudioStream]({{{dict_body(letters)}}})",
         f"words = Dictionary[String, AudioStream]({{{dict_body(words)}}})",
         f"phrases = Dictionary[String, AudioStream]({{{dict_body(phrases)}}})",
+        f"facts = Dictionary[String, AudioStream]({{{dict_body(facts)}}})",
         "",
     ])
     BANK_PATH.write_text(text, encoding="utf-8")
 
 
-async def run(voice: str, only: set[str] | None) -> None:
+async def run(voice: str, only: set[str] | None, missing: bool) -> None:
+    def skip(key: str, path: Path) -> bool:
+        return (only is not None and key not in only) or (missing and path.exists())
+
     letters: dict[str, Path] = {}
     for ch, (text, rate) in LETTER_TEXT.items():
         path = LETTERS_DIR / f"{TRANSLIT[ch]}.ogg"
         letters[ch] = path
-        if only is not None and ch not in only:
+        if skip(ch, path):
             continue
         a, sr = await tts(text, voice, rate)
         a = soften(a, sr)
@@ -181,7 +203,7 @@ async def run(voice: str, only: set[str] | None) -> None:
     for w in level_words():
         path = WORDS_DIR / f"{translit(w)}.ogg"
         words[w] = path
-        if only is not None and w not in only:
+        if skip(w, path):
             continue
         text = w.capitalize() + WORD_SUFFIX
         a, sr = await tts(text, voice, WORD_RATE)
@@ -193,26 +215,39 @@ async def run(voice: str, only: set[str] | None) -> None:
     for key, text in PHRASES.items():
         path = PHRASES_DIR / f"{key}.ogg"
         phrases[key] = path
-        if only is not None and key.upper() not in only:
+        if skip(key.upper(), path):
             continue
         a, sr = await tts(text, voice, PHRASE_RATE)
         a = soften(a, sr)
         write(path, a, sr)
         print(f"phrase {key} <- '{text}'  {a.size * 1000 // sr} ms")
 
+    facts: dict[str, Path] = {}
+    for aid, text in level_facts().items():
+        path = FACTS_DIR / f"{aid}.ogg"
+        facts[aid] = path
+        if skip(aid.upper(), path):
+            continue
+        a, sr = await tts(text, voice, FACT_RATE)
+        a = soften(a, sr)
+        write(path, a, sr)
+        print(f"fact {aid}  {a.size * 1000 // sr} ms")
+
     write_bank({k: v for k, v in letters.items() if v.exists()},
                {k: v for k, v in words.items() if v.exists()},
-               {k: v for k, v in phrases.items() if v.exists()})
+               {k: v for k, v in phrases.items() if v.exists()},
+               {k: v for k, v in facts.items() if v.exists()})
     print(f"Wrote {BANK_PATH.relative_to(ROOT)}")
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--voice", default=VOICE, help="ru-RU-SvetlanaNeural | ru-RU-DmitryNeural")
-    ap.add_argument("--only", nargs="*", help="regenerate only these letters/words")
+    ap.add_argument("--only", nargs="*", help="regenerate only these letters / words / phrase keys / animal ids")
+    ap.add_argument("--missing", action="store_true", help="generate only clips that do not exist yet")
     args = ap.parse_args()
     only = {s.upper() for s in args.only} if args.only else None
-    asyncio.run(run(args.voice, only))
+    asyncio.run(run(args.voice, only, args.missing))
     return 0
 
 

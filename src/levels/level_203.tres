@@ -10,6 +10,7 @@ animal_id = "owl"
 animal_display_name = "Сова"
 word = "СОВА"
 emoji = "🦉"
+fact = "Сова может повернуть голову почти назад."
 parts = PackedStringArray("С", "О", "В", "А")
 animal_texture = ExtResource("2")
 show_ghost_hints = true

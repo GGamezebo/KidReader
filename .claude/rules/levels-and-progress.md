@@ -16,6 +16,7 @@ paths:
 - **All of it is generated** by `tools/gen_zoo_content.py` from one table — edit the table, rerun, then rerun `tools/generate_voice.py`. Never hand-edit generated `.tres`
 - `level_id = zone_number * 100 + index` (101…2105); `zone_id` is a string ("farm"). Both are save keys
 - Photo: `assets/animals/animal_<animal_id>.jpg` is linked automatically if present; until then `LevelData.emoji` (from `EMOJI` in the generator) is the placeholder everywhere
+- `LevelData.fact` (album, from `FACTS` in the generator — one short true sentence per animal; generator asserts each animal has one)
 - Photos are AI-generated: `tools/gen_photo_prompts.py` (add `SUBJECTS`/`SCENES` for new animals/zones) → `concepts/photo_prompts.md`; pictures go to `tools/photo_inbox/<animal_id>.png` (gitignored) → `tools/import_photos.py` crops to 1280×720 jpg and regenerates levels
 - Progress: `PData` (`level_stars`, `festival_stars`, `total_animals_saved`). Unlocks are **derived**, never stored
 - Unlock rules: `ZooProgress` (RefCounted): zone 1 open; zone N opens after zone N-1 festival; levels inside a zone open in order; festival needs a full zone

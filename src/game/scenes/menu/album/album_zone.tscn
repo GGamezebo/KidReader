@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/album/album_zone.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/album/album_entry.tscn" id="2"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/pill.tres" id="3"]
+
+[sub_resource type="LabelSettings" id="PillText"]
+font_size = 28
+font_color = Color(0.239, 0.173, 0.161, 1)
+
+[node name="AlbumZone" type="VBoxContainer" node_paths=PackedStringArray("title_label", "count_label", "lock_label", "grid")]
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+script = ExtResource("1")
+entry_scene = ExtResource("2")
+title_label = NodePath("Header/Pill/HBox/Title")
+count_label = NodePath("Header/Pill/HBox/Count")
+lock_label = NodePath("Header/Pill/HBox/Lock")
+grid = NodePath("Grid")
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Pill" type="PanelContainer" parent="Header"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3")
+
+[node name="HBox" type="HBoxContainer" parent="Header/Pill"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Header/Pill/HBox"]
+layout_mode = 2
+text = "🐄  Домашний двор"
+label_settings = SubResource("PillText")
+
+[node name="Count" type="Label" parent="Header/Pill/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.62, 0.33, 1)
+theme_override_font_sizes/font_size = 28
+text = "🐾 0/6"
+
+[node name="Lock" type="Label" parent="Header/Pill/HBox"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "🔒"
+
+[node name="Grid" type="HFlowContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
