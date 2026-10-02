@@ -4,8 +4,13 @@ extends RefCounted
 ## Read-only queries over PData + LevelsCatalog: what is unlocked, filled, next.
 ## Rules: zone 1 is open; zone N opens after zone N-1 festival. Inside a zone levels open in order.
 
+## «Animal misses you»: days until a collected animal asks for a replay, by reviews done.
+const REVIEW_DAYS: Array[int] = [2, 4, 7, 14, 30]
+
 var catalog: LevelsCatalog
 var pdata: PData
+## Local day number used for reviews (tests may override).
+var today: int = current_day()
 
 
 func _init(p_catalog: LevelsCatalog, p_pdata: PData) -> void:
@@ -76,6 +81,39 @@ func current_zone() -> ZoneData:
 		if is_zone_unlocked(zone) and not is_festival_passed(zone):
 			return zone
 	return zones.back() if not zones.is_empty() else null
+
+
+## Local day number (days since epoch in the device time zone).
+static func current_day() -> int:
+	var bias_min: int = int(Time.get_time_zone_from_system().get("bias", 0))
+	return int(floor((Time.get_unix_time_from_system() + bias_min * 60.0) / 86400.0))
+
+
+## Collected animal not played for REVIEW_DAYS[reviews] days.
+func is_review_due(level: LevelData) -> bool:
+	if level == null or pdata == null or not is_level_cleared(level.level_id):
+		return false
+	var key := str(level.level_id)
+	if not pdata.level_last_day.has(key):
+		return false
+	var reviews := int(pdata.level_reviews.get(key, 0))
+	var wait := REVIEW_DAYS[mini(reviews, REVIEW_DAYS.size() - 1)]
+	return today - int(pdata.level_last_day[key]) >= wait
+
+
+## The one animal of the zone that misses the child (longest unseen among due), or null.
+func review_in_zone(zone: ZoneData) -> LevelData:
+	var best: LevelData = null
+	var best_day := 0
+	if zone == null:
+		return null
+	for level in zone.levels:
+		if is_review_due(level):
+			var day := int(pdata.level_last_day[str(level.level_id)])
+			if best == null or day < best_day:
+				best = level
+				best_day = day
+	return best
 
 
 func total_cleared() -> int:

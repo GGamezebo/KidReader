@@ -3,6 +3,7 @@ extends Button
 
 ## Zone node on the zoo map: colored island with up to 3 animal stickers, name gate and 🐾 counter.
 ## LOCKED = fog + 🔒 (wiggles on tap), OPEN = pulsing ▶, READY = 🎪 festival available, DONE = 🏅.
+## 💭 = an animal of this zone misses the child (see ZooProgress.review_in_zone).
 
 signal ev_selected(island: ZoneIsland)
 
@@ -16,6 +17,7 @@ enum State { LOCKED, OPEN, READY, DONE }
 @export var badge_label: Label
 @export var medal: Control
 @export var fog: Control
+@export var miss_bubble: Control
 
 var zone: ZoneData
 var state: State = State.LOCKED
@@ -28,7 +30,7 @@ func _ready() -> void:
 
 
 ## `animals`: animals already living in the zone (first 3 are shown as stickers).
-func setup(p_zone: ZoneData, p_state: State, cleared: int, animals: Array[LevelData]) -> void:
+func setup(p_zone: ZoneData, p_state: State, cleared: int, animals: Array[LevelData], missing: bool = false) -> void:
 	zone = p_zone
 	state = p_state
 	body.self_modulate = zone.color
@@ -44,6 +46,7 @@ func setup(p_zone: ZoneData, p_state: State, cleared: int, animals: Array[LevelD
 			stickers[i].setup(null, PhotoSticker.State.EMPTY)
 	fog.visible = state == State.LOCKED
 	medal.visible = state == State.DONE
+	miss_bubble.visible = missing and state != State.LOCKED
 	badge.visible = state == State.OPEN or state == State.READY
 	badge_label.text = "🎪" if state == State.READY else "▶"
 	_start_pulse()

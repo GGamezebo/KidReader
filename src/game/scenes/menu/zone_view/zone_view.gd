@@ -32,6 +32,8 @@ var zone: ZoneData
 var _progress: ZooProgress
 var _rng := RandomNumberGenerator.new()
 var _pulse: Tween
+## Zones whose «someone misses you» hint was already said this session.
+var _hinted: Dictionary = {}
 
 
 func _ready() -> void:
@@ -62,6 +64,7 @@ func show_zone(p_zone: ZoneData, progress: ZooProgress) -> void:
 			row.remove_child(child)
 			child.queue_free()
 	var focus: Control = null
+	var review := progress.review_in_zone(zone)
 	for level in zone.levels:
 		var enc := enclosure_scene.instantiate() as Enclosure
 		row.add_child(enc)
@@ -72,10 +75,15 @@ func show_zone(p_zone: ZoneData, progress: ZooProgress) -> void:
 		elif progress.is_level_unlocked(level.level_id):
 			state = Enclosure.State.NEXT
 			focus = enc
-		enc.setup(level, state, style)
+		enc.setup(level, state, style, level == review)
+		if level == review and focus == null:
+			focus = enc
 		enc.ev_selected.connect(_on_enclosure_selected)
 	_refresh_festival()
 	_scroll_to.call_deferred(focus if focus else festival_button)
+	if review and not _hinted.has(zone.zone_id):
+		_hinted[zone.zone_id] = true
+		_hint_review.call_deferred()
 
 
 ## Reward after a first win: the animal is delivered into its (already FILLED) enclosure.
@@ -121,6 +129,9 @@ func _on_enclosure_selected(enc: Enclosure) -> void:
 		Enclosure.State.NEXT:
 			ev_level_selected.emit(enc.level.level_id)
 		Enclosure.State.FILLED:
+			if enc.missing:
+				ev_level_selected.emit(enc.level.level_id)
+				return
 			enc.wiggle()
 			_say(enc.level.word)
 		_:
@@ -135,6 +146,17 @@ func _on_festival_pressed() -> void:
 	festival_tent.pivot_offset = festival_tent.size * 0.5
 	for a in [6.0, -5.0, 3.0, 0.0]:
 		tw.tween_property(festival_tent, "rotation_degrees", a, 0.07)
+
+
+## Once per zone per session, unless an arrival is playing.
+func _hint_review() -> void:
+	await get_tree().create_timer(0.8).timeout
+	if not is_visible_in_tree() or arrival.visible or voice_bank == null or voice_player == null:
+		return
+	var stream := voice_bank.get_phrase("review_hint")
+	if stream:
+		voice_player.stream = stream
+		voice_player.play()
 
 
 func _say(word: String) -> void:

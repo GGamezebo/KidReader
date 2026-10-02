@@ -152,7 +152,7 @@ func _add_island(zone: ZoneData, center: Vector2, progress: ZooProgress) -> void
 		if progress.is_level_cleared(level.level_id):
 			(with_photo if level.animal_texture else without).append(level)
 	with_photo.append_array(without)
-	island.setup(zone, state, with_photo.size(), with_photo.slice(0, 3))
+	island.setup(zone, state, with_photo.size(), with_photo.slice(0, 3), progress.review_in_zone(zone) != null)
 	island.ev_selected.connect(func(i: ZoneIsland): ev_zone_selected.emit(i.zone))
 	_islands_by_zone[zone.zone_id] = island
 

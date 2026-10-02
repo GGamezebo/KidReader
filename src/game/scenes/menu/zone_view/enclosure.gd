@@ -3,7 +3,7 @@ extends Button
 
 ## One animal's enclosure on the zone screen: photo sticker + procedural fence + word sign.
 ## FILLED = animal lives here (tap → hears its name), NEXT = frosted photo + pulsing ▶ (tap → level),
-## LOCKED = empty frame (tap → wiggle).
+## LOCKED = empty frame (tap → wiggle). A FILLED animal may «miss» the child: bobbing 💭❗ (tap → replay its level).
 
 signal ev_selected(enclosure: Enclosure)
 
@@ -13,10 +13,13 @@ enum State { FILLED, NEXT, LOCKED }
 @export var fence: EnclosureFence
 @export var sign_plate: SignPlate
 @export var play_badge: Control
+@export var miss_bubble: Control
 
 var level: LevelData
 var state: State = State.LOCKED
+var missing: bool = false
 var _pulse: Tween
+var _bob: Tween
 
 
 func _ready() -> void:
@@ -24,9 +27,10 @@ func _ready() -> void:
 	pressed.connect(func(): ev_selected.emit(self))
 
 
-func setup(p_level: LevelData, p_state: State, enclosure_style: String) -> void:
+func setup(p_level: LevelData, p_state: State, enclosure_style: String, p_missing: bool = false) -> void:
 	level = p_level
 	state = p_state
+	missing = p_missing and state == State.FILLED
 	var sticker_state := PhotoSticker.State.FILLED
 	if state == State.NEXT:
 		sticker_state = PhotoSticker.State.FROST
@@ -39,6 +43,7 @@ func setup(p_level: LevelData, p_state: State, enclosure_style: String) -> void:
 	play_badge.visible = state == State.NEXT
 	modulate.a = 0.85 if state == State.LOCKED else 1.0
 	_start_pulse()
+	_start_bob()
 
 
 func wiggle() -> void:
@@ -47,6 +52,18 @@ func wiggle() -> void:
 	var base := sticker.rotation_degrees
 	for a in [8.0, -6.0, 4.0, 0.0]:
 		tw.tween_property(sticker, "rotation_degrees", base + a, 0.07)
+
+
+func _start_bob() -> void:
+	if _bob:
+		_bob.kill()
+	miss_bubble.visible = missing
+	if not missing:
+		return
+	var y := miss_bubble.position.y
+	_bob = create_tween().set_loops()
+	_bob.tween_property(miss_bubble, "position:y", y - 8.0, 0.6).set_trans(Tween.TRANS_SINE)
+	_bob.tween_property(miss_bubble, "position:y", y, 0.6).set_trans(Tween.TRANS_SINE)
 
 
 func _start_pulse() -> void:

@@ -45,7 +45,10 @@ func record_win(level_id: int, stars: int) -> Dictionary:
 		pdata.level_stars[str(level_id)] = stars
 	if first_clear:
 		pdata.total_animals_saved += 1
-	pdata.level_last_day[str(level_id)] = today()
+	elif prev > 0:
+		# A replay of a collected animal is a review: the next «misses you» comes later.
+		pdata.level_reviews[str(level_id)] = int(pdata.level_reviews.get(str(level_id), 0)) + 1
+	pdata.level_last_day[str(level_id)] = ZooProgress.current_day()
 	var zone: ZoneData = catalog.get_zone_of_level(level_id) if catalog else null
 	var next_id := catalog.next_in_zone(level_id) if catalog else -1
 	_commit()
@@ -132,12 +135,6 @@ func reset_progress() -> void:
 	if pdata:
 		pdata.reset_to_defaults()
 		_commit()
-
-
-## Local day number (days since epoch in the device time zone).
-static func today() -> int:
-	var bias_min: int = int(Time.get_time_zone_from_system().get("bias", 0))
-	return int(floor((Time.get_unix_time_from_system() + bias_min * 60.0) / 86400.0))
 
 
 func _miss_ratio(letter: String) -> float:
