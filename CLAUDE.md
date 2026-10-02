@@ -34,7 +34,7 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 | `core/` | Project-agnostic only (HFSM, FSM, EventListener, ResourceUtils, shakers, window stack, `shaders/frost_blur`) — must not depend on `src/` |
 | `concepts/` | AI style reference only — never loaded by game |
 | `assets/` | Runtime art/fonts |
-| `tools/` | Python generators: `gen_zoo_content.py` (regions/zones/levels from one table), `generate_voice.py` (TTS voice clips) |
+| `tools/` | Python generators: `gen_zoo_content.py` (regions/zones/levels from one table), `generate_voice.py` (TTS voice clips), `gen_photo_prompts.py` + `import_photos.py` (AI animal pictures → `assets/animals/`) |
 
 ## Layer contracts
 

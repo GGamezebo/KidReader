@@ -16,3 +16,6 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Generated animal pictures waiting for tools/import_photos.py
+tools/photo_inbox/
