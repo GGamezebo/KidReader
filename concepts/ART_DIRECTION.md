@@ -21,6 +21,11 @@ Kids reading game inspired by «Учимся Читать, Спасаем Зве
 4. Tap placed letter → phoneme again
 5. All letters → speak full word → unblur photo
 
+## Menu / meta (planned)
+
+Zoo map with zones replaces the level list — see `ZOO_CONCEPT.md` + `zoo_mockups.html`.
+Animals outside the level = photo stickers (white die-cut border, slight tilt); empty enclosure = frosted blurred photo + «?».
+
 ## Palette
 
 | Token | Hex | Use |

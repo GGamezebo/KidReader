@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/sign_plate/sign_plate.gd" id="1"]
+[ext_resource type="StyleBox" path="res://src/ui/sign_plate/sign_wood.tres" id="2"]
+
+[node name="SignPlate" type="PanelContainer" node_paths=PackedStringArray("label")]
+offset_right = 120.0
+offset_bottom = 48.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2")
+script = ExtResource("1")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898, 0.224, 0.208, 1)
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 30
+text = "СЛОВО"
+horizontal_alignment = 1
+vertical_alignment = 1

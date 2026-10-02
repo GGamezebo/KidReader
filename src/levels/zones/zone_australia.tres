@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_1301.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_1302.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_1303.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_1304.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_1305.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_1306.tres" id="r5"]
+[ext_resource type="Resource" path="res://src/levels/level_1307.tres" id="r6"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "australia"
+display_name = "Австралия"
+icon = "🦘"
+color = Color(0.851, 0.5569, 0.2902, 1)
+festival_cards = 4
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5"), ExtResource("r6")]

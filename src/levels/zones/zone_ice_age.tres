@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_1601.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_1602.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_1603.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_1604.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_1605.tres" id="r4"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "ice_age"
+display_name = "Ледниковый период"
+icon = "🦣"
+color = Color(0.7216, 0.7765, 0.851, 1)
+festival_cards = 6
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4")]

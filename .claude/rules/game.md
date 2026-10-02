@@ -9,6 +9,8 @@ paths:
 - Orchestration: `game.gd` resolves level → live `LevelData`
 - States: `GameManager` FSM (`Playing` / `Completing` / `Victory`)
 - Features: `letter_tile`, `word_slot`, `animal` (photo+blur), `celebration`
+- Words up to 12 letters: `game.gd` fits one row via `_fit_cell_size` → `set_cell_size()` on slots/tiles (64–100 px)
+- Next button → next level of the same zone; zone's last level → no next (back to zone / festival)
 - **Letters only** of the target word; scatter randomly (no distractors)
 - Grab → straighten + phoneme; magnet snap; miss → fly-up repel
 - Tap filled slot → phoneme; complete → speak word + unblur photo

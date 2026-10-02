@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_1201.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_1202.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_1203.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_1204.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_1205.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_1206.tres" id="r5"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "amazon"
+display_name = "Джунгли Амазонки"
+icon = "🦜"
+color = Color(0.2471, 0.6392, 0.4784, 1)
+festival_cards = 4
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5")]

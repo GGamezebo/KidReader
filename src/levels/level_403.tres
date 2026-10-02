@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/common/level_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+level_id = 403
+animal_id = "turkey"
+animal_display_name = "Индюк"
+word = "ИНДЮК"
+parts = PackedStringArray("И", "Н", "Д", "Ю", "К")
+show_ghost_hints = true
+difficulty = 1

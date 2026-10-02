@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_1001.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_1002.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_1003.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_1004.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_1005.tres" id="r4"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "africa_forest"
+display_name = "Африканский лес"
+icon = "🦍"
+color = Color(0.3686, 0.6196, 0.2902, 1)
+festival_cards = 4
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4")]

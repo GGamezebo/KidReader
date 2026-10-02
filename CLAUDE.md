@@ -1,6 +1,6 @@
 # KidReader (Godot 4.7)
 
-Kids reading game: drag letters of a Russian word onto slots; a realistic animal photo behind a blur clears when the word is complete. Prefer the smallest change that fits existing patterns. Do not invent parallel systems.
+Kids reading game: drag letters of a Russian word onto slots; a realistic animal photo behind a blur clears when the word is complete. Meta (in progress, see `concepts/ZOO_CONCEPT.md`): a zoo of 21 zones; each won level brings an animal; a full zone → reading festival → next zone. Prefer the smallest change that fits existing patterns. Do not invent parallel systems.
 
 Godot 4.x only: `@export`/`@onready`, `signal.connect(cb)`, `instantiate()`, typed GDScript, `Input` actions. Run: open in Godot 4.7+, F5 (`main.tscn`). No automated tests.
 
@@ -25,16 +25,16 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 | Path | Role |
 |------|------|
 | `main.tscn` → `src/game/main.gd` | HFSM bootstrap host |
-| `src/game/scenes/` | Screens: `app_root`, `menu`, `game` |
+| `src/game/scenes/` | Screens: `app_root`, `menu` (zoo map ⇄ zone), `game` |
 | `src/features/` | Isolated gameplay features |
-| `src/common/` | Shared Resources (`LevelData`, `LevelsCatalog`, `UserSettings`) |
-| `src/ui/` | Shared UI (parental gate, icon button, loading screen) |
-| `src/levels/` | Campaign `level_N.tres` |
-| `src/game/account/` | `PData`, `ProgressController`, `SaveManager` |
-| `core/` | Project-agnostic only (HFSM, FSM, EventListener, ResourceUtils, shakers, window stack) — must not depend on `src/` |
+| `src/common/` | Shared Resources (`LevelData`, `ZoneData`, `RegionData`, `LevelsCatalog`, `UserSettings`) |
+| `src/ui/` | Shared UI: parental gate, icon button, loading screen, `PhotoSticker`, `SignPlate`, `DragScroll`, `styles/` |
+| `src/levels/` | Generated campaign: `level_<id>.tres`, `zones/`, `regions/` |
+| `src/game/account/` | `PData`, `ZooProgress` (unlock queries), `ProgressController`, `SaveManager` |
+| `core/` | Project-agnostic only (HFSM, FSM, EventListener, ResourceUtils, shakers, window stack, `shaders/frost_blur`) — must not depend on `src/` |
 | `concepts/` | AI style reference only — never loaded by game |
 | `assets/` | Runtime art/fonts |
-| `tools/` | Python generators: `_gen_levels.py` (levels, current), `generate_voice.py` (TTS voice clips); `generate_levels.py` is legacy syllable/distractor format |
+| `tools/` | Python generators: `gen_zoo_content.py` (regions/zones/levels from one table), `generate_voice.py` (TTS voice clips) |
 
 ## Layer contracts
 
@@ -42,13 +42,13 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 - `ice_layer` is legacy (ice-cage reveal) and not used by any scene; animal reveal = blur shader on photo. `GameEvents.ev_ice_cracked` / `ev_animal_freed` are leftovers of it
 - Level SFX + AudioDuck live on `game.tscn`; looping music on AppRoot `MusicPlayer`
 - `src/game/scenes/`: orchestration only; compose features; own screen FSM/UI
-- UI is editor-first: `.tscn` nodes, scripts bind `@export`. Dynamic lists instantiate template `.tscn`
+- UI (critical): all **static** UI (known in advance: nodes, fixed counts, state styles) lives in `.tscn`/`.tres`; scripts bind `@export` and only switch state. Only data-driven UI is built in code, via template `.tscn` + `instantiate()`. See `.claude/rules/ui-scenes.md`
 
 ## Context flow
 
 ```
 Menu --ev.start_level--> Level
-Level --ev.open_menu--> Menu
+Level --ev.open_menu {zone_id}--> Menu (reopens that zone)
 Level --ev.start_level--> Level (next / retry remount)
 ```
 
@@ -59,7 +59,7 @@ App phases via HFSM (`src/game/hfsm/app_hfsm.json`). Bridge: `RootEvents` on `ap
 - New gameplay unit → `src/features/{name}/`
 - New screen → `src/game/scenes/{name}/`
 - Shared Resource → `src/common/`
-- Level data → `src/levels/level_N.tres` + `LevelsCatalog`
+- Campaign content → edit the table in `tools/gen_zoo_content.py` and regenerate (never hand-edit `src/levels/`)
 - Progress mutations → `ProgressController`; disk only via `RootEvents.ev_save_progress` → `SaveManager`
 
 ## Stale docs

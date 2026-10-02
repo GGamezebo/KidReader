@@ -1,0 +1,126 @@
+class_name ZooMap
+extends Control
+
+## Zoo map: one long horizontal road through all zones, grouped into region bands.
+## Fully procedural from LevelsCatalog: islands sit on a sine wave, the road is a smooth curve through them.
+
+signal ev_zone_selected(zone: ZoneData)
+
+@export var catalog: LevelsCatalog
+@export var pdata: PData
+@export var island_scene: PackedScene
+@export var band_scene: PackedScene
+
+@export_group("Layout")
+@export var zone_spacing: float = 280.0
+@export var region_gap: float = 190.0
+@export var side_margin: float = 240.0
+## Vertical swing of the road as a share of the map height.
+@export_range(0.0, 0.4) var wave: float = 0.15
+@export var wave_frequency: float = 1.3
+@export_range(0.0, 1.0) var road_center: float = 0.58
+
+@export_group("Nodes")
+@export var scroll: ScrollContainer
+@export var content: Control
+@export var bands: Control
+@export var road: Line2D
+@export var road_stripe: Line2D
+@export var islands: Control
+@export var total_label: Label
+
+var _islands_by_zone: Dictionary = {}
+
+
+func _ready() -> void:
+	_build_default.call_deferred()
+
+
+## F6 / standalone: if nobody called build() during the first frame, show the default profile.
+func _build_default() -> void:
+	if catalog and _islands_by_zone.is_empty():
+		build(ZooProgress.new(catalog, pdata))
+
+
+func build(progress: ZooProgress) -> void:
+	for child in bands.get_children() + islands.get_children():
+		child.get_parent().remove_child(child)
+		child.queue_free()
+	_islands_by_zone.clear()
+	var h := maxf(scroll.size.y, 600.0)
+	var centers := PackedVector2Array()
+	var x := side_margin
+	var zone_i := 0
+	for r in catalog.regions.size():
+		var region := catalog.regions[r]
+		var band_start := 0.0 if r == 0 else x - zone_spacing * 0.5 - region_gap * 0.5
+		for zone in region.zones:
+			var center := Vector2(x, h * road_center + sin(zone_i * wave_frequency) * h * wave)
+			centers.append(center)
+			_add_island(zone, center, progress)
+			x += zone_spacing
+			zone_i += 1
+		x += region_gap
+		var band_end := x - zone_spacing * 0.5 - region_gap * 0.5
+		if r == catalog.regions.size() - 1:
+			band_end = x - region_gap + side_margin - zone_spacing
+		_add_band(region, band_start, band_end, h)
+	content.custom_minimum_size = Vector2(x - region_gap - zone_spacing + side_margin, h)
+	_build_road(centers)
+	total_label.text = "🐾 %d / %d" % [progress.total_cleared(), catalog.count()]
+
+
+func scroll_to_zone(zone: ZoneData, animated: bool = false) -> void:
+	await get_tree().process_frame
+	var island: Control = _islands_by_zone.get(zone.zone_id) if zone else null
+	if island == null:
+		return
+	var target := int(maxf(0.0, island.position.x + island.size.x * 0.5 - scroll.size.x * 0.5))
+	if animated:
+		create_tween().tween_property(scroll, "scroll_horizontal", target, 0.5).set_trans(Tween.TRANS_SINE)
+	else:
+		scroll.scroll_horizontal = target
+
+
+func _add_island(zone: ZoneData, center: Vector2, progress: ZooProgress) -> void:
+	var island := island_scene.instantiate() as ZoneIsland
+	islands.add_child(island)
+	island.position = center - island.size * 0.5
+	var state := ZoneIsland.State.LOCKED
+	if progress.is_festival_passed(zone):
+		state = ZoneIsland.State.DONE
+	elif progress.can_start_festival(zone):
+		state = ZoneIsland.State.READY
+	elif progress.is_zone_unlocked(zone):
+		state = ZoneIsland.State.OPEN
+	# Animals with real photos first, so the island shows faces rather than placeholders.
+	var with_photo: Array[Texture2D] = []
+	var without: Array[Texture2D] = []
+	for level in zone.levels:
+		if progress.is_level_cleared(level.level_id):
+			if level.animal_texture:
+				with_photo.append(level.animal_texture)
+			else:
+				without.append(null)
+	with_photo.append_array(without)
+	island.setup(zone, state, with_photo.size(), with_photo.slice(0, 3))
+	island.ev_selected.connect(func(i: ZoneIsland): ev_zone_selected.emit(i.zone))
+	_islands_by_zone[zone.zone_id] = island
+
+
+func _add_band(region: RegionData, from_x: float, to_x: float, h: float) -> void:
+	var band := band_scene.instantiate() as RegionBand
+	bands.add_child(band)
+	band.position = Vector2(from_x, 0)
+	band.size = Vector2(to_x - from_x, h)
+	band.setup(region)
+
+
+func _build_road(centers: PackedVector2Array) -> void:
+	var curve := Curve2D.new()
+	for i in centers.size():
+		var handle := Vector2(zone_spacing * 0.45, 0)
+		curve.add_point(centers[i], -handle, handle)
+	var points := curve.tessellate(4, 6)
+	road.points = points
+	road_stripe.points = points

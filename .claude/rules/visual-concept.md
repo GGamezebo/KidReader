@@ -8,4 +8,4 @@ paths:
 
 # Visual concept
 
-Level: realistic animal photo full-bleed behind frosted blur; glass letter tiles with red glyphs; bottom ghost slots. Menu: warm peach cards. Icon-only chrome. Read `concepts/ART_DIRECTION.md` before restyling.
+Level: realistic animal photo full-bleed behind frosted blur; glass letter tiles with red glyphs; bottom ghost slots. Menu: zoo map (region gradient bands, road, colored zone islands) and zone screen (photo stickers in enclosures, wooden word signs). Icon-only chrome. Read `concepts/ART_DIRECTION.md` before restyling.

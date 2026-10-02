@@ -1,22 +1,28 @@
 ---
-description: Levels and progress persistence
+description: Zoo campaign data (regions/zones/levels) and progress persistence
 paths:
   - "src/common/**/*"
   - "src/levels/**/*"
   - "src/game/account/**/*"
   - "src/game/scenes/app_root/**/*"
+  - "tools/gen_zoo_content.py"
 ---
 
-# Levels & progress
+# Levels, zones & progress (zoo campaign)
 
-- Canonical: `src/levels/level_N.tres` (`LevelData`)
-- Catalog: `src/common/levels_catalog.gd`
-- Progress: `PData` — stars per level, highest unlocked
-- Disk: `SaveManager` → `user://save/progress.json` via `ResourceUtils`
-- Mutations: `ProgressController` only
-- Writes: only `SaveManager` on `RootEvents.ev_save_progress` (debounced; suppressed during level; flush on level end / app close)
+- Data tree: `LevelsCatalog.regions` → `RegionData.zones` → `ZoneData.levels` → `LevelData`
+  (`src/common/{levels_catalog,region_data,zone_data,level_data}.gd`)
+- Files: `src/levels/level_<id>.tres`, `src/levels/zones/zone_<zone_id>.tres`, `src/levels/regions/region_<id>.tres`, `src/common/levels_catalog.tres`
+- **All of it is generated** by `tools/gen_zoo_content.py` from one table — edit the table, rerun, then rerun `tools/generate_voice.py`. Never hand-edit generated `.tres`
+- `level_id = zone_number * 100 + index` (101…2105); `zone_id` is a string ("farm"). Both are save keys
+- Photo: `assets/animals/animal_<animal_id>.jpg` is linked automatically if present; no photo → `AnimalView.placeholder_texture`
+- Progress: `PData` (`level_stars`, `festival_stars`, `total_animals_saved`). Unlocks are **derived**, never stored
+- Unlock rules: `ZooProgress` (RefCounted): zone 1 open; zone N opens after zone N-1 festival; levels inside a zone open in order; festival needs a full zone
+- Mutations: `ProgressController` only (`record_win`, `record_festival`)
+- Disk: `SaveManager` → `user://save/progress.json`; writes only on `RootEvents.ev_save_progress` (debounced; suppressed during level; flush on level end / app close)
 
 ## Must
 
-- Keep level ids stable
-- Bump `PData.CURRENT_SAVE_VERSION` + migrate when schema changes
+- Keep `level_id` / `zone_id` stable: append animals at the end of a zone, never reorder after release
+- Bump `PData.CURRENT_SAVE_VERSION` + migrate in `PData.apply_dict` when the schema or ids change (v1→v2 map: `V1_TO_V2_LEVEL_ID`)
+- Words ≤ 12 letters (generator asserts; level cells shrink to fit)

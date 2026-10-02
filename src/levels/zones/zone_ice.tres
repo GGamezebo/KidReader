@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_1501.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_1502.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_1503.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_1504.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_1505.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_1506.tres" id="r5"]
+[ext_resource type="Resource" path="res://src/levels/level_1507.tres" id="r6"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "ice"
+display_name = "Ледяной край"
+icon = "❄️"
+color = Color(0.6235, 0.8275, 0.9333, 1)
+festival_cards = 6
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5"), ExtResource("r6")]

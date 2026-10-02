@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/common/level_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/animals/animal_hedgehog.jpg" id="2"]
+
+[resource]
+script = ExtResource("1")
+level_id = 201
+animal_id = "hedgehog"
+animal_display_name = "Ёж"
+word = "ЁЖ"
+parts = PackedStringArray("Ё", "Ж")
+animal_texture = ExtResource("2")
+show_ghost_hints = true
+difficulty = 1

@@ -12,12 +12,13 @@ var slot_index: int = 0
 var expected: String = ""
 var filled: bool = false
 var show_ghost: bool = true
+var cell_size: float = 100.0
 var _pulse_tween: Tween
 
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(100, 100)
-	size = Vector2(100, 100)
+	custom_minimum_size = Vector2(cell_size, cell_size)
+	size = custom_minimum_size
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	if panel == null:
 		panel = get_node_or_null("Panel") as Panel
@@ -67,10 +68,25 @@ func _refresh_labels() -> void:
 		ghost_label.text = expected if show_ghost else ""
 		ghost_label.visible = show_ghost and not filled
 		ghost_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.55))
-		ghost_label.add_theme_font_size_override("font_size", 64)
+		ghost_label.add_theme_font_size_override("font_size", _font_size())
 	if label:
-		label.add_theme_font_size_override("font_size", 64)
+		label.add_theme_font_size_override("font_size", _font_size())
 		label.add_theme_color_override("font_color", Color("E53935"))
+
+
+## Square cell side in px; long words shrink cells so the whole word fits on one row.
+func set_cell_size(px: float) -> void:
+	cell_size = px
+	custom_minimum_size = Vector2(px, px)
+	size = custom_minimum_size
+	pivot_offset = size * 0.5
+	for l in [label, ghost_label]:
+		if l:
+			l.add_theme_font_size_override("font_size", _font_size())
+
+
+func _font_size() -> int:
+	return roundi(64.0 * cell_size / 100.0)
 
 
 func accepts(part: String) -> bool:

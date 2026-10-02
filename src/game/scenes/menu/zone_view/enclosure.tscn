@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/zone_view/enclosure.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/ui/photo_sticker/photo_sticker.tscn" id="2"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/zone_view/enclosure_fence.gd" id="3"]
+[ext_resource type="PackedScene" path="res://src/ui/sign_plate/sign_plate.tscn" id="4"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/badge_play.tres" id="5"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/flat_empty.tres" id="6"]
+[ext_resource type="StyleBox" path="res://src/game/scenes/menu/zone_view/ice_block.tres" id="7"]
+
+[sub_resource type="LabelSettings" id="PlayGlyph"]
+font_size = 30
+font_color = Color(1, 1, 1, 1)
+
+[node name="Enclosure" type="Button" node_paths=PackedStringArray("sticker", "fence", "sign_plate", "play_badge")]
+custom_minimum_size = Vector2(220, 330)
+size_flags_vertical = 4
+offset_right = 220.0
+offset_bottom = 330.0
+theme_override_styles/normal = ExtResource("6")
+theme_override_styles/hover = ExtResource("6")
+theme_override_styles/pressed = ExtResource("6")
+theme_override_styles/disabled = ExtResource("6")
+theme_override_styles/focus = ExtResource("6")
+flat = true
+script = ExtResource("1")
+sticker = NodePath("Sticker")
+fence = NodePath("Fence")
+sign_plate = NodePath("Sign")
+play_badge = NodePath("PlayBadge")
+
+[node name="Sticker" parent="." instance=ExtResource("2")]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 10.0
+offset_right = 205.0
+offset_bottom = 200.0
+pivot_offset = Vector2(95, 95)
+
+[node name="Fence" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3")
+ice_block = ExtResource("7")
+
+[node name="Sign" parent="." instance=ExtResource("4")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -86.0
+offset_right = 80.0
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PlayBadge" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 160.0
+offset_top = -8.0
+offset_right = 228.0
+offset_bottom = 60.0
+pivot_offset = Vector2(34, 34)
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("5")
+
+[node name="Glyph" type="Label" parent="PlayBadge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "▶"
+label_settings = SubResource("PlayGlyph")
+horizontal_alignment = 1
+vertical_alignment = 1

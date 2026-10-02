@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_801.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_802.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_803.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_804.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_805.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_806.tres" id="r5"]
+[ext_resource type="Resource" path="res://src/levels/level_807.tres" id="r6"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "savanna"
+display_name = "Саванна"
+icon = "🦁"
+color = Color(0.9137, 0.6275, 0.3569, 1)
+festival_cards = 4
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5"), ExtResource("r6")]

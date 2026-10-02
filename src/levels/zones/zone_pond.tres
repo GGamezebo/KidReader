@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_301.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_302.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_303.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_304.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_305.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_306.tres" id="r5"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "pond"
+display_name = "Пруд и речка"
+icon = "🦆"
+color = Color(0.3725, 0.7686, 0.7529, 1)
+festival_cards = 3
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5")]

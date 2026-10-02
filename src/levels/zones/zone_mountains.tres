@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_701.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_702.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_703.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_704.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_705.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_706.tres" id="r5"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "mountains"
+display_name = "Горы"
+icon = "🏔️"
+color = Color(0.6039, 0.6549, 0.7216, 1)
+festival_cards = 3
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5")]

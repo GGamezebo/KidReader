@@ -28,11 +28,11 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 | Path | Role |
 |------|------|
 | `main.tscn` → `src/game/main.gd` | HFSM bootstrap host |
-| `src/game/scenes/` | Screens: `app_root`, `menu`, `game` |
+| `src/game/scenes/` | Screens: `app_root`, `menu` (zoo map ⇄ zone), `game` |
 | `src/features/` | Isolated gameplay features |
-| `src/common/` | Shared Resources (`LevelData`, `LevelsCatalog`, settings helpers) |
-| `src/ui/` | Shared UI (parental gate, icon buttons, loading) |
-| `src/levels/` | Campaign `level_N.tres` |
+| `src/common/` | Shared Resources (`LevelData`, `ZoneData`, `RegionData`, `LevelsCatalog`, settings helpers) |
+| `src/ui/` | Shared UI: parental gate, icon button, loading, `PhotoSticker`, `SignPlate`, `DragScroll`, `styles/` |
+| `src/levels/` | Generated campaign: `level_<id>.tres`, `zones/`, `regions/` |
 | `core/` | Project-agnostic only (HFSM, FSM, EventListener, ResourceUtils, shackers, window stack) |
 | `concepts/` | AI style reference only — never loaded by game |
 | `assets/` | Runtime art/audio/fonts |
@@ -54,7 +54,7 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 
 ## UI — editor-first
 
-Prefer `.tscn` nodes; scripts bind `@export` and update state. Dynamic lists (level cards, letter tiles) instantiate template `.tscn`.
+All static UI (known in advance) → `.tscn`/`.tres`; scripts bind `@export` and update state. Only data-driven UI is built in code, via template `.tscn`. See `ui-scenes.mdc`.
 
 ## Context flow
 
@@ -71,5 +71,5 @@ App phases via HFSM (`src/game/hfsm/app_hfsm.json`). Bridge: `RootEvents` on `ap
 - New gameplay unit → `src/features/{name}/`
 - New screen → `src/game/scenes/{name}/`
 - Shared Resource → `src/common/`
-- Level data → `src/levels/level_N.tres` + `LevelsCatalog`
+- Campaign content → edit the table in `tools/gen_zoo_content.py` and regenerate (never hand-edit `src/levels/`)
 - Progress mutations → `ProgressController`; disk only via `RootEvents.ev_save_progress` → `SaveManager`

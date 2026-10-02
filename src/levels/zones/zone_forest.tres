@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_201.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_202.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_203.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_204.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_205.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_206.tres" id="r5"]
+[ext_resource type="Resource" path="res://src/levels/level_207.tres" id="r6"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "forest"
+display_name = "Лесная поляна"
+icon = "🌲"
+color = Color(0.4902, 0.7059, 0.4235, 1)
+festival_cards = 3
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5"), ExtResource("r6")]

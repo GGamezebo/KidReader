@@ -1,0 +1,241 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/zone_view/zone_view.gd" id="1"]
+[ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="2"]
+[ext_resource type="Resource" path="res://src/game/account/persistent_data.tres" id="3"]
+[ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="4"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/zone_view/enclosure.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="6"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/pill.tres" id="7"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/badge_play.tres" id="8"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/flat_empty.tres" id="9"]
+[ext_resource type="Script" path="res://src/ui/drag_scroll/drag_scroll.gd" id="10"]
+
+[sub_resource type="LabelSettings" id="PillText"]
+font_size = 30
+font_color = Color(0.239, 0.173, 0.161, 1)
+
+[sub_resource type="LabelSettings" id="PlayGlyph"]
+font_size = 34
+font_color = Color(1, 1, 1, 1)
+
+[node name="ZoneView" type="Control" node_paths=PackedStringArray("title_label", "paws_label", "scroll", "row", "sky", "ground", "decor", "festival_button", "festival_tent", "festival_ribbon", "festival_badge", "festival_medal", "voice_player")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+catalog = ExtResource("2")
+pdata = ExtResource("3")
+voice_bank = ExtResource("4")
+enclosure_scene = ExtResource("5")
+title_label = NodePath("Header/Pill/HBox/Title")
+paws_label = NodePath("Header/Pill/HBox/Paws")
+scroll = NodePath("Scroll")
+row = NodePath("Scroll/Margin/Row")
+sky = NodePath("Sky")
+ground = NodePath("Ground")
+decor = NodePath("Decor")
+festival_button = NodePath("Scroll/Margin/Row/Festival")
+festival_tent = NodePath("Scroll/Margin/Row/Festival/Tent")
+festival_ribbon = NodePath("Scroll/Margin/Row/Festival/Ribbon")
+festival_badge = NodePath("Scroll/Margin/Row/Festival/Badge")
+festival_medal = NodePath("Scroll/Margin/Row/Festival/Medal")
+voice_player = NodePath("VoicePlayer")
+
+[node name="Sky" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.804, 0.922, 0.969, 1)
+
+[node name="Decor" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Ground" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_top = 0.45
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.72, 0.86, 0.6, 1)
+
+[node name="Road" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -58.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.965, 0.824, 0.659, 1)
+
+[node name="Scroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 120.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="Margin" type="MarginContainer" parent="Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_right = 60
+
+[node name="Row" type="HBoxContainer" parent="Scroll/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 34
+alignment = 1
+
+[node name="Festival" type="Button" parent="Scroll/Margin/Row"]
+custom_minimum_size = Vector2(240, 330)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = ExtResource("9")
+theme_override_styles/hover = ExtResource("9")
+theme_override_styles/pressed = ExtResource("9")
+theme_override_styles/focus = ExtResource("9")
+flat = true
+
+[node name="Tent" type="Label" parent="Scroll/Margin/Row/Festival"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 230.0
+grow_horizontal = 2
+pivot_offset = Vector2(120, 110)
+theme_override_font_sizes/font_size = 170
+text = "🎪"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ribbon" type="ColorRect" parent="Scroll/Margin/Row/Festival"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 6.0
+offset_top = 150.0
+offset_right = -6.0
+offset_bottom = 172.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.898, 0.224, 0.208, 1)
+
+[node name="Lock" type="Label" parent="Scroll/Margin/Row/Festival/Ribbon"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -32.0
+offset_right = 30.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 44
+text = "🔒"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Badge" type="Panel" parent="Scroll/Margin/Row/Festival"]
+visible = false
+layout_mode = 0
+offset_left = 80.0
+offset_top = 240.0
+offset_right = 160.0
+offset_bottom = 320.0
+pivot_offset = Vector2(40, 40)
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("8")
+
+[node name="Glyph" type="Label" parent="Scroll/Margin/Row/Festival/Badge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "▶"
+label_settings = SubResource("PlayGlyph")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Medal" type="Label" parent="Scroll/Margin/Row/Festival"]
+visible = false
+layout_mode = 0
+offset_left = 150.0
+offset_top = 6.0
+offset_right = 236.0
+offset_bottom = 92.0
+theme_override_font_sizes/font_size = 64
+text = "🏅"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 900.0
+offset_bottom = 108.0
+theme_override_constants/separation = 18
+
+[node name="BackButton" parent="Header" instance=ExtResource("6")]
+layout_mode = 2
+glyph = "🗺️"
+
+[node name="Pill" type="PanelContainer" parent="Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = ExtResource("7")
+
+[node name="HBox" type="HBoxContainer" parent="Header/Pill"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="Header/Pill/HBox"]
+layout_mode = 2
+text = "🌲  Лесная поляна"
+label_settings = SubResource("PillText")
+
+[node name="Paws" type="Label" parent="Header/Pill/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.62, 0.33, 1)
+theme_override_font_sizes/font_size = 30
+text = "🐾 0/7"
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Voice"
+
+[node name="DragScroll" type="Node" parent="." node_paths=PackedStringArray("scroll")]
+script = ExtResource("10")
+scroll = NodePath("../Scroll")

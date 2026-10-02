@@ -18,11 +18,12 @@ var _base_scale: Vector2 = Vector2.ONE
 var _hint_tween: Tween
 var _float_tween: Tween
 var _scatter_rot: float = 0.0
+var cell_size: float = 100.0
 
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(100, 100)
-	size = Vector2(100, 100)
+	custom_minimum_size = Vector2(cell_size, cell_size)
+	size = custom_minimum_size
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	set_process(false)
 	pivot_offset = size * 0.5
@@ -39,7 +40,22 @@ func setup(p_part: String) -> void:
 	if label:
 		label.text = part
 		label.add_theme_color_override("font_color", Color("E53935"))
-		label.add_theme_font_size_override("font_size", 64)
+		label.add_theme_font_size_override("font_size", _font_size())
+
+
+## Square cell side in px; long words shrink cells so the whole word fits on one row.
+func set_cell_size(px: float) -> void:
+	cell_size = px
+	custom_minimum_size = Vector2(px, px)
+	size = custom_minimum_size
+	pivot_offset = size * 0.5
+	for l in [label]:
+		if l:
+			l.add_theme_font_size_override("font_size", _font_size())
+
+
+func _font_size() -> int:
+	return roundi(64.0 * cell_size / 100.0)
 
 
 func scatter_pose(rot_deg: float) -> void:

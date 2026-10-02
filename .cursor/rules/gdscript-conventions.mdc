@@ -31,5 +31,5 @@ alwaysApply: false
 
 - Autoloads for game flow (use `RootEvents` / `GameEvents` Resources)
 - Feature A importing Feature B internals
-- Building full menus with `Control.new()` trees
+- Creating static UI in code (`Control.new()`, `Label.new()`, `StyleBoxFlat.new()` for known states) — see `ui-scenes` rule
 - Putting project types into `core/`

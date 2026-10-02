@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_1801.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_1802.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_1803.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_1804.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_1805.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_1806.tres" id="r5"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "ocean"
+display_name = "Открытый океан"
+icon = "🐋"
+color = Color(0.1843, 0.502, 0.7882, 1)
+festival_cards = 6
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5")]

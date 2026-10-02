@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/common/region_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_dino_valley.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_dino_sea_sky.tres" id="r1"]
+
+[resource]
+script = ExtResource("1")
+region_id = "lost_world"
+display_name = "Затерянный мир"
+icon = "🦖"
+color_top = Color(0.7098, 0.8196, 0.4784, 1)
+color_bottom = Color(0.9412, 0.698, 0.4784, 1)
+transition_icon = ""
+enclosure_style = "palisade"
+sky_color = Color(1, 0.8471, 0.6902, 1)
+zones = [ExtResource("r0"), ExtResource("r1")]

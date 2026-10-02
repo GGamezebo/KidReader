@@ -6,26 +6,12 @@ extends Control
 @export var photo: TextureRect
 @export var sparkles: Control
 @export var blur_material: ShaderMaterial
+## Shown (under the frost) when a level has no photo yet.
+@export var placeholder_texture: Texture2D
 
 var animal_id: String = "bull"
 var _blur: float = 1.0
 var _rng := RandomNumberGenerator.new()
-
-const TEXTURE_BY_ID := {
-	"bull": "res://assets/animals/animal_bull.jpg",
-	"cat": "res://assets/animals/animal_cat.jpg",
-	"dog": "res://assets/animals/animal_dog.jpg",
-	"fox": "res://assets/animals/animal_fox.jpg",
-	"lion": "res://assets/animals/animal_lion.jpg",
-	"owl": "res://assets/animals/animal_owl.jpg",
-	"duck": "res://assets/animals/animal_duck.jpg",
-	"frog": "res://assets/animals/animal_frog.jpg",
-	"fish": "res://assets/animals/animal_fish.jpg",
-	"hedgehog": "res://assets/animals/animal_hedgehog.jpg",
-	"panda": "res://assets/animals/animal_panda.jpg",
-	"deer": "res://assets/animals/animal_deer.jpg",
-}
-
 
 func _ready() -> void:
 	_rng.randomize()
@@ -42,27 +28,8 @@ func setup(p_animal_id: String, _display_name: String, texture: Texture2D = null
 	animal_id = p_animal_id
 	_blur = 1.0
 	if photo:
-		if texture:
-			photo.texture = texture
-		else:
-			photo.texture = _load_animal_texture(animal_id)
+		photo.texture = texture if texture else placeholder_texture
 	_apply_blur()
-
-
-func _load_animal_texture(id: String) -> Texture2D:
-	var path: String = str(TEXTURE_BY_ID.get(id, TEXTURE_BY_ID["bull"]))
-	if ResourceLoader.exists(path):
-		var loaded := load(path)
-		if loaded is Texture2D:
-			return loaded as Texture2D
-	# Fallback: decode image manually if import is missing/broken.
-	if FileAccess.file_exists(path):
-		var img := Image.new()
-		var err := img.load(path)
-		if err == OK:
-			return ImageTexture.create_from_image(img)
-	push_warning("AnimalView: failed to load texture for '%s' (%s)" % [id, path])
-	return null
 
 
 func set_progress(filled_ratio: float) -> void:

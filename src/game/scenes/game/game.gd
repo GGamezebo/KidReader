@@ -19,6 +19,9 @@ extends IScene
 @export var inactivity_sec: float = 6.0
 @export var magnet_radius: float = 40.0
 @export var low_reject_ratio: float = 0.62
+## Letter cell side (slots + tiles). Shrinks for long words (up to 12 letters) so one row fits.
+@export var max_cell_size: float = 100.0
+@export var min_cell_size: float = 64.0
 
 var _manager: GameManager
 var _slots: Array[WordSlot] = []
@@ -29,6 +32,7 @@ var _hinting: bool = false
 var _active: bool = false
 var _next_level_id: int = -1
 var _rng := RandomNumberGenerator.new()
+var _cell_size: float = 100.0
 
 
 func _ready() -> void:
@@ -161,6 +165,7 @@ func _build_level() -> void:
 	if animal_view:
 		animal_view.setup(level_data.animal_id, level_data.animal_display_name, level_data.animal_texture)
 
+	_cell_size = _fit_cell_size(level_data.parts.size())
 	var revealed := {}
 	for idx in level_data.revealed_indices:
 		revealed[int(idx)] = true
@@ -169,6 +174,7 @@ func _build_level() -> void:
 		var part := str(level_data.parts[i])
 		var slot := word_slot_scene.instantiate() as WordSlot
 		slots_row.add_child(slot)
+		slot.set_cell_size(_cell_size)
 		var prefilled := revealed.has(i)
 		slot.setup(i, part, level_data.show_ghost_hints, prefilled)
 		slot.ev_tapped.connect(_on_slot_tapped)
@@ -186,6 +192,18 @@ func _build_level() -> void:
 	_update_blur()
 
 
+
+func _fit_cell_size(count: int) -> float:
+	if count <= 0:
+		return max_cell_size
+	var width := get_viewport().get_visible_rect().size.x
+	var bar := slots_row.get_parent() as Control if slots_row else null
+	if bar:
+		width -= bar.get_theme_constant("margin_left") + bar.get_theme_constant("margin_right")
+	var gap := slots_row.get_theme_constant("separation") if slots_row else 16
+	var fit := (width - gap * (count - 1)) / float(count)
+	return clampf(floorf(fit), min_cell_size, max_cell_size)
+
 func _scatter_letters(letters: Array[String]) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -198,6 +216,7 @@ func _scatter_letters(letters: Array[String]) -> void:
 	for part in letters:
 		var tile := letter_tile_scene.instantiate() as LetterTile
 		scatter_host.add_child(tile)
+		tile.set_cell_size(_cell_size)
 		tile.setup(part)
 		tile.ev_picked.connect(_on_tile_picked)
 		tile.ev_drag_moved.connect(_on_tile_moved)
@@ -219,10 +238,10 @@ func _scatter_letters(letters: Array[String]) -> void:
 func _find_scatter_pos(area: Vector2, used: Array[Rect2]) -> Vector2:
 	for _try in 40:
 		var p := Vector2(
-			_rng.randf_range(24.0, maxf(40.0, area.x - 120.0)),
+			_rng.randf_range(24.0, maxf(40.0, area.x - _cell_size - 20.0)),
 			_rng.randf_range(area.y * 0.08, area.y * 0.55)
 		)
-		var r := Rect2(p, Vector2(100, 100))
+		var r := Rect2(p, Vector2(_cell_size, _cell_size))
 		var ok := true
 		for u in used:
 			if u.grow(18).intersects(r):
@@ -359,7 +378,7 @@ func _pulse_next() -> void:
 
 func _on_home() -> void:
 	if root_events:
-		root_events.ev_return_to_menu.emit({})
+		root_events.ev_return_to_menu.emit(_menu_payload())
 
 
 func _on_next() -> void:
@@ -368,7 +387,13 @@ func _on_next() -> void:
 	if _next_level_id > 0:
 		root_events.ev_start_level.emit({"level_id": _next_level_id})
 	else:
-		root_events.ev_return_to_menu.emit({})
+		root_events.ev_return_to_menu.emit(_menu_payload())
+
+
+## Back to the zone this level belongs to (menu reopens it).
+func _menu_payload() -> Dictionary:
+	var zone: ZoneData = catalog.get_zone_of_level(level_data.level_id) if catalog and level_data else null
+	return {"zone_id": zone.zone_id} if zone else {}
 
 
 func _find_progress() -> ProgressController:

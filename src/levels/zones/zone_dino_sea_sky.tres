@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_2101.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_2102.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_2103.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_2104.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_2105.tres" id="r4"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "dino_sea_sky"
+display_name = "Небо и море ящеров"
+icon = "🦕"
+color = Color(0.7608, 0.3333, 0.2275, 1)
+festival_cards = 6
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4")]

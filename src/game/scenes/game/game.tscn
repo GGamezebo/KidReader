@@ -1,7 +1,6 @@
 [gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/game/game.gd" id="1"]
-[ext_resource type="Script" path="res://src/common/level_data.gd" id="2"]
 [ext_resource type="PackedScene" path="res://src/features/letter_tile/letter_tile.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://src/features/word_slot/word_slot.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://src/features/animal/animal_view.tscn" id="5"]
@@ -12,16 +11,7 @@
 [ext_resource type="Resource" path="res://src/game/scenes/app_root/root_events.tres" id="11"]
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="12"]
 [ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="13"]
-
-[sub_resource type="Resource" id="LevelData_default"]
-script = ExtResource("2")
-level_id = 1
-animal_id = "bull"
-animal_display_name = "Бык"
-word = "БЫК"
-parts = PackedStringArray("Б", "Ы", "К")
-show_ghost_hints = true
-difficulty = 1
+[ext_resource type="Resource" path="res://src/levels/level_101.tres" id="14"]
 
 [sub_resource type="Resource" id="GameEvents_local"]
 script = ExtResource("8")
@@ -37,7 +27,7 @@ script = ExtResource("1")
 root_events = ExtResource("11")
 catalog = ExtResource("12")
 game_events = SubResource("GameEvents_local")
-level_data = SubResource("LevelData_default")
+level_data = ExtResource("14")
 letter_tile_scene = ExtResource("3")
 word_slot_scene = ExtResource("4")
 animal_view = NodePath("AnimalView")

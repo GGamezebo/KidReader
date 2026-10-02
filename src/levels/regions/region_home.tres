@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/common/region_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_farm.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_forest.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_pond.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_poultry.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_meadow.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_taiga.tres" id="r5"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_mountains.tres" id="r6"]
+
+[resource]
+script = ExtResource("1")
+region_id = "home"
+display_name = "Родные края"
+icon = "🏡"
+color_top = Color(1, 0.8902, 0.8, 1)
+color_bottom = Color(0.851, 0.9373, 0.7529, 1)
+transition_icon = "⛵"
+enclosure_style = "fence"
+sky_color = Color(0.8039, 0.9216, 0.9686, 1)
+zones = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5"), ExtResource("r6")]

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/common/level_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+level_id = 207
+animal_id = "squirrel"
+animal_display_name = "Белка"
+word = "БЕЛКА"
+parts = PackedStringArray("Б", "Е", "Л", "К", "А")
+show_ghost_hints = true
+difficulty = 1

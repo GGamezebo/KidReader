@@ -1,14 +1,18 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/menu.gd" id="1"]
-[ext_resource type="PackedScene" path="res://src/game/scenes/menu/levels/level_card.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://src/ui/parental_gate/parental_gate.tscn" id="3"]
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="4"]
 [ext_resource type="Resource" path="res://src/game/scenes/app_root/root_events.tres" id="5"]
 [ext_resource type="Resource" path="res://src/game/account/persistent_data.tres" id="6"]
 [ext_resource type="Resource" path="res://src/common/user_settings.tres" id="7"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/zoo_map/zoo_map.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/zone_view/zone_view.tscn" id="9"]
+[ext_resource type="Script" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="10"]
+[ext_resource type="Script" path="res://core/lib/window_stack_manager/button_window_back.gd" id="11"]
+[ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="12"]
 
-[node name="Menu" type="Control" node_paths=PackedStringArray("levels_row", "levels_scroll", "settings_button", "music_button", "parental_gate", "settings_panel")]
+[node name="Menu" type="Control" node_paths=PackedStringArray("zoo_map", "zone_view", "window_stack", "settings_button", "music_button", "parental_gate", "settings_panel", "music_toggle", "sfx_toggle", "settings_close")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,85 +24,52 @@ root_events = ExtResource("5")
 catalog = ExtResource("4")
 pdata = ExtResource("6")
 user_settings = ExtResource("7")
-level_card_scene = ExtResource("2")
-levels_row = NodePath("SafeArea/VBox/Scroll/LevelsRow")
-levels_scroll = NodePath("SafeArea/VBox/Scroll")
-settings_button = NodePath("SafeArea/VBox/TopBar/SettingsButton")
-music_button = NodePath("SafeArea/VBox/TopBar/MusicButton")
+zoo_map = NodePath("ZooMap")
+zone_view = NodePath("ZoneView")
+window_stack = NodePath("WindowStack")
+settings_button = NodePath("TopRight/SettingsButton")
+music_button = NodePath("TopRight/MusicButton")
 parental_gate = NodePath("ParentalGate")
 settings_panel = NodePath("SettingsPanel")
+music_toggle = NodePath("SettingsPanel/Panel/VBox/MusicToggle")
+sfx_toggle = NodePath("SettingsPanel/Panel/VBox/SfxToggle")
+settings_close = NodePath("SettingsPanel/Panel/VBox/CloseButton")
 
-[node name="Bg" type="ColorRect" parent="."]
+[node name="ZooMap" parent="." instance=ExtResource("8")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 0.965, 0.91, 1)
 
-[node name="Hill" type="ColorRect" parent="."]
+[node name="ZoneView" parent="." instance=ExtResource("9")]
+visible = false
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -220.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-color = Color(0.42, 0.796, 0.467, 0.35)
 
-[node name="SafeArea" type="MarginContainer" parent="."]
+[node name="WindowStack" type="Node" parent="." node_paths=PackedStringArray("default_window")]
+script = ExtResource("10")
+default_window = NodePath("../ZooMap")
+
+[node name="BackFromZone" type="Node" parent="WindowStack" node_paths=PackedStringArray("button")]
+script = ExtResource("11")
+button = NodePath("../../ZoneView/Header/BackButton")
+
+[node name="TopRight" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 24
+offset_left = -220.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = 108.0
+grow_horizontal = 0
+theme_override_constants/separation = 16
+alignment = 2
 
-[node name="VBox" type="VBoxContainer" parent="SafeArea"]
+[node name="MusicButton" parent="TopRight" instance=ExtResource("12")]
 layout_mode = 2
-theme_override_constants/separation = 20
+glyph = "🎵"
 
-[node name="TopBar" type="HBoxContainer" parent="SafeArea/VBox"]
+[node name="SettingsButton" parent="TopRight" instance=ExtResource("12")]
 layout_mode = 2
-
-[node name="Brand" type="Label" parent="SafeArea/VBox/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.239, 0.173, 0.161, 1)
-theme_override_font_sizes/font_size = 36
-text = "Учимся читать"
-
-[node name="MusicButton" type="Button" parent="SafeArea/VBox/TopBar"]
-custom_minimum_size = Vector2(88, 88)
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "🎵"
-
-[node name="SettingsButton" type="Button" parent="SafeArea/VBox/TopBar"]
-custom_minimum_size = Vector2(88, 88)
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "⚙️"
-
-[node name="Scroll" type="ScrollContainer" parent="SafeArea/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 0
-
-[node name="LevelsRow" type="HBoxContainer" parent="SafeArea/VBox/Scroll"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 20
-alignment = 1
+glyph = "⚙️"
 
 [node name="ParentalGate" parent="." instance=ExtResource("3")]
 visible = false

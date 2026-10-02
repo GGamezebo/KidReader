@@ -1,22 +1,29 @@
 ---
-description: Menu, windows, and RootEvents navigation
+description: Zoo menu (map ⇄ zone), windows, and RootEvents navigation
 paths:
   - "src/game/scenes/menu/**/*"
   - "src/game/scenes/app_root/**/*"
   - "core/lib/window_stack_manager/**/*"
 ---
 
-# Menu & navigation
+# Menu & navigation (zoo)
 
 1. Scenes (Menu/Level) — only via `RootEvents`
-2. Full-screen windows — `WindowStackManager`
-3. Dialogs/overlays (parental gate, pause) — NOT on the window stack
+2. Full-screen windows — `WindowStackManager` in `menu.tscn`: `ZooMap` (default) ⇄ `ZoneView`; back = `ButtonWindowBack`
+3. Dialogs/overlays (parental gate, settings, later arrival/joy) — NOT on the window stack
 
-## Game start
+## Screens (`src/game/scenes/menu/`)
 
-- Payload: `{ "level_id": int }` or `{ "level_data": LevelData }`
-- Return: `ev_return_to_menu`
-- Next level: `ev_start_level` with next id (remounts Level)
+- `menu.gd` — host: shares catalog/pdata, rebuilds on `pdata.changed`, `initialize({"zone_id"})` reopens that zone
+- `zoo_map/` — `ZooMap` builds region bands, road (Curve2D → Line2D) and `ZoneIsland`s procedurally from `LevelsCatalog`
+- `zone_view/` — `ZoneView` row of `Enclosure`s (+ static festival tent); fence drawn by `EnclosureFence` per `RegionData.enclosure_style`
+- States come from `ZooProgress` only; components never read PData
+
+## Game start / return
+
+- Start: `ev_start_level({ "level_id": int })` (or `{ "level_data": LevelData }`)
+- Return: `ev_return_to_menu({ "zone_id": String })` — level sends its own zone
+- Next level: `ev_start_level` with next id of the same zone (remounts Level)
 
 ## Avoid
 

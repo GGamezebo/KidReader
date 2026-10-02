@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/common/region_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_reef.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_ocean.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_deep_sea.tres" id="r2"]
+
+[resource]
+script = ExtResource("1")
+region_id = "sea"
+display_name = "Подводный мир"
+icon = "🐠"
+color_top = Color(0.1804, 0.7686, 0.7137, 1)
+color_bottom = Color(0.1333, 0.1882, 0.4196, 1)
+transition_icon = "🌀"
+enclosure_style = "dome"
+sky_color = Color(0.1216, 0.5608, 0.6902, 1)
+zones = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2")]

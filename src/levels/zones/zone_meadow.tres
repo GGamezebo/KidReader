@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/common/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/level_501.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/level_502.tres" id="r1"]
+[ext_resource type="Resource" path="res://src/levels/level_503.tres" id="r2"]
+[ext_resource type="Resource" path="res://src/levels/level_504.tres" id="r3"]
+[ext_resource type="Resource" path="res://src/levels/level_505.tres" id="r4"]
+[ext_resource type="Resource" path="res://src/levels/level_506.tres" id="r5"]
+[ext_resource type="Resource" path="res://src/levels/level_507.tres" id="r6"]
+
+[resource]
+script = ExtResource("1")
+zone_id = "meadow"
+display_name = "Цветочный луг"
+icon = "🐝"
+color = Color(0.9098, 0.5608, 0.6902, 1)
+festival_cards = 3
+levels = [ExtResource("r0"), ExtResource("r1"), ExtResource("r2"), ExtResource("r3"), ExtResource("r4"), ExtResource("r5"), ExtResource("r6")]

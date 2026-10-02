@@ -1,0 +1,109 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/ui/photo_sticker/photo_sticker.gd" id="1"]
+[ext_resource type="StyleBox" path="res://src/ui/photo_sticker/sticker_frame.tres" id="2"]
+[ext_resource type="StyleBox" path="res://src/ui/photo_sticker/sticker_frame_empty.tres" id="3"]
+[ext_resource type="StyleBox" path="res://src/ui/photo_sticker/sticker_mask.tres" id="4"]
+[ext_resource type="Shader" path="res://core/shaders/frost_blur.gdshader" id="5"]
+
+[sub_resource type="ShaderMaterial" id="Frost"]
+resource_local_to_scene = true
+shader = ExtResource("5")
+shader_parameter/blur_strength = 0.0
+shader_parameter/frost_amount = 0.5
+shader_parameter/frost_tint = Color(0.86, 0.93, 0.97, 1)
+shader_parameter/blur_scale = 7.0
+
+[sub_resource type="Gradient" id="PlaceholderGradient"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.98, 0.9, 0.8, 1, 0.82, 0.9, 0.72, 1)
+
+[sub_resource type="GradientTexture2D" id="Placeholder"]
+gradient = SubResource("PlaceholderGradient")
+width = 64
+height = 64
+fill_to = Vector2(0, 1)
+
+[node name="PhotoSticker" type="Control" node_paths=PackedStringArray("frame", "mask", "photo", "question", "glyph")]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 160.0
+offset_bottom = 160.0
+pivot_offset = Vector2(80, 80)
+mouse_filter = 2
+script = ExtResource("1")
+placeholder_texture = SubResource("Placeholder")
+frame = NodePath("Frame")
+mask = NodePath("Frame/Mask")
+photo = NodePath("Frame/Mask/Photo")
+question = NodePath("Question")
+glyph = NodePath("Glyph")
+frame_style = ExtResource("2")
+empty_style = ExtResource("3")
+
+[node name="Frame" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2")
+
+[node name="Mask" type="Panel" parent="Frame"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("4")
+
+[node name="Photo" type="TextureRect" parent="Frame/Mask"]
+material = SubResource("Frost")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Glyph" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 54
+text = "🐾"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Question" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.24, 0.17, 0.16, 0.35)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 67
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1

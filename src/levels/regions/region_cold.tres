@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="RegionData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/common/region_data.gd" id="1"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_ice.tres" id="r0"]
+[ext_resource type="Resource" path="res://src/levels/zones/zone_ice_age.tres" id="r1"]
+
+[resource]
+script = ExtResource("1")
+region_id = "cold"
+display_name = "Холодные края"
+icon = "❄️"
+color_top = Color(0.9333, 0.9686, 0.9922, 1)
+color_bottom = Color(0.7255, 0.8627, 0.949, 1)
+transition_icon = "🤿"
+enclosure_style = "ice"
+sky_color = Color(0.902, 0.9569, 0.9843, 1)
+zones = [ExtResource("r0"), ExtResource("r1")]

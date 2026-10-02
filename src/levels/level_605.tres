@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/common/level_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+level_id = 605
+animal_id = "sable"
+animal_display_name = "Соболь"
+word = "СОБОЛЬ"
+parts = PackedStringArray("С", "О", "Б", "О", "Л", "Ь")
+show_ghost_hints = true
+difficulty = 1
