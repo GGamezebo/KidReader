@@ -19,3 +19,6 @@ Thumbs.db
 
 # Generated animal pictures waiting for tools/import_photos.py
 tools/photo_inbox/
+
+# Export builds (apk, exe, web)
+bin/
