@@ -14,7 +14,7 @@ Path-scoped rules live in `.claude/rules/` (mirrors `.cursor/rules/`).
 
 ## Target platforms (critical)
 
-Mobile, desktop, HTML5. Every control works with touch and mouse; large finger-friendly hit targets. Isolate `OS.has_feature(...)` behind helpers.
+Mobile, desktop, HTML5. Every control works with touch and mouse; large finger-friendly hit targets. Isolate `OS.has_feature(...)` behind helpers (`Platform` in `src/common/platform.gd`).
 
 ## Scene isolation (critical)
 

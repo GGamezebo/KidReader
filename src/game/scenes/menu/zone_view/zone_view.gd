@@ -96,8 +96,11 @@ func play_arrival(level_id: int) -> void:
 		return
 	await _scroll_to(enc)
 	await get_tree().create_timer(0.4).timeout
+	if not is_instance_valid(enc):
+		return
 	await arrival.play(enc.level, enc.sticker)
-	enc.wiggle()
+	if is_instance_valid(enc):
+		enc.wiggle()
 
 
 func _refresh_festival() -> void:

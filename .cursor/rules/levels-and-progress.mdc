@@ -19,7 +19,7 @@ alwaysApply: false
 - «Animal misses you» is derived too: `ZooProgress.is_review_due` / `review_in_zone` (one per zone, oldest) from `level_last_day` + `REVIEW_DAYS[level_reviews]`; `record_win` on a replay counts a review; day = `ZooProgress.current_day()`
 - Park decorations: `src/common/decor_catalog.tres` (`DecorCatalog` of `DecorItem` id/glyph/stars, hand-edited; `decor_id` is a save key). Open when `ZooProgress.total_stars()` ≥ `stars`; `place_decor` / `remove_decor` in `ProgressController`
 - Dino egg is derived too: `LevelsCatalog.egg_found_after` / `egg_hatch_zone` (generator `EGG`) → `ZooProgress.egg_cracks()` (-1 = mystery, +1 per later festival), `is_egg_hatched()`
-- Mutations: `ProgressController` only (`record_win`, `record_festival`, `record_letter` (level drops onto a slot), `add_play_time` (own `_process`, focus-aware), `reset_progress`); `get_parent_stats()` feeds the parent corner
+- Mutations: `ProgressController` only (`record_win`, `record_festival`, `record_letter` (level drops onto a slot), `add_play_time` (own `_process`, focus-aware), `reset_progress`); `get_parent_stats()` feeds the parent corner; `dev_unlock_all` / `dev_fill_zone` / `dev_make_all_miss` are editor cheats for `DevPanel` only
 - Disk: `SaveManager` → `user://save/progress.json`; writes only on `RootEvents.ev_save_progress` (debounced; suppressed during level; flush on level end / app close)
 
 ## Must

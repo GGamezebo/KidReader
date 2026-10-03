@@ -65,18 +65,23 @@ func play(level: LevelData, target: PhotoSticker) -> void:
 	# Card flies into the enclosure, balloon floats away.
 	var home := sticker.position
 	var from := sticker.global_position
-	var target_scale := target.size.x / sticker.size.x
+	# The zone may have been rebuilt meanwhile (progress changed) — then the card just shrinks away in place.
+	var has_target := is_instance_valid(target)
+	var target_pos := target.global_position if has_target else from + sticker.size * 0.5
+	var target_scale := target.size.x / sticker.size.x if has_target else 0.0
 	var balloon := carrier.get_node("Balloon") as Control
 	sticker.top_level = true
 	sticker.global_position = from
 	var fly := create_tween().set_parallel()
-	fly.tween_property(sticker, "global_position", target.global_position, 0.6).set_trans(Tween.TRANS_SINE)
+	fly.tween_property(sticker, "global_position", target_pos, 0.6).set_trans(Tween.TRANS_SINE)
 	fly.tween_property(sticker, "scale", Vector2.ONE * target_scale, 0.6).set_trans(Tween.TRANS_SINE)
 	fly.tween_property(balloon, "position:y", balloon.position.y - size.y, 0.9).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	fly.tween_property(dim, "modulate:a", 0.0, 0.5)
 	fly.tween_property(letters_row, "modulate:a", 0.0, 0.4)
 	await fly.finished
-	target.modulate.a = 1.0
+	if is_instance_valid(target):
+		target.modulate.a = 1.0
+	sticker.scale = Vector2.ONE
 	sticker.top_level = false
 	sticker.position = home
 	balloon.position.y += size.y

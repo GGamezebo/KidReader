@@ -150,6 +150,41 @@ func reset_progress() -> void:
 		_commit()
 
 
+## --- Dev cheats (DevPanel, editor only) ---
+
+## Every animal and festival with 3 stars (egg hatched, all decorations open).
+func dev_unlock_all() -> void:
+	for zone in catalog.get_zones():
+		_dev_fill(zone)
+		pdata.festival_stars[zone.zone_id] = 3
+	_commit()
+
+
+## All animals of the zone collected → its festival can start.
+func dev_fill_zone(zone: ZoneData) -> void:
+	_dev_fill(zone)
+	_commit()
+
+
+## Every collected animal «was seen long ago» → all due for a review.
+func dev_make_all_miss() -> void:
+	for key in pdata.level_stars:
+		pdata.level_last_day[key] = ZooProgress.current_day() - 60
+		pdata.level_reviews.erase(key)
+	_commit()
+
+
+func _dev_fill(zone: ZoneData) -> void:
+	if zone == null:
+		return
+	for level in zone.levels:
+		var key := str(level.level_id)
+		if not pdata.level_stars.has(key):
+			pdata.total_animals_saved += 1
+			pdata.level_last_day[key] = ZooProgress.current_day()
+		pdata.level_stars[key] = 3
+
+
 func _miss_ratio(letter: String) -> float:
 	var wrong := float(pdata.letter_wrong.get(letter, 0))
 	return wrong / maxf(1.0, wrong + float(pdata.letter_right.get(letter, 0)))

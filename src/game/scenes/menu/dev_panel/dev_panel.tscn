@@ -1,0 +1,115 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/dev_panel/dev_panel.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/ui/icon_button/icon_button.tscn" id="2"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/card.tres" id="3"]
+
+[sub_resource type="LabelSettings" id="Title"]
+font_size = 26
+font_color = Color(0.239, 0.173, 0.161, 1)
+
+[node name="DevPanel" type="Control" node_paths=PackedStringArray("toggle_button", "panel", "unlock_all", "next_animal", "fill_zone", "pass_festival", "all_miss", "reset")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1")
+toggle_button = NodePath("Toggle")
+panel = NodePath("Panel")
+unlock_all = NodePath("Panel/VBox/UnlockAll")
+next_animal = NodePath("Panel/VBox/NextAnimal")
+fill_zone = NodePath("Panel/VBox/FillZone")
+pass_festival = NodePath("Panel/VBox/PassFestival")
+all_miss = NodePath("Panel/VBox/AllMiss")
+reset = NodePath("Panel/VBox/Reset")
+
+[node name="Toggle" parent="." instance=ExtResource("2")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -112.0
+offset_top = -44.0
+offset_right = -24.0
+offset_bottom = 44.0
+grow_horizontal = 0
+grow_vertical = 2
+glyph = "🛠️"
+
+[node name="Panel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -660.0
+offset_top = -250.0
+offset_right = -128.0
+offset_bottom = 250.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "🛠️  Разработчик (только в редакторе)"
+label_settings = SubResource("Title")
+
+[node name="UnlockAll" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+text = "🔓  Открыть всё (все звери и праздники ★★★)"
+alignment = 0
+
+[node name="NextAnimal" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+text = "🐾  +1 зверь в текущей зоне (с прибытием)"
+alignment = 0
+
+[node name="FillZone" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+text = "🧺  Заполнить текущую зону"
+alignment = 0
+
+[node name="PassFestival" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+text = "🎪  Пройти праздник текущей зоны"
+alignment = 0
+
+[node name="AllMiss" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+text = "💭  Все звери соскучились"
+alignment = 0
+
+[node name="Reset" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+text = "🗑️  Сбросить весь прогресс"
+alignment = 0
