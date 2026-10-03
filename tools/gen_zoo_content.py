@@ -374,6 +374,10 @@ EMOJI = {
 }
 
 MAX_WORD = 12
+# First run: the first N levels of the campaign are `tutorial` (hand demo, forgiving magnet, always 3 stars).
+# They must be guaranteed joy, so their words stay short.
+TUTORIAL_LEVELS = 3
+TUTORIAL_MAX_WORD = 3
 
 
 def color(hex_: str) -> str:
@@ -390,7 +394,7 @@ def res(path: Path) -> str:
     return "res://" + path.relative_to(ROOT).as_posix()
 
 
-def write_level(level_id: int, animal_id: str, word: str, ghosts: bool, difficulty: int) -> Path:
+def write_level(level_id: int, animal_id: str, word: str, ghosts: bool, difficulty: int, tutorial: bool) -> Path:
     assert animal_id in EMOJI, f"no emoji for {animal_id}"
     assert animal_id in FACTS, f"no fact for {animal_id}"
     path = LEVELS_DIR / f"level_{level_id}.tres"
@@ -414,6 +418,7 @@ def write_level(level_id: int, animal_id: str, word: str, ghosts: bool, difficul
         + f"parts = PackedStringArray({parts})\n"
         + tex_line
         + f"show_ghost_hints = {'true' if ghosts else 'false'}\n"
+        + ("tutorial = true\n" if tutorial else "")
         + f"difficulty = {difficulty}\n",
         encoding="utf-8")
     return path
@@ -459,7 +464,9 @@ def main() -> None:
                 assert len(word) <= MAX_WORD, f"{word} longer than {MAX_WORD}"
                 seen_animals.add(aid)
                 show_ghost = ghosts == "all" or (ghosts == "first" and idx == 1)
-                level_paths.append(write_level(zone_number * 100 + idx, aid, word, show_ghost, difficulty))
+                tutorial = total < TUTORIAL_LEVELS
+                assert not tutorial or len(word) <= TUTORIAL_MAX_WORD, f"tutorial word {word} is too long"
+                level_paths.append(write_level(zone_number * 100 + idx, aid, word, show_ghost, difficulty, tutorial))
                 total += 1
                 with_photo += (PHOTOS / f"animal_{aid}.jpg").exists()
             zpath = ZONES_DIR / f"zone_{zid}.tres"

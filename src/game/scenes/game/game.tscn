@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/game/game.gd" id="1"]
 [ext_resource type="PackedScene" path="res://src/features/letter_tile/letter_tile.tscn" id="3"]
@@ -12,11 +12,12 @@
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="12"]
 [ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="13"]
 [ext_resource type="Resource" path="res://src/levels/level_101.tres" id="14"]
+[ext_resource type="PackedScene" path="res://src/ui/hand_hint/hand_hint.tscn" id="hand"]
 
 [sub_resource type="Resource" id="GameEvents_local"]
 script = ExtResource("8")
 
-[node name="Game" type="Control" node_paths=PackedStringArray("animal_view", "celebration", "slots_row", "scatter_host", "home_button", "next_button", "fx_host", "sfx_controller")]
+[node name="Game" type="Control" node_paths=PackedStringArray("animal_view", "celebration", "slots_row", "scatter_host", "home_button", "next_button", "fx_host", "sfx_controller", "hand_hint")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,6 +39,7 @@ home_button = NodePath("HomeButton")
 next_button = NodePath("NextButton")
 fx_host = NodePath("FxHost")
 sfx_controller = NodePath("SfxController")
+hand_hint = NodePath("HandHint")
 
 [node name="AnimalView" parent="." instance=ExtResource("5")]
 layout_mode = 1
@@ -113,6 +115,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 alignment = 1
 theme_override_constants/separation = 16
+
+[node name="HandHint" parent="." instance=ExtResource("hand")]
 
 [node name="CelebrationOverlay" parent="." instance=ExtResource("7")]
 visible = false

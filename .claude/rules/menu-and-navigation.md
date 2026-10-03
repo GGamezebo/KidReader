@@ -23,6 +23,7 @@ paths:
 - `parent_corner/` — `ParentCorner` (⚙️ → ParentalGate → overlay): stats from `ProgressController.get_parent_stats()`, hard letters as `SignPlate` chips, music/sfx toggles, reset with second-press confirm → menu pops windows to the map
 - Review: `Enclosure`/`ZoneIsland` show a bobbing 💭❗ for `review_in_zone`; tapping it replays that level (`ev_level_selected`); zone says `review_hint` once per session
 - Decorations on the map: 🎁 `DecorButton` (badge = open, not placed) toggles the `Tray` of `DecorSlot`s; drag a slot → ghost `DecorPiece` → drop on the map = `ev_decor_placed`; drag a piece into the open tray = `ev_decor_removed`; `DragScroll.suspended` while dragging
+- First run: `HandHint` 👆 on the current zone's island / NEXT enclosure while its level is `LevelData.tutorial` (hidden during an arrival; after an arrival the row glides to the next enclosure)
 - `dev_panel/` — `DevPanel` 🛠️ (right edge): editor-only (`Platform.is_editor()`, frees itself in builds); actions → `menu._on_dev_action` → `ProgressController.dev_*` / `record_win` / `record_festival` / reset. Animations must survive a rebuild mid-await (`is_instance_valid`)
 - States come from `ZooProgress` only; components never read PData
 

@@ -1,5 +1,5 @@
 ---
-description: Localization and tutorial — current state (neither system exists yet)
+description: Localization (none yet) and first-run easing (tutorial levels, 👆 HandHint)
 paths:
   - "src/**/*.gd"
   - "src/**/*.tscn"
@@ -18,9 +18,12 @@ paths:
 - If adding localization: use Godot's built-in TranslationServer + `tr()` keys; keep level words in `LevelData`
   (they are gameplay content, not UI strings). Add a rule file in the same task
 
-## Tutorial — none yet
+## First run (no tutorial scene)
 
-- No onboarding/tutorial scene or FSM state
-- Only easing mechanism: `LevelData.revealed_indices` (prefilled slots) + `show_ghost_hints`
-- `GameEvents.ev_hint_needed` is declared but unused
-- A future tutorial = new feature under `src/features/` or a `GameManager` state, driven by `LevelData` flags; never an autoload
+- Goal: launch → first word in ≤ 2 taps (map island → enclosure), zero text; first 3 animals = guaranteed joy
+- `LevelData.tutorial` (generator: first `TUTORIAL_LEVELS` = 3 levels, words ≤ `TUTORIAL_MAX_WORD` letters, asserted)
+- Tutorial level: 👆 drag demo after `tutorial_inactivity_sec` (not 6 s), `tutorial_magnet_radius`, win = 3 stars, 👆 taps ▶
+- Menu: 👆 taps the current zone's island (`ZooMap`) and the NEXT enclosure (`ZoneView`, after the arrival) while the next level is tutorial
+- The 👆 = `HandHint` (`src/ui/hand_hint/`): `tap(target)` / `drag(from, to, ghost)` / `stop()`; one static node per screen
+- Other easing: `LevelData.revealed_indices` (prefilled slots) + `show_ghost_hints`
+- No onboarding scene/FSM state; more first-run steps = `LevelData` flags, never an autoload

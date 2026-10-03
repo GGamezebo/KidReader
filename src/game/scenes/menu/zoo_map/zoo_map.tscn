@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/zoo_map/zoo_map.gd" id="1"]
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="2"]
@@ -15,6 +15,7 @@
 [ext_resource type="StyleBox" path="res://src/ui/styles/card.tres" id="13"]
 [ext_resource type="StyleBox" path="res://src/ui/styles/badge_dot.tres" id="14"]
 [ext_resource type="Resource" path="res://src/features/sfx/voice_bank.tres" id="15"]
+[ext_resource type="PackedScene" path="res://src/ui/hand_hint/hand_hint.tscn" id="hand"]
 
 [sub_resource type="Curve" id="RoadWidth"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -24,7 +25,7 @@ point_count = 2
 font_size = 30
 font_color = Color(0.239, 0.173, 0.161, 1)
 
-[node name="ZooMap" type="Control" node_paths=PackedStringArray("scroll", "content", "bands", "road", "road_stripe", "islands", "total_label", "egg", "stars_label", "decor_layer", "drag_layer", "tray", "tray_grid", "decor_button", "decor_badge", "decor_badge_label", "drag_scroll", "voice_player")]
+[node name="ZooMap" type="Control" node_paths=PackedStringArray("scroll", "content", "bands", "road", "road_stripe", "islands", "total_label", "egg", "stars_label", "decor_layer", "drag_layer", "tray", "tray_grid", "decor_button", "decor_badge", "decor_badge_label", "drag_scroll", "voice_player", "hand_hint")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,6 +59,7 @@ decor_badge = NodePath("DecorButton/Badge")
 decor_badge_label = NodePath("DecorButton/Badge/Label")
 drag_scroll = NodePath("DragScroll")
 voice_player = NodePath("VoicePlayer")
+hand_hint = NodePath("HandHint")
 
 [node name="Scroll" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -102,6 +104,8 @@ mouse_filter = 2
 [node name="Islands" type="Control" parent="Scroll/Content"]
 anchors_preset = 0
 mouse_filter = 2
+
+[node name="HandHint" parent="." instance=ExtResource("hand")]
 
 [node name="Total" type="PanelContainer" parent="."]
 layout_mode = 0

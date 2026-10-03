@@ -17,4 +17,7 @@ extends Resource
 ## Optional prefilled slot indices (rare / tutorial).
 @export var revealed_indices: PackedInt32Array = PackedInt32Array()
 @export var show_ghost_hints: bool = true
+## First-run easing (first levels of the campaign): the 👆 hand shows the drag right away and points the way in
+## (map island, enclosure, ▶), a forgiving magnet, and a win always gives 3 stars.
+@export var tutorial: bool = false
 @export_range(1, 3) var difficulty: int = 1

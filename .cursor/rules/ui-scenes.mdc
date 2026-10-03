@@ -27,7 +27,7 @@ alwaysApply: false
 ## Simple + procedural (user preference)
 
 - Build screens from a few generic, data-driven components; content comes from `ZoneData`/`RegionData`, not per-zone art
-- Shared components (`src/ui/`): `PhotoSticker` (FILLED/FROST/EMPTY), `SignPlate`, `IconButton`, `DragScroll` (`vertical`, `suspended` while the host drags something), styles in `src/ui/styles/*.tres`
+- Shared components (`src/ui/`): `PhotoSticker` (FILLED/FROST/EMPTY), `SignPlate`, `IconButton`, `DragScroll` (`vertical`, `suspended` while the host drags something), `HandHint` (👆 tap/drag demo, follows its targets), styles in `src/ui/styles/*.tres`
 - Positions/decor may be computed in code (sine-wave map, `_draw()` fences/bushes) — keep them seeded so the look is stable
 
 ## Check before writing UI code

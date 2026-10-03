@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/hand_hint/hand_hint.gd" id="1"]
+[ext_resource type="StyleBox" path="res://src/ui/styles/hand_ring.tres" id="2"]
+
+[node name="HandHint" type="Control" node_paths=PackedStringArray("hand", "ring", "carry_host")]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1")
+hand = NodePath("Hand")
+ring = NodePath("Ring")
+carry_host = NodePath("Carry")
+
+[node name="Carry" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="Ring" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = -44.0
+offset_top = -44.0
+offset_right = 44.0
+offset_bottom = 44.0
+pivot_offset = Vector2(44, 44)
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2")
+
+[node name="Hand" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = -46.0
+offset_top = -10.0
+offset_right = 54.0
+offset_bottom = 110.0
+rotation = -0.2
+pivot_offset = Vector2(46, 10)
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.35)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 5
+theme_override_font_sizes/font_size = 84
+text = "👆"
+horizontal_alignment = 1

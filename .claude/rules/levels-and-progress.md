@@ -31,3 +31,4 @@ paths:
 - Keep `level_id` / `zone_id` stable: append animals at the end of a zone, never reorder after release
 - Bump `PData.CURRENT_SAVE_VERSION` + migrate in `PData.apply_dict` when the schema or ids change (v1→v2 map: `V1_TO_V2_LEVEL_ID`)
 - Words ≤ 12 letters (generator asserts; level cells shrink to fit)
+- First `TUTORIAL_LEVELS` (3) levels get `tutorial = true` and words ≤ `TUTORIAL_MAX_WORD` (3) letters (generator asserts)

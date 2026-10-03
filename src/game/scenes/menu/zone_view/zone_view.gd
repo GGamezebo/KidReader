@@ -27,6 +27,7 @@ signal ev_festival_selected(zone: ZoneData)
 @export var festival_medal: Control
 @export var voice_player: AudioStreamPlayer
 @export var arrival: ArrivalOverlay
+@export var hand_hint: HandHint
 
 var zone: ZoneData
 var _progress: ZooProgress
@@ -34,6 +35,9 @@ var _rng := RandomNumberGenerator.new()
 var _pulse: Tween
 ## Zones whose «someone misses you» hint was already said this session.
 var _hinted: Dictionary = {}
+## Enclosure the child should open next (NEXT state), if any.
+var _next: Enclosure
+var _arriving: bool = false
 
 
 func _ready() -> void:
@@ -64,6 +68,7 @@ func show_zone(p_zone: ZoneData, progress: ZooProgress) -> void:
 			row.remove_child(child)
 			child.queue_free()
 	var focus: Control = null
+	_next = null
 	var review := progress.review_in_zone(zone)
 	for level in zone.levels:
 		var enc := enclosure_scene.instantiate() as Enclosure
@@ -75,12 +80,14 @@ func show_zone(p_zone: ZoneData, progress: ZooProgress) -> void:
 		elif progress.is_level_unlocked(level.level_id):
 			state = Enclosure.State.NEXT
 			focus = enc
+			_next = enc
 		enc.setup(level, state, style, level == review)
 		if level == review and focus == null:
 			focus = enc
 		enc.ev_selected.connect(_on_enclosure_selected)
 	_refresh_festival()
 	_scroll_to.call_deferred(focus if focus else festival_button)
+	_point_hand()
 	if review and not _hinted.has(zone.zone_id):
 		_hinted[zone.zone_id] = true
 		_hint_review.call_deferred()
@@ -94,13 +101,29 @@ func play_arrival(level_id: int) -> void:
 			enc = child
 	if enc == null:
 		return
+	_arriving = true
+	_point_hand()
 	await _scroll_to(enc)
 	await get_tree().create_timer(0.4).timeout
 	if not is_instance_valid(enc):
+		_arriving = false
+		_point_hand()
 		return
 	await arrival.play(enc.level, enc.sticker)
+	_arriving = false
 	if is_instance_valid(enc):
 		enc.wiggle()
+	if is_instance_valid(_next):
+		await _scroll_to(_next)
+	_point_hand()
+
+
+## First levels: the 👆 taps the next enclosure (not while an animal is arriving).
+func _point_hand() -> void:
+	if not _arriving and is_instance_valid(_next) and _next.level.tutorial:
+		hand_hint.tap(_next.sticker)
+	else:
+		hand_hint.stop()
 
 
 func _refresh_festival() -> void:

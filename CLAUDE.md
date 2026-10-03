@@ -28,7 +28,7 @@ Every scene must F6-run alone. Bake safe defaults into `.tres` / `@export`. Pare
 | `src/game/scenes/` | Screens: `app_root`, `menu` (zoo map ⇄ zone, album), `game` (level), `festival` (zone reading exam) |
 | `src/features/` | Isolated gameplay features |
 | `src/common/` | Shared Resources (`LevelData`, `ZoneData`, `RegionData`, `LevelsCatalog`, `DecorCatalog`, `UserSettings`) |
-| `src/ui/` | Shared UI: parental gate, icon button, loading screen, `PhotoSticker`, `SignPlate`, `DragScroll`, `styles/` |
+| `src/ui/` | Shared UI: parental gate, icon button, loading screen, `PhotoSticker`, `SignPlate`, `DragScroll`, `HandHint`, `styles/` |
 | `src/levels/` | Generated campaign: `level_<id>.tres`, `zones/`, `regions/` |
 | `src/game/account/` | `PData`, `ZooProgress` (unlock queries), `ProgressController`, `SaveManager` |
 | `core/` | Project-agnostic only (HFSM, FSM, EventListener, ResourceUtils, shakers, window stack, `shaders/frost_blur`) — must not depend on `src/` |

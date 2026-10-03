@@ -14,4 +14,5 @@ fact = "Нюх у собаки в тысячи раз лучше, чем у че
 parts = PackedStringArray("П", "Ё", "С")
 animal_texture = ExtResource("2")
 show_ghost_hints = true
+tutorial = true
 difficulty = 1

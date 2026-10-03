@@ -2,11 +2,13 @@
 
 [ext_resource type="Script" path="res://src/features/letter_tile/letter_tile.gd" id="1"]
 
-[node name="LetterTile" type="Control"]
+[node name="LetterTile" type="Control" node_paths=PackedStringArray("label", "panel")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1")
+label = NodePath("Panel/Label")
+panel = NodePath("Panel")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

@@ -15,6 +15,8 @@ alwaysApply: false
 - **Letters only** of the target word; scatter randomly (no distractors)
 - Grab → straighten + phoneme; magnet snap; miss → fly-up repel
 - Tap filled slot → phoneme; complete → speak word + unblur photo
+- Idle hint (`inactivity_sec`): slot glows, tile pulses, `HandHint` drags a ghost `LetterTile` onto the slot; any grab stops it
+- `LevelData.tutorial`: hint after `tutorial_inactivity_sec`, magnet `tutorial_magnet_radius`, always 3 stars, 👆 taps ▶ after the win
 - Exit: `root_events.ev_return_to_menu` (always back to the zone)
 
 ## Voice (letter sounds + words)

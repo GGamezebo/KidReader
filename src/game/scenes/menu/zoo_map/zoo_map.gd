@@ -46,6 +46,7 @@ signal ev_decor_removed(decor_id: String)
 @export var decor_badge_label: Label
 @export var drag_scroll: DragScroll
 @export var voice_player: AudioStreamPlayer
+@export var hand_hint: HandHint
 
 enum EggMoment { NONE, FOUND, CRACK, HATCH }
 
@@ -95,6 +96,18 @@ func build(progress: ZooProgress) -> void:
 	total_label.text = "🐾 %d / %d" % [progress.total_cleared(), catalog.count()]
 	egg.setup(progress.egg_cracks(), progress.egg_max_cracks(), progress.is_egg_hatched())
 	_build_decor(progress, h)
+	_point_hand(progress)
+
+
+## First run: while the next animal is a tutorial level, the 👆 taps the island it lives on.
+func _point_hand(progress: ZooProgress) -> void:
+	var zone := progress.current_zone()
+	var next := catalog.get_by_id(progress.next_level_in_zone(zone)) if zone else null
+	var island: Control = _islands_by_zone.get(zone.zone_id) if zone else null
+	if next and next.tutorial and island:
+		hand_hint.tap(island)
+	else:
+		hand_hint.stop()
 
 
 func scroll_to_zone(zone: ZoneData, animated: bool = false) -> void:

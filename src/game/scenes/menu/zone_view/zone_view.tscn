@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/zone_view/zone_view.gd" id="1"]
 [ext_resource type="Resource" path="res://src/common/levels_catalog.tres" id="2"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://src/game/scenes/menu/zone_view/arrival_overlay.gd" id="11"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/zone_view/arrival_letter.tscn" id="12"]
 [ext_resource type="PackedScene" path="res://src/ui/photo_sticker/photo_sticker.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://src/ui/hand_hint/hand_hint.tscn" id="hand"]
 
 [sub_resource type="LabelSettings" id="PillText"]
 font_size = 30
@@ -22,7 +23,7 @@ font_color = Color(0.239, 0.173, 0.161, 1)
 font_size = 34
 font_color = Color(1, 1, 1, 1)
 
-[node name="ZoneView" type="Control" node_paths=PackedStringArray("title_label", "paws_label", "scroll", "row", "sky", "ground", "decor", "festival_button", "festival_tent", "festival_ribbon", "festival_badge", "festival_medal", "voice_player", "arrival")]
+[node name="ZoneView" type="Control" node_paths=PackedStringArray("title_label", "paws_label", "scroll", "row", "sky", "ground", "decor", "festival_button", "festival_tent", "festival_ribbon", "festival_badge", "festival_medal", "voice_player", "arrival", "hand_hint")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,6 +49,7 @@ festival_badge = NodePath("Scroll/Margin/Row/Festival/Badge")
 festival_medal = NodePath("Scroll/Margin/Row/Festival/Medal")
 voice_player = NodePath("VoicePlayer")
 arrival = NodePath("Arrival")
+hand_hint = NodePath("HandHint")
 
 [node name="Sky" type="ColorRect" parent="."]
 layout_mode = 1
@@ -236,6 +238,8 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.36, 0.62, 0.33, 1)
 theme_override_font_sizes/font_size = 30
 text = "🐾 0/7"
+
+[node name="HandHint" parent="." instance=ExtResource("hand")]
 
 [node name="Arrival" type="Control" parent="." node_paths=PackedStringArray("voice_player", "dim", "carrier", "sticker", "letters_row", "fx_host")]
 visible = false

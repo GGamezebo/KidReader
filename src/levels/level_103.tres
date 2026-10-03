@@ -14,4 +14,5 @@ fact = "Бык — папа телёнка, а мама — корова."
 parts = PackedStringArray("Б", "Ы", "К")
 animal_texture = ExtResource("2")
 show_ghost_hints = true
+tutorial = true
 difficulty = 1

@@ -16,8 +16,13 @@ extends IScene
 @export var next_button: BaseButton
 @export var fx_host: Control
 @export var sfx_controller: SfxController
+## 👆 shows the drag (idle hint) and, in tutorial levels, the ▶ after the win.
+@export var hand_hint: HandHint
 @export var inactivity_sec: float = 6.0
 @export var magnet_radius: float = 40.0
+## `LevelData.tutorial` levels: the hand comes almost at once and the magnet forgives more.
+@export var tutorial_inactivity_sec: float = 2.0
+@export var tutorial_magnet_radius: float = 70.0
 @export var low_reject_ratio: float = 0.62
 ## Letter cell side (slots + tiles). Shrinks for long words (up to 12 letters) so one row fits.
 @export var max_cell_size: float = 100.0
@@ -104,7 +109,8 @@ func _process(delta: float) -> void:
 	if not _active:
 		return
 	_idle_timer += delta
-	if not _hinting and _idle_timer >= inactivity_sec:
+	var wait := tutorial_inactivity_sec if level_data.tutorial else inactivity_sec
+	if not _hinting and _idle_timer >= wait:
 		_show_hint()
 
 
@@ -136,6 +142,8 @@ func play_completion_sequence() -> void:
 
 
 func on_fsm_victory(stars: int) -> void:
+	if level_data.tutorial:
+		stars = 3
 	if game_events:
 		game_events.ev_victory.emit(stars)
 	var result := {}
@@ -147,6 +155,8 @@ func on_fsm_victory(stars: int) -> void:
 	if next_button:
 		next_button.visible = true
 		_pulse_next()
+		if level_data.tutorial and hand_hint:
+			hand_hint.tap(next_button)
 	if celebration:
 		# Light overlay optional — primary CTA is side next button like reference.
 		celebration.visible = false
@@ -267,7 +277,7 @@ func _on_tile_moved(tile: LetterTile, global_pos: Vector2) -> void:
 		if slot.filled:
 			continue
 		var center := slot.global_position + slot.size * 0.5
-		var near := center.distance_to(global_pos) < magnet_radius
+		var near := center.distance_to(global_pos) < _magnet()
 		slot.highlight(near and slot.accepts(tile.part))
 
 
@@ -288,7 +298,7 @@ func _on_tile_dropped(tile: LetterTile, global_pos: Vector2) -> void:
 			continue
 		var center := slot.global_position + slot.size * 0.5
 		var dist := center.distance_to(global_pos)
-		if dist < magnet_radius and dist < best_dist:
+		if dist < _magnet() and dist < best_dist:
 			best = slot
 			best_dist = dist
 
@@ -315,10 +325,14 @@ func _on_tile_dropped(tile: LetterTile, global_pos: Vector2) -> void:
 		_repel_tile(tile)
 
 
+func _magnet() -> float:
+	return tutorial_magnet_radius if level_data.tutorial else magnet_radius
+
+
 ## A miss counts for the parent stats only when the tile was dropped onto a slot (not just anywhere).
 func _near_any_slot(global_pos: Vector2) -> bool:
 	for slot in _slots:
-		if not slot.filled and (slot.global_position + slot.size * 0.5).distance_to(global_pos) < magnet_radius:
+		if not slot.filled and (slot.global_position + slot.size * 0.5).distance_to(global_pos) < _magnet():
 			return true
 	return false
 
@@ -351,26 +365,38 @@ func _update_blur() -> void:
 		animal_view.set_progress(float(_filled_count) / float(maxi(level_data.parts.size(), 1)))
 
 
+## The needed tile pulses, its slot lights up and the 👆 carries a ghost of the letter there.
 func _show_hint() -> void:
 	_hinting = true
-	var needed := ""
+	var target: WordSlot = null
 	for slot in _slots:
 		if not slot.filled:
-			needed = slot.expected
+			target = slot
 			slot.highlight(true)
 			break
-	if needed.is_empty():
+	if target == null:
 		return
 	for tile in _tiles:
-		if is_instance_valid(tile) and not tile.locked and tile.part == needed:
+		if is_instance_valid(tile) and not tile.locked and tile.part == target.expected:
 			tile.play_hint()
+			if hand_hint:
+				hand_hint.drag(tile, target, _make_ghost(tile.part))
 			if game_events:
 				game_events.ev_hint_needed.emit()
 			break
 
 
+func _make_ghost(part: String) -> LetterTile:
+	var ghost := letter_tile_scene.instantiate() as LetterTile
+	ghost.set_cell_size(_cell_size)
+	ghost.setup(part)
+	return ghost
+
+
 func _clear_hint() -> void:
 	_hinting = false
+	if hand_hint:
+		hand_hint.stop()
 	for slot in _slots:
 		if not slot.filled:
 			slot.highlight(false)
