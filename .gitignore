@@ -22,3 +22,6 @@ tools/photo_inbox/
 
 # Export builds (apk, exe, web)
 bin/
+
+# Voice experiments to listen to (tools/voice_preview)
+tools/voice_preview/
